@@ -4,23 +4,46 @@
 //
 //  Created by Marina Dedikova on 09/05/2025.
 //
-
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var viewModel = SoulsignViewModel()
+
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
-}
+            if viewModel.chartResult.isEmpty {
+                UserInputView { fullName, birthDate, birthTime, birthPlace in
+                    Task {
+                        await viewModel.generateChart(
+                            fullName: fullName,
+                            birthDate: birthDate,
+                            birthTime: birthTime,
+                            birthPlace: birthPlace
+                        )
+                    }
+                }
+            } else {
+                ScrollView {
+                    Text(viewModel.chartResult)
+                        .padding()
+                }
+                .navigationTitle("Your Natal Chart")
+                .toolbar {
+                    Button("Try Again") {
+                        viewModel.chartResult = ""
+                    }
+                }
+            }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+            if viewModel.isLoading {
+                ProgressView("Generating Chart...")
+                    .padding()
+            }
+
+            if let error = viewModel.errorMessage {
+                Text("Error: \(error)")
+                    .foregroundColor(.red)
+            }
+        }
     }
 }

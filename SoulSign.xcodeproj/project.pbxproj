@@ -11,6 +11,14 @@
 		C8CDF32C2DCE1E33004F9888 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF32B2DCE1E33004F9888 /* ContentView.swift */; };
 		C8CDF32E2DCE1E36004F9888 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8CDF32D2DCE1E36004F9888 /* Assets.xcassets */; };
 		C8CDF3312DCE1E36004F9888 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8CDF3302DCE1E36004F9888 /* Preview Assets.xcassets */; };
+		C8CDF33D2DCE1F77004F9888 /* OpenAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF33C2DCE1F77004F9888 /* OpenAIService.swift */; };
+		C8CDF33F2DCE1FC7004F9888 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF33E2DCE1FC7004F9888 /* Constants.swift */; };
+		C8CDF3412DCE2060004F9888 /* UserInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF3402DCE2060004F9888 /* UserInputView.swift */; };
+		C8CDF3432DCE217F004F9888 /* SoulSignViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF3422DCE217F004F9888 /* SoulSignViewModel.swift */; };
+		C8CDF3452DCE2338004F9888 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF3442DCE2338004F9888 /* WelcomeView.swift */; };
+		C8CDF3482DCE2550004F9888 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = C8CDF3472DCE2550004F9888 /* Lottie */; };
+		C8CDF34A2DCE2560004F9888 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF3492DCE2560004F9888 /* LottieView.swift */; };
+		C8CDF34C2DCE26A3004F9888 /* stars.json in Resources */ = {isa = PBXBuildFile; fileRef = C8CDF34B2DCE26A3004F9888 /* stars.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +27,13 @@
 		C8CDF32B2DCE1E33004F9888 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C8CDF32D2DCE1E36004F9888 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C8CDF3302DCE1E36004F9888 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C8CDF33C2DCE1F77004F9888 /* OpenAIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIService.swift; sourceTree = "<group>"; };
+		C8CDF33E2DCE1FC7004F9888 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		C8CDF3402DCE2060004F9888 /* UserInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputView.swift; sourceTree = "<group>"; };
+		C8CDF3422DCE217F004F9888 /* SoulSignViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoulSignViewModel.swift; sourceTree = "<group>"; };
+		C8CDF3442DCE2338004F9888 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		C8CDF3492DCE2560004F9888 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
+		C8CDF34B2DCE26A3004F9888 /* stars.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stars.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8CDF3482DCE2550004F9888 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,6 +67,12 @@
 		C8CDF3282DCE1E33004F9888 /* SoulSign */ = {
 			isa = PBXGroup;
 			children = (
+				C8CDF34B2DCE26A3004F9888 /* stars.json */,
+				C8CDF33B2DCE1EE2004F9888 /* Utils */,
+				C8CDF33A2DCE1EC2004F9888 /* Services */,
+				C8CDF3392DCE1EAB004F9888 /* ViewModels */,
+				C8CDF3382DCE1E78004F9888 /* Views */,
+				C8CDF3372DCE1E62004F9888 /* Models */,
 				C8CDF3292DCE1E33004F9888 /* SoulSignApp.swift */,
 				C8CDF32B2DCE1E33004F9888 /* ContentView.swift */,
 				C8CDF32D2DCE1E36004F9888 /* Assets.xcassets */,
@@ -65,6 +87,47 @@
 				C8CDF3302DCE1E36004F9888 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C8CDF3372DCE1E62004F9888 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C8CDF3382DCE1E78004F9888 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C8CDF3402DCE2060004F9888 /* UserInputView.swift */,
+				C8CDF3442DCE2338004F9888 /* WelcomeView.swift */,
+				C8CDF3492DCE2560004F9888 /* LottieView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C8CDF3392DCE1EAB004F9888 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				C8CDF3422DCE217F004F9888 /* SoulSignViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		C8CDF33A2DCE1EC2004F9888 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				C8CDF33C2DCE1F77004F9888 /* OpenAIService.swift */,
+				C8CDF33E2DCE1FC7004F9888 /* Constants.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		C8CDF33B2DCE1EE2004F9888 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +146,9 @@
 			dependencies = (
 			);
 			name = SoulSign;
+			packageProductDependencies = (
+				C8CDF3472DCE2550004F9888 /* Lottie */,
+			);
 			productName = SoulSign;
 			productReference = C8CDF3262DCE1E33004F9888 /* SoulSign.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +177,9 @@
 				Base,
 			);
 			mainGroup = C8CDF31D2DCE1E33004F9888;
+			packageReferences = (
+				C8CDF3462DCE2550004F9888 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+			);
 			productRefGroup = C8CDF3272DCE1E33004F9888 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -125,6 +194,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8CDF34C2DCE26A3004F9888 /* stars.json in Resources */,
 				C8CDF3312DCE1E36004F9888 /* Preview Assets.xcassets in Resources */,
 				C8CDF32E2DCE1E36004F9888 /* Assets.xcassets in Resources */,
 			);
@@ -137,8 +207,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8CDF3432DCE217F004F9888 /* SoulSignViewModel.swift in Sources */,
 				C8CDF32C2DCE1E33004F9888 /* ContentView.swift in Sources */,
+				C8CDF3412DCE2060004F9888 /* UserInputView.swift in Sources */,
 				C8CDF32A2DCE1E33004F9888 /* SoulSignApp.swift in Sources */,
+				C8CDF33D2DCE1F77004F9888 /* OpenAIService.swift in Sources */,
+				C8CDF33F2DCE1FC7004F9888 /* Constants.swift in Sources */,
+				C8CDF3452DCE2338004F9888 /* WelcomeView.swift in Sources */,
+				C8CDF34A2DCE2560004F9888 /* LottieView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,6 +413,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C8CDF3462DCE2550004F9888 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C8CDF3472DCE2550004F9888 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C8CDF3462DCE2550004F9888 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C8CDF31E2DCE1E33004F9888 /* Project object */;
 }
