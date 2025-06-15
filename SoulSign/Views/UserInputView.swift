@@ -5,6 +5,7 @@
 //  Created by Marina Dedikova on 09/05/2025.
 //
 import SwiftUI
+import MapKit
 import CoreLocation
 
 struct UserInputView: View {
@@ -12,6 +13,8 @@ struct UserInputView: View {
     @State private var birthDate: Date = Date()
     @State private var birthTime: Date = Date()
     @StateObject private var placeVM = PlaceSearchViewModel()
+
+    @Environment(\.colorScheme) var colorScheme
 
     var onSubmit: (_ fullName: String, _ birthDate: Date, _ birthTime: Date, _ birthPlace: String, _ coordinates: CLLocationCoordinate2D?) -> Void
 
@@ -25,16 +28,19 @@ struct UserInputView: View {
                         TextField("Full Name", text: $fullName)
                             .autocapitalization(.words)
                             .multilineTextAlignment(.leading)
-                            .foregroundColor(.black)
-                            .accentColor(.black)
+                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                            .accentColor(colorScheme == .dark ? .white : .black)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
 
                     Section(header: Text("Birth Date").foregroundColor(.white)) {
                         DatePicker("Select Date", selection: $birthDate, displayedComponents: .date)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
 
                     Section(header: Text("Birth Time").foregroundColor(.white)) {
                         DatePicker("Select Time", selection: $birthTime, displayedComponents: .hourAndMinute)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
 
                     Section(header: Text("Birth Place").foregroundColor(.white)) {
@@ -64,9 +70,11 @@ struct UserInputView: View {
             .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text("Enter Birth Details")
+                    let titleText = Text("Enter Birth Details")
                         .foregroundColor(.white)
                         .font(.largeTitle.weight(.bold))
+
+                    titleText
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.leading)
                 }

@@ -14,10 +14,17 @@ struct SoulSignApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if hasSeenWelcome {
-                ContentView()
-            } else {
-                WelcomeView()
+            Group {
+                if hasSeenWelcome {
+                    ContentView()
+                } else {
+                    WelcomeView()
+                }
+            }
+            .onAppear {
+                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                    windowScene.windows.first?.overrideUserInterfaceStyle = .light
+                }
             }
         }
     }
