@@ -28,6 +28,7 @@
 		C8CDF3532DCE43DF004F9888 /* NightSkyBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF3522DCE43DF004F9888 /* NightSkyBackground.swift */; };
 		C8CDF3552DCE44C7004F9888 /* sparkles.json in Resources */ = {isa = PBXBuildFile; fileRef = C8CDF3542DCE44C7004F9888 /* sparkles.json */; };
 		C8D42AF22DF0744A00E2ABBA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D42AF12DF0744A00E2ABBA /* AppDelegate.swift */; };
+		C8E866922DFF3972002A9FE2 /* DarkSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E866912DFF396B002A9FE2 /* DarkSpinnerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -68,6 +69,7 @@
 		C8CDF3522DCE43DF004F9888 /* NightSkyBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightSkyBackground.swift; sourceTree = "<group>"; };
 		C8CDF3542DCE44C7004F9888 /* sparkles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sparkles.json; sourceTree = "<group>"; };
 		C8D42AF12DF0744A00E2ABBA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C8E866912DFF396B002A9FE2 /* DarkSpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkSpinnerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 		C8CDF3382DCE1E78004F9888 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C8E866912DFF396B002A9FE2 /* DarkSpinnerView.swift */,
 				C8877A6F2DF4C94600492065 /* BirthPlaceSuggestionsView.swift */,
 				C8CDF3402DCE2060004F9888 /* UserInputView.swift */,
 				C8CDF3442DCE2338004F9888 /* WelcomeView.swift */,
@@ -319,6 +322,7 @@
 			files = (
 				C8D42AF22DF0744A00E2ABBA /* AppDelegate.swift in Sources */,
 				C8CDF3432DCE217F004F9888 /* SoulSignViewModel.swift in Sources */,
+				C8E866922DFF3972002A9FE2 /* DarkSpinnerView.swift in Sources */,
 				C8CDF32C2DCE1E33004F9888 /* ContentView.swift in Sources */,
 				C8CDF3412DCE2060004F9888 /* UserInputView.swift in Sources */,
 				C8CDF32A2DCE1E33004F9888 /* SoulSignApp.swift in Sources */,

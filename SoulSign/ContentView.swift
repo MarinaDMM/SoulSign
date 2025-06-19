@@ -53,15 +53,6 @@ struct ContentView: View {
                     }
                 }
 
-                if viewModel.isLoading {
-                    VStack {
-                        ProgressView("Generating Chart...")
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                            .foregroundColor(.white)
-                            .padding()
-                    }
-                }
-
                 if let error = viewModel.errorMessage {
                     Text("⚠️ \(error)")
                         .foregroundColor(.red)
