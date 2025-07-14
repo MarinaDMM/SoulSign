@@ -3,10 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C82233842DF2251300454554 /* Lottie.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C82233822DF224AE00454554 /* Lottie.xcframework */; };
+		C82233852DF2251300454554 /* Lottie.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C82233822DF224AE00454554 /* Lottie.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C82233872DF2251500454554 /* Pods_SoulSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE5DD73FEBD589512EA370BD /* Pods_SoulSign.framework */; };
+		C82233882DF2251500454554 /* Pods_SoulSign.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE5DD73FEBD589512EA370BD /* Pods_SoulSign.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C86BB1282E2416A1006B02A9 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C86BB1272E24169A006B02A9 /* Secrets.xcconfig */; };
+		C8877A702DF4C95000492065 /* BirthPlaceSuggestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8877A6F2DF4C94600492065 /* BirthPlaceSuggestionsView.swift */; };
 		C8CDF32A2DCE1E33004F9888 /* SoulSignApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF3292DCE1E33004F9888 /* SoulSignApp.swift */; };
 		C8CDF32C2DCE1E33004F9888 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF32B2DCE1E33004F9888 /* ContentView.swift */; };
 		C8CDF32E2DCE1E36004F9888 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8CDF32D2DCE1E36004F9888 /* Assets.xcassets */; };
@@ -16,12 +22,38 @@
 		C8CDF3412DCE2060004F9888 /* UserInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF3402DCE2060004F9888 /* UserInputView.swift */; };
 		C8CDF3432DCE217F004F9888 /* SoulSignViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF3422DCE217F004F9888 /* SoulSignViewModel.swift */; };
 		C8CDF3452DCE2338004F9888 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF3442DCE2338004F9888 /* WelcomeView.swift */; };
-		C8CDF3482DCE2550004F9888 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = C8CDF3472DCE2550004F9888 /* Lottie */; };
 		C8CDF34A2DCE2560004F9888 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF3492DCE2560004F9888 /* LottieView.swift */; };
 		C8CDF34C2DCE26A3004F9888 /* stars.json in Resources */ = {isa = PBXBuildFile; fileRef = C8CDF34B2DCE26A3004F9888 /* stars.json */; };
+		C8CDF34E2DCE2E05004F9888 /* Swift.gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C8CDF34D2DCE2E05004F9888 /* Swift.gitignore */; };
+		C8CDF3502DCE3B66004F9888 /* PlaceSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF34F2DCE3B66004F9888 /* PlaceSearchViewModel.swift */; };
+		C8CDF3532DCE43DF004F9888 /* NightSkyBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF3522DCE43DF004F9888 /* NightSkyBackground.swift */; };
+		C8CDF3552DCE44C7004F9888 /* sparkles.json in Resources */ = {isa = PBXBuildFile; fileRef = C8CDF3542DCE44C7004F9888 /* sparkles.json */; };
+		C8D42AF22DF0744A00E2ABBA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D42AF12DF0744A00E2ABBA /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C82233862DF2251300454554 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C82233882DF2251500454554 /* Pods_SoulSign.framework in Embed Frameworks */,
+				C82233852DF2251300454554 /* Lottie.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		57DC7B570E6434F3BF7B7E11 /* Pods-SoulSign.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoulSign.debug.xcconfig"; path = "Target Support Files/Pods-SoulSign/Pods-SoulSign.debug.xcconfig"; sourceTree = "<group>"; };
+		872005CF2EB00DBB33DEC8C6 /* Pods-SoulSign.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoulSign.release.xcconfig"; path = "Target Support Files/Pods-SoulSign/Pods-SoulSign.release.xcconfig"; sourceTree = "<group>"; };
+		BE5DD73FEBD589512EA370BD /* Pods_SoulSign.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoulSign.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C82233822DF224AE00454554 /* Lottie.xcframework */ = {isa = PBXFileReference; expectedSignature = "SelfSigned:892F1B43047B50538F2F46EAD92900DD3D4811F3582178C061A5FB20F111CB26"; lastKnownFileType = wrapper.xcframework; path = Lottie.xcframework; sourceTree = "<group>"; };
+		C86BB1272E24169A006B02A9 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		C86BB12B2E24F5B3006B02A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C8877A6F2DF4C94600492065 /* BirthPlaceSuggestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthPlaceSuggestionsView.swift; sourceTree = "<group>"; };
 		C8CDF3262DCE1E33004F9888 /* SoulSign.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoulSign.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8CDF3292DCE1E33004F9888 /* SoulSignApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoulSignApp.swift; sourceTree = "<group>"; };
 		C8CDF32B2DCE1E33004F9888 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -34,6 +66,11 @@
 		C8CDF3442DCE2338004F9888 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		C8CDF3492DCE2560004F9888 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		C8CDF34B2DCE26A3004F9888 /* stars.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stars.json; sourceTree = "<group>"; };
+		C8CDF34D2DCE2E05004F9888 /* Swift.gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Swift.gitignore; sourceTree = "<group>"; };
+		C8CDF34F2DCE3B66004F9888 /* PlaceSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchViewModel.swift; sourceTree = "<group>"; };
+		C8CDF3522DCE43DF004F9888 /* NightSkyBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightSkyBackground.swift; sourceTree = "<group>"; };
+		C8CDF3542DCE44C7004F9888 /* sparkles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sparkles.json; sourceTree = "<group>"; };
+		C8D42AF12DF0744A00E2ABBA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,18 +78,39 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8CDF3482DCE2550004F9888 /* Lottie in Frameworks */,
+				C82233872DF2251500454554 /* Pods_SoulSign.framework in Frameworks */,
+				C82233842DF2251300454554 /* Lottie.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1BB365788DCF3CECEF813559 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				57DC7B570E6434F3BF7B7E11 /* Pods-SoulSign.debug.xcconfig */,
+				872005CF2EB00DBB33DEC8C6 /* Pods-SoulSign.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		C81385432DF0A2A200C58473 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C82233822DF224AE00454554 /* Lottie.xcframework */,
+				BE5DD73FEBD589512EA370BD /* Pods_SoulSign.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C8CDF31D2DCE1E33004F9888 = {
 			isa = PBXGroup;
 			children = (
 				C8CDF3282DCE1E33004F9888 /* SoulSign */,
 				C8CDF3272DCE1E33004F9888 /* Products */,
+				C81385432DF0A2A200C58473 /* Frameworks */,
+				1BB365788DCF3CECEF813559 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +125,8 @@
 		C8CDF3282DCE1E33004F9888 /* SoulSign */ = {
 			isa = PBXGroup;
 			children = (
+				C8CDF3542DCE44C7004F9888 /* sparkles.json */,
+				C8CDF34D2DCE2E05004F9888 /* Swift.gitignore */,
 				C8CDF34B2DCE26A3004F9888 /* stars.json */,
 				C8CDF33B2DCE1EE2004F9888 /* Utils */,
 				C8CDF33A2DCE1EC2004F9888 /* Services */,
@@ -77,6 +137,9 @@
 				C8CDF32B2DCE1E33004F9888 /* ContentView.swift */,
 				C8CDF32D2DCE1E36004F9888 /* Assets.xcassets */,
 				C8CDF32F2DCE1E36004F9888 /* Preview Content */,
+				C86BB12B2E24F5B3006B02A9 /* Info.plist */,
+				C86BB1272E24169A006B02A9 /* Secrets.xcconfig */,
+				C8D42AF12DF0744A00E2ABBA /* AppDelegate.swift */,
 			);
 			path = SoulSign;
 			sourceTree = "<group>";
@@ -99,9 +162,11 @@
 		C8CDF3382DCE1E78004F9888 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C8877A6F2DF4C94600492065 /* BirthPlaceSuggestionsView.swift */,
 				C8CDF3402DCE2060004F9888 /* UserInputView.swift */,
 				C8CDF3442DCE2338004F9888 /* WelcomeView.swift */,
 				C8CDF3492DCE2560004F9888 /* LottieView.swift */,
+				C8CDF3522DCE43DF004F9888 /* NightSkyBackground.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -110,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				C8CDF3422DCE217F004F9888 /* SoulSignViewModel.swift */,
+				C8CDF34F2DCE3B66004F9888 /* PlaceSearchViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -137,18 +203,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C8CDF3342DCE1E36004F9888 /* Build configuration list for PBXNativeTarget "SoulSign" */;
 			buildPhases = (
+				47BBD3FE091B941591908470 /* [CP] Check Pods Manifest.lock */,
 				C8CDF3222DCE1E33004F9888 /* Sources */,
 				C8CDF3232DCE1E33004F9888 /* Frameworks */,
 				C8CDF3242DCE1E33004F9888 /* Resources */,
+				BEF6B321D82D03E6D3082639 /* [CP] Copy Pods Resources */,
+				C82233862DF2251300454554 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = SoulSign;
-			packageProductDependencies = (
-				C8CDF3472DCE2550004F9888 /* Lottie */,
-			);
 			productName = SoulSign;
 			productReference = C8CDF3262DCE1E33004F9888 /* SoulSign.app */;
 			productType = "com.apple.product-type.application";
@@ -161,7 +227,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1400;
-				LastUpgradeCheck = 1400;
+				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					C8CDF3252DCE1E33004F9888 = {
 						CreatedOnToolsVersion = 14.0.1;
@@ -178,7 +244,8 @@
 			);
 			mainGroup = C8CDF31D2DCE1E33004F9888;
 			packageReferences = (
-				C8CDF3462DCE2550004F9888 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				C8D42AEF2DF0733900E2ABBA /* XCRemoteSwiftPackageReference "google-maps-ios-utils" */,
+				C8D42AF02DF0739400E2ABBA /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
 			);
 			productRefGroup = C8CDF3272DCE1E33004F9888 /* Products */;
 			projectDirPath = "";
@@ -196,22 +263,75 @@
 			files = (
 				C8CDF34C2DCE26A3004F9888 /* stars.json in Resources */,
 				C8CDF3312DCE1E36004F9888 /* Preview Assets.xcassets in Resources */,
+				C86BB1282E2416A1006B02A9 /* Secrets.xcconfig in Resources */,
+				C8CDF34E2DCE2E05004F9888 /* Swift.gitignore in Resources */,
 				C8CDF32E2DCE1E36004F9888 /* Assets.xcassets in Resources */,
+				C8CDF3552DCE44C7004F9888 /* sparkles.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		47BBD3FE091B941591908470 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SoulSign-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BEF6B321D82D03E6D3082639 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoulSign/Pods-SoulSign-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoulSign/Pods-SoulSign-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SoulSign/Pods-SoulSign-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C8CDF3222DCE1E33004F9888 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8D42AF22DF0744A00E2ABBA /* AppDelegate.swift in Sources */,
 				C8CDF3432DCE217F004F9888 /* SoulSignViewModel.swift in Sources */,
 				C8CDF32C2DCE1E33004F9888 /* ContentView.swift in Sources */,
 				C8CDF3412DCE2060004F9888 /* UserInputView.swift in Sources */,
 				C8CDF32A2DCE1E33004F9888 /* SoulSignApp.swift in Sources */,
+				C8CDF3502DCE3B66004F9888 /* PlaceSearchViewModel.swift in Sources */,
+				C8877A702DF4C95000492065 /* BirthPlaceSuggestionsView.swift in Sources */,
 				C8CDF33D2DCE1F77004F9888 /* OpenAIService.swift in Sources */,
+				C8CDF3532DCE43DF004F9888 /* NightSkyBackground.swift in Sources */,
 				C8CDF33F2DCE1FC7004F9888 /* Constants.swift in Sources */,
 				C8CDF3452DCE2338004F9888 /* WelcomeView.swift in Sources */,
 				C8CDF34A2DCE2560004F9888 /* LottieView.swift in Sources */,
@@ -223,8 +343,10 @@
 /* Begin XCBuildConfiguration section */
 		C8CDF3322DCE1E36004F9888 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C86BB1272E24169A006B02A9 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -257,6 +379,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -271,6 +394,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "$(SRCROOT)/SoulSign/Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -278,13 +405,16 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
 		};
 		C8CDF3332DCE1E36004F9888 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C86BB1272E24169A006B02A9 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -317,6 +447,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -325,6 +456,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "$(SRCROOT)/SoulSign/Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -337,13 +472,16 @@
 		};
 		C8CDF3352DCE1E36004F9888 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 57DC7B570E6434F3BF7B7E11 /* Pods-SoulSign.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SoulSign/Preview Content\"";
+				DEVELOPMENT_TEAM = 5R32MDPGF2;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -365,13 +503,16 @@
 		};
 		C8CDF3362DCE1E36004F9888 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 872005CF2EB00DBB33DEC8C6 /* Pods-SoulSign.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SoulSign/Preview Content\"";
+				DEVELOPMENT_TEAM = 5R32MDPGF2;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -415,23 +556,23 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C8CDF3462DCE2550004F9888 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+		C8D42AEF2DF0733900E2ABBA /* XCRemoteSwiftPackageReference "google-maps-ios-utils" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			repositoryURL = "https://github.com/googlemaps/google-maps-ios-utils";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
+				minimumVersion = 1.0.0;
+			};
+		};
+		C8D42AF02DF0739400E2ABBA /* XCRemoteSwiftPackageReference "ios-maps-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googlemaps/ios-maps-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		C8CDF3472DCE2550004F9888 /* Lottie */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C8CDF3462DCE2550004F9888 /* XCRemoteSwiftPackageReference "lottie-ios" */;
-			productName = Lottie;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C8CDF31E2DCE1E33004F9888 /* Project object */;
 }

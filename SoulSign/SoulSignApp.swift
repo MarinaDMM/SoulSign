@@ -9,9 +9,16 @@ import SwiftUI
 
 @main
 struct SoulSignApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @AppStorage("hasSeenWelcome") private var hasSeenWelcome = false
+
     var body: some Scene {
         WindowGroup {
-            WelcomeView()
+            if hasSeenWelcome {
+                ContentView()
+            } else {
+                WelcomeView()
+            }
         }
     }
 }
