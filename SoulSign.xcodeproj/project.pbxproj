@@ -11,7 +11,11 @@
 		C82233852DF2251300454554 /* Lottie.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C82233822DF224AE00454554 /* Lottie.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C82233872DF2251500454554 /* Pods_SoulSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE5DD73FEBD589512EA370BD /* Pods_SoulSign.framework */; };
 		C82233882DF2251500454554 /* Pods_SoulSign.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE5DD73FEBD589512EA370BD /* Pods_SoulSign.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C86BB1282E2416A1006B02A9 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C86BB1272E24169A006B02A9 /* Secrets.xcconfig */; };
+		C8333BF42E293E45000A14C2 /* OpenAIChatModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8333BF32E293E3F000A14C2 /* OpenAIChatModels.swift */; };
+		C876113D2E27B59B0012AC37 /* AffirmationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C876113C2E27B5950012AC37 /* AffirmationService.swift */; };
+		C876113F2E27B5FE0012AC37 /* DailyAffirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C876113E2E27B5F70012AC37 /* DailyAffirmationView.swift */; };
+		C87611432E28FACD0012AC37 /* NotificationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87611422E28F5E30012AC37 /* NotificationRouter.swift */; };
+		C87611442E29364A0012AC37 /* NotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87611412E28F5040012AC37 /* NotificationDelegate.swift */; };
 		C8877A702DF4C95000492065 /* BirthPlaceSuggestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8877A6F2DF4C94600492065 /* BirthPlaceSuggestionsView.swift */; };
 		C8CDF32A2DCE1E33004F9888 /* SoulSignApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF3292DCE1E33004F9888 /* SoulSignApp.swift */; };
 		C8CDF32C2DCE1E33004F9888 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF32B2DCE1E33004F9888 /* ContentView.swift */; };
@@ -51,8 +55,13 @@
 		872005CF2EB00DBB33DEC8C6 /* Pods-SoulSign.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoulSign.release.xcconfig"; path = "Target Support Files/Pods-SoulSign/Pods-SoulSign.release.xcconfig"; sourceTree = "<group>"; };
 		BE5DD73FEBD589512EA370BD /* Pods_SoulSign.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoulSign.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C82233822DF224AE00454554 /* Lottie.xcframework */ = {isa = PBXFileReference; expectedSignature = "SelfSigned:892F1B43047B50538F2F46EAD92900DD3D4811F3582178C061A5FB20F111CB26"; lastKnownFileType = wrapper.xcframework; path = Lottie.xcframework; sourceTree = "<group>"; };
+		C8333BF32E293E3F000A14C2 /* OpenAIChatModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIChatModels.swift; sourceTree = "<group>"; };
 		C86BB1272E24169A006B02A9 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		C86BB12B2E24F5B3006B02A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C876113C2E27B5950012AC37 /* AffirmationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffirmationService.swift; sourceTree = "<group>"; };
+		C876113E2E27B5F70012AC37 /* DailyAffirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyAffirmationView.swift; sourceTree = "<group>"; };
+		C87611412E28F5040012AC37 /* NotificationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDelegate.swift; sourceTree = "<group>"; };
+		C87611422E28F5E30012AC37 /* NotificationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationRouter.swift; path = /Users/marina.dedikova/projectB/SoulSign/SoulSign/NotificationRouter.swift; sourceTree = "<absolute>"; };
 		C8877A6F2DF4C94600492065 /* BirthPlaceSuggestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthPlaceSuggestionsView.swift; sourceTree = "<group>"; };
 		C8CDF3262DCE1E33004F9888 /* SoulSign.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoulSign.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8CDF3292DCE1E33004F9888 /* SoulSignApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoulSignApp.swift; sourceTree = "<group>"; };
@@ -135,6 +144,8 @@
 				C8CDF3372DCE1E62004F9888 /* Models */,
 				C8CDF3292DCE1E33004F9888 /* SoulSignApp.swift */,
 				C8CDF32B2DCE1E33004F9888 /* ContentView.swift */,
+				C87611412E28F5040012AC37 /* NotificationDelegate.swift */,
+				C87611422E28F5E30012AC37 /* NotificationRouter.swift */,
 				C8CDF32D2DCE1E36004F9888 /* Assets.xcassets */,
 				C8CDF32F2DCE1E36004F9888 /* Preview Content */,
 				C86BB12B2E24F5B3006B02A9 /* Info.plist */,
@@ -155,6 +166,7 @@
 		C8CDF3372DCE1E62004F9888 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C8333BF32E293E3F000A14C2 /* OpenAIChatModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -162,6 +174,7 @@
 		C8CDF3382DCE1E78004F9888 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C876113E2E27B5F70012AC37 /* DailyAffirmationView.swift */,
 				C8877A6F2DF4C94600492065 /* BirthPlaceSuggestionsView.swift */,
 				C8CDF3402DCE2060004F9888 /* UserInputView.swift */,
 				C8CDF3442DCE2338004F9888 /* WelcomeView.swift */,
@@ -183,6 +196,7 @@
 		C8CDF33A2DCE1EC2004F9888 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				C876113C2E27B5950012AC37 /* AffirmationService.swift */,
 				C8CDF33C2DCE1F77004F9888 /* OpenAIService.swift */,
 				C8CDF33E2DCE1FC7004F9888 /* Constants.swift */,
 			);
@@ -263,7 +277,6 @@
 			files = (
 				C8CDF34C2DCE26A3004F9888 /* stars.json in Resources */,
 				C8CDF3312DCE1E36004F9888 /* Preview Assets.xcassets in Resources */,
-				C86BB1282E2416A1006B02A9 /* Secrets.xcconfig in Resources */,
 				C8CDF34E2DCE2E05004F9888 /* Swift.gitignore in Resources */,
 				C8CDF32E2DCE1E36004F9888 /* Assets.xcassets in Resources */,
 				C8CDF3552DCE44C7004F9888 /* sparkles.json in Resources */,
@@ -323,18 +336,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C87611432E28FACD0012AC37 /* NotificationRouter.swift in Sources */,
 				C8D42AF22DF0744A00E2ABBA /* AppDelegate.swift in Sources */,
 				C8CDF3432DCE217F004F9888 /* SoulSignViewModel.swift in Sources */,
 				C8CDF32C2DCE1E33004F9888 /* ContentView.swift in Sources */,
+				C8333BF42E293E45000A14C2 /* OpenAIChatModels.swift in Sources */,
 				C8CDF3412DCE2060004F9888 /* UserInputView.swift in Sources */,
 				C8CDF32A2DCE1E33004F9888 /* SoulSignApp.swift in Sources */,
 				C8CDF3502DCE3B66004F9888 /* PlaceSearchViewModel.swift in Sources */,
+				C87611442E29364A0012AC37 /* NotificationDelegate.swift in Sources */,
 				C8877A702DF4C95000492065 /* BirthPlaceSuggestionsView.swift in Sources */,
 				C8CDF33D2DCE1F77004F9888 /* OpenAIService.swift in Sources */,
 				C8CDF3532DCE43DF004F9888 /* NightSkyBackground.swift in Sources */,
 				C8CDF33F2DCE1FC7004F9888 /* Constants.swift in Sources */,
 				C8CDF3452DCE2338004F9888 /* WelcomeView.swift in Sources */,
+				C876113F2E27B5FE0012AC37 /* DailyAffirmationView.swift in Sources */,
 				C8CDF34A2DCE2560004F9888 /* LottieView.swift in Sources */,
+				C876113D2E27B59B0012AC37 /* AffirmationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +395,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 5R32MDPGF2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -445,6 +464,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 5R32MDPGF2;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -476,6 +496,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SoulSign/Preview Content\"";
@@ -483,9 +504,11 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SoulSign;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -493,8 +516,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.maribond.SoulSign;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marinad.SoulSign;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -507,6 +531,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SoulSign/Preview Content\"";
@@ -514,9 +539,11 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SoulSign;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -524,8 +551,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.maribond.SoulSign;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marinad.SoulSign;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

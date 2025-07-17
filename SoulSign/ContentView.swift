@@ -6,9 +6,12 @@
 //
 import SwiftUI
 import CoreLocation
+import UserNotifications
 
 struct ContentView: View {
     @StateObject private var viewModel = SoulSignViewModel()
+    @State private var showAffirmations = false
+    @EnvironmentObject var notificationRouter: NotificationRouter // 👈 added
 
     var body: some View {
         NavigationStack {
@@ -40,14 +43,25 @@ struct ContentView: View {
                                 .font(.body)
                                 .multilineTextAlignment(.leading)
 
-                            Button("🔁 Generate Another Chart") {
-                                viewModel.chartResult = ""
+                            VStack(spacing: 12) {
+                                Button("🔁 Generate Another Chart") {
+                                    viewModel.chartResult = ""
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.white.opacity(0.9))
+                                .foregroundColor(.purple)
+                                .cornerRadius(12)
+
+                                Button("🌞 Daily Affirmations") {
+                                    showAffirmations = true
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.white.opacity(0.9))
+                                .foregroundColor(.blue)
+                                .cornerRadius(12)
                             }
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.white.opacity(0.9))
-                            .foregroundColor(.purple)
-                            .cornerRadius(12)
                         }
                         .padding()
                     }
@@ -56,8 +70,8 @@ struct ContentView: View {
                 if viewModel.isLoading {
                     VStack {
                         ProgressView("Generating Chart...")
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                            .foregroundColor(.white)
+                            .progressViewStyle(CircularProgressViewStyle(tint: .black))
+                            .foregroundColor(.black)
                             .padding()
                     }
                 }
@@ -68,7 +82,76 @@ struct ContentView: View {
                         .padding()
                 }
             }
+            .navigationDestination(isPresented: $showAffirmations) {
+                DailyAffirmationView()
+            }
+            .toolbarBackground(Color.clear, for: .navigationBar)
+            .toolbarColorScheme(.dark, for: .navigationBar)
             .navigationTitle("SoulSign")
+            .onAppear {
+                requestNotificationPermission()
+                scheduleDailyAffirmationNotification()
+
+                // 👇 Show affirmations view if app was opened via notification
+                if notificationRouter.navigateToAffirmations {
+                    showAffirmations = true
+                    notificationRouter.navigateToAffirmations = false
+                }
+            }
+            .onChange(of: notificationRouter.navigateToAffirmations) { newValue in
+                if newValue {
+                    showAffirmations = true
+                    notificationRouter.navigateToAffirmations = false
+                }
+            }
+        }
+    }
+
+    private func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
+            if granted {
+                print("✅ Notifications authorized")
+            } else {
+                print("❌ Notifications denied")
+            }
+        }
+    }
+
+    private func scheduleDailyAffirmationNotification() {
+        AffirmationService.fetchAffirmations { affirmations in
+            guard let affirmations = affirmations else {
+                print("❌ Failed to fetch affirmations for notification")
+                return
+            }
+
+            let values = [
+                affirmations.Finance,
+                affirmations.Love,
+                affirmations.MindSpirit,
+                affirmations.Career,
+                affirmations.Friendship,
+                affirmations.Health
+            ]
+
+            let content = UNMutableNotificationContent()
+            content.title = "🌟 Daily Affirmation"
+            content.body = values.randomElement() ?? "You are amazing."
+            content.sound = .default
+
+            var dateComponents = DateComponents()
+            dateComponents.hour = 16
+            dateComponents.minute = 40
+
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            let request = UNNotificationRequest(identifier: "daily_affirmation", content: content, trigger: trigger)
+
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("❌ Failed to schedule notification: \(error.localizedDescription)")
+                } else {
+                    print("✅ Daily notification scheduled")
+                }
+            }
         }
     }
 }
