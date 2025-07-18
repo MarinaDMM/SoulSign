@@ -11,7 +11,7 @@ import UserNotifications
 struct ContentView: View {
     @StateObject private var viewModel = SoulSignViewModel()
     @State private var showAffirmations = false
-    @EnvironmentObject var notificationRouter: NotificationRouter // 👈 added
+    @EnvironmentObject var notificationRouter: NotificationRouter
 
     var body: some View {
         NavigationStack {
@@ -91,15 +91,9 @@ struct ContentView: View {
             .onAppear {
                 requestNotificationPermission()
                 scheduleDailyAffirmationNotification()
-
-                // 👇 Show affirmations view if app was opened via notification
-                if notificationRouter.navigateToAffirmations {
-                    showAffirmations = true
-                    notificationRouter.navigateToAffirmations = false
-                }
             }
-            .onChange(of: notificationRouter.navigateToAffirmations) { newValue in
-                if newValue {
+            .onReceive(NotificationCenter.default.publisher(for: .didReceiveNotificationResponse)) { _ in
+                DispatchQueue.main.async {
                     showAffirmations = true
                     notificationRouter.navigateToAffirmations = false
                 }
@@ -139,8 +133,8 @@ struct ContentView: View {
             content.sound = .default
 
             var dateComponents = DateComponents()
-            dateComponents.hour = 16
-            dateComponents.minute = 40
+            dateComponents.hour = 10
+            dateComponents.minute = 0
 
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
             let request = UNNotificationRequest(identifier: "daily_affirmation", content: content, trigger: trigger)

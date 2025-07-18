@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C8161BC42E2AAA4C00247BAC /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8161BC32E2AAA4700247BAC /* Notification+Name.swift */; };
 		C82233842DF2251300454554 /* Lottie.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C82233822DF224AE00454554 /* Lottie.xcframework */; };
 		C82233852DF2251300454554 /* Lottie.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C82233822DF224AE00454554 /* Lottie.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C82233872DF2251500454554 /* Pods_SoulSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE5DD73FEBD589512EA370BD /* Pods_SoulSign.framework */; };
 		C82233882DF2251500454554 /* Pods_SoulSign.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE5DD73FEBD589512EA370BD /* Pods_SoulSign.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C8333BF42E293E45000A14C2 /* OpenAIChatModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8333BF32E293E3F000A14C2 /* OpenAIChatModels.swift */; };
+		C8333BF82E294691000A14C2 /* Secrets.xcconfig.example in Resources */ = {isa = PBXBuildFile; fileRef = C8333BF72E29468A000A14C2 /* Secrets.xcconfig.example */; };
 		C876113D2E27B59B0012AC37 /* AffirmationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C876113C2E27B5950012AC37 /* AffirmationService.swift */; };
 		C876113F2E27B5FE0012AC37 /* DailyAffirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C876113E2E27B5F70012AC37 /* DailyAffirmationView.swift */; };
 		C87611432E28FACD0012AC37 /* NotificationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87611422E28F5E30012AC37 /* NotificationRouter.swift */; };
@@ -54,8 +56,10 @@
 		57DC7B570E6434F3BF7B7E11 /* Pods-SoulSign.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoulSign.debug.xcconfig"; path = "Target Support Files/Pods-SoulSign/Pods-SoulSign.debug.xcconfig"; sourceTree = "<group>"; };
 		872005CF2EB00DBB33DEC8C6 /* Pods-SoulSign.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoulSign.release.xcconfig"; path = "Target Support Files/Pods-SoulSign/Pods-SoulSign.release.xcconfig"; sourceTree = "<group>"; };
 		BE5DD73FEBD589512EA370BD /* Pods_SoulSign.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoulSign.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8161BC32E2AAA4700247BAC /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
 		C82233822DF224AE00454554 /* Lottie.xcframework */ = {isa = PBXFileReference; expectedSignature = "SelfSigned:892F1B43047B50538F2F46EAD92900DD3D4811F3582178C061A5FB20F111CB26"; lastKnownFileType = wrapper.xcframework; path = Lottie.xcframework; sourceTree = "<group>"; };
 		C8333BF32E293E3F000A14C2 /* OpenAIChatModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIChatModels.swift; sourceTree = "<group>"; };
+		C8333BF72E29468A000A14C2 /* Secrets.xcconfig.example */ = {isa = PBXFileReference; lastKnownFileType = text; path = Secrets.xcconfig.example; sourceTree = "<group>"; };
 		C86BB1272E24169A006B02A9 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		C86BB12B2E24F5B3006B02A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C876113C2E27B5950012AC37 /* AffirmationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffirmationService.swift; sourceTree = "<group>"; };
@@ -113,9 +117,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C8161BC22E2AAA2F00247BAC /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C8161BC32E2AAA4700247BAC /* Notification+Name.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		C8CDF31D2DCE1E33004F9888 = {
 			isa = PBXGroup;
 			children = (
+				C8333BF72E29468A000A14C2 /* Secrets.xcconfig.example */,
 				C8CDF3282DCE1E33004F9888 /* SoulSign */,
 				C8CDF3272DCE1E33004F9888 /* Products */,
 				C81385432DF0A2A200C58473 /* Frameworks */,
@@ -134,6 +147,7 @@
 		C8CDF3282DCE1E33004F9888 /* SoulSign */ = {
 			isa = PBXGroup;
 			children = (
+				C8161BC22E2AAA2F00247BAC /* Extensions */,
 				C8CDF3542DCE44C7004F9888 /* sparkles.json */,
 				C8CDF34D2DCE2E05004F9888 /* Swift.gitignore */,
 				C8CDF34B2DCE26A3004F9888 /* stars.json */,
@@ -279,6 +293,7 @@
 				C8CDF3312DCE1E36004F9888 /* Preview Assets.xcassets in Resources */,
 				C8CDF34E2DCE2E05004F9888 /* Swift.gitignore in Resources */,
 				C8CDF32E2DCE1E36004F9888 /* Assets.xcassets in Resources */,
+				C8333BF82E294691000A14C2 /* Secrets.xcconfig.example in Resources */,
 				C8CDF3552DCE44C7004F9888 /* sparkles.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,6 +368,7 @@
 				C876113F2E27B5FE0012AC37 /* DailyAffirmationView.swift in Sources */,
 				C8CDF34A2DCE2560004F9888 /* LottieView.swift in Sources */,
 				C876113D2E27B59B0012AC37 /* AffirmationService.swift in Sources */,
+				C8161BC42E2AAA4C00247BAC /* Notification+Name.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
