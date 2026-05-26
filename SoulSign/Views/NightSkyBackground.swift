@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct NightSkyBackground: View {
+    @Environment(\.colorScheme) private var colorScheme
+
     var body: some View {
+        let theme = AppTheme(colorScheme: colorScheme)
         ZStack {
             LinearGradient(
-                gradient: Gradient(colors: [Color.black, Color.blue.opacity(0.6), Color.purple]),
+                gradient: Gradient(colors: theme.backgroundColors),
                 startPoint: .top,
                 endPoint: .bottom
             )
@@ -19,7 +22,7 @@ struct NightSkyBackground: View {
 
             LottieView(filename: "sparkles")
                 .ignoresSafeArea()
-                .opacity(0.3)
+                .opacity(theme.sparkleOpacity)
         }
     }
 }
