@@ -27,11 +27,7 @@ struct BirthPlaceSuggestionsView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     ForEach(placeVM.suggestions, id: \ .placeID) { prediction in
                         Button(action: {
-                            let selectedText = prediction.attributedFullText.string
-                            placeVM.searchText = selectedText
-                            placeVM.selectedPlaceName = selectedText
-                            placeVM.suggestions = []
-                            placeVM.fetchCoordinates(for: prediction)
+                            placeVM.selectPrediction(prediction)
                         }) {
                             Text(prediction.attributedFullText.string)
                                 .foregroundColor(.white)

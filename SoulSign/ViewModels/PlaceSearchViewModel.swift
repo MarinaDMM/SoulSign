@@ -17,6 +17,8 @@ final class PlaceSearchViewModel: NSObject, ObservableObject {
 
     private let placesClient = GMSPlacesClient.shared()
     private var cancellables = Set<AnyCancellable>()
+    // Prevents programmatic searchText changes from re-triggering a search.
+    private var suppressNextSearch = false
 
     override init() {
         super.init()
@@ -28,13 +30,27 @@ final class PlaceSearchViewModel: NSObject, ObservableObject {
             .removeDuplicates()
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
             .sink { [weak self] query in
-                guard let self = self, !query.isEmpty else {
-                    self?.suggestions = []
+                guard let self = self else { return }
+                if self.suppressNextSearch {
+                    self.suppressNextSearch = false
+                    return
+                }
+                guard !query.isEmpty else {
+                    self.suggestions = []
                     return
                 }
                 self.fetchPlacePredictions(for: query)
             }
             .store(in: &cancellables)
+    }
+
+    func selectPrediction(_ prediction: GMSAutocompletePrediction) {
+        let displayText = prediction.attributedFullText.string
+        suppressNextSearch = true
+        searchText = displayText
+        selectedPlaceName = displayText
+        suggestions = []
+        fetchCoordinates(for: prediction)
     }
 
     private func fetchPlacePredictions(for query: String) {
@@ -50,7 +66,7 @@ final class PlaceSearchViewModel: NSObject, ObservableObject {
         }
     }
 
-    func fetchCoordinates(for prediction: GMSAutocompletePrediction) {
+    private func fetchCoordinates(for prediction: GMSAutocompletePrediction) {
         let placeID = prediction.placeID
         let fields: GMSPlaceField = [.coordinate, .name, .formattedAddress]
 
@@ -62,8 +78,11 @@ final class PlaceSearchViewModel: NSObject, ObservableObject {
             guard let place = place else { return }
             DispatchQueue.main.async {
                 self?.selectedCoordinates = place.coordinate
-                self?.selectedPlaceName = place.formattedAddress ?? place.name ?? ""
-                self?.searchText = self?.selectedPlaceName ?? ""
+                let resolvedName = place.formattedAddress ?? place.name ?? ""
+                self?.selectedPlaceName = resolvedName
+                // Update the text field to the resolved address without triggering a new search.
+                self?.suppressNextSearch = true
+                self?.searchText = resolvedName
             }
         }
     }
