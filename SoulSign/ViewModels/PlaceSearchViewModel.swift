@@ -55,7 +55,7 @@ final class PlaceSearchViewModel: NSObject, ObservableObject {
 
     private func fetchPlacePredictions(for query: String) {
         let filter = GMSAutocompleteFilter()
-        filter.type = .geocode
+        filter.types = ["geocode"]
 
         placesClient.findAutocompletePredictions(fromQuery: query, filter: filter, sessionToken: nil) { [weak self] results, error in
             if let error = error {

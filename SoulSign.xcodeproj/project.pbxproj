@@ -35,6 +35,7 @@
 		C8CDF3532DCE43DF004F9888 /* NightSkyBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDF3522DCE43DF004F9888 /* NightSkyBackground.swift */; };
 		C8CDF3552DCE44C7004F9888 /* sparkles.json in Resources */ = {isa = PBXBuildFile; fileRef = C8CDF3542DCE44C7004F9888 /* sparkles.json */; };
 		C8D42AF22DF0744A00E2ABBA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D42AF12DF0744A00E2ABBA /* AppDelegate.swift */; };
+		C8D42AF32DF0744A00E2ABBB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D42AF42DF0744A00E2ABBB /* Theme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -84,6 +85,7 @@
 		C8CDF3522DCE43DF004F9888 /* NightSkyBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightSkyBackground.swift; sourceTree = "<group>"; };
 		C8CDF3542DCE44C7004F9888 /* sparkles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sparkles.json; sourceTree = "<group>"; };
 		C8D42AF12DF0744A00E2ABBA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C8D42AF42DF0744A00E2ABBB /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +167,7 @@
 				C86BB12B2E24F5B3006B02A9 /* Info.plist */,
 				C86BB1272E24169A006B02A9 /* Secrets.xcconfig */,
 				C8D42AF12DF0744A00E2ABBA /* AppDelegate.swift */,
+				C8D42AF42DF0744A00E2ABBB /* Theme.swift */,
 			);
 			path = SoulSign;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 			files = (
 				C87611432E28FACD0012AC37 /* NotificationRouter.swift in Sources */,
 				C8D42AF22DF0744A00E2ABBA /* AppDelegate.swift in Sources */,
+				C8D42AF32DF0744A00E2ABBB /* Theme.swift in Sources */,
 				C8CDF3432DCE217F004F9888 /* SoulSignViewModel.swift in Sources */,
 				C8CDF32C2DCE1E33004F9888 /* ContentView.swift in Sources */,
 				C8333BF42E293E45000A14C2 /* OpenAIChatModels.swift in Sources */,
