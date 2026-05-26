@@ -17,7 +17,6 @@ final class PlaceSearchViewModel: NSObject, ObservableObject {
 
     private let placesClient = GMSPlacesClient.shared()
     private var cancellables = Set<AnyCancellable>()
-    // Prevents programmatic searchText changes from re-triggering a search.
     private var suppressNextSearch = false
 
     override init() {
@@ -46,6 +45,7 @@ final class PlaceSearchViewModel: NSObject, ObservableObject {
 
     func selectPrediction(_ prediction: GMSAutocompletePrediction) {
         let displayText = prediction.attributedFullText.string
+        // Suppress the one debounce that fires from setting searchText below.
         suppressNextSearch = true
         searchText = displayText
         selectedPlaceName = displayText
@@ -62,7 +62,9 @@ final class PlaceSearchViewModel: NSObject, ObservableObject {
                 print("Autocomplete error: \(error.localizedDescription)")
                 return
             }
-            self?.suggestions = results ?? []
+            DispatchQueue.main.async {
+                self?.suggestions = results ?? []
+            }
         }
     }
 
@@ -78,13 +80,12 @@ final class PlaceSearchViewModel: NSObject, ObservableObject {
             guard let place = place else { return }
             DispatchQueue.main.async {
                 self?.selectedCoordinates = place.coordinate
-                let resolvedName = place.formattedAddress ?? place.name ?? ""
-                self?.selectedPlaceName = resolvedName
-                // Update the text field to the resolved address without triggering a new search.
-                self?.suppressNextSearch = true
-                self?.searchText = resolvedName
+                // Only update selectedPlaceName — do NOT touch searchText.
+                // Writing searchText here caused a second debounce that raced
+                // with the first suppress and re-triggered the search, making
+                // it impossible to keep a selection.
+                self?.selectedPlaceName = place.formattedAddress ?? place.name ?? ""
             }
         }
     }
 }
-
