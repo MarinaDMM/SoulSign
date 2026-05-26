@@ -12,6 +12,8 @@ struct ContentView: View {
     @StateObject private var viewModel = SoulSignViewModel()
     @State private var showAffirmations = false
     @EnvironmentObject var notificationRouter: NotificationRouter
+    @Environment(\.colorScheme) private var colorScheme
+    private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
 
     var body: some View {
         NavigationStack {
@@ -36,10 +38,10 @@ struct ContentView: View {
                             Text("✨ Your SoulSign Reading")
                                 .font(.title)
                                 .fontWeight(.bold)
-                                .foregroundColor(.white)
+                                .foregroundColor(theme.primaryText)
 
                             Text(viewModel.chartResult)
-                                .foregroundColor(.white)
+                                .foregroundColor(theme.primaryText)
                                 .font(.body)
                                 .multilineTextAlignment(.leading)
 
@@ -49,8 +51,8 @@ struct ContentView: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.white.opacity(0.9))
-                                .foregroundColor(.purple)
+                                .background(theme.primaryButtonBg)
+                                .foregroundColor(theme.primaryButtonText)
                                 .cornerRadius(12)
 
                                 Button("🌞 Daily Affirmations") {
@@ -58,8 +60,8 @@ struct ContentView: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.white.opacity(0.9))
-                                .foregroundColor(.blue)
+                                .background(theme.secondaryButtonBg)
+                                .foregroundColor(theme.secondaryButtonText)
                                 .cornerRadius(12)
                             }
                         }
@@ -70,8 +72,8 @@ struct ContentView: View {
                 if viewModel.isLoading {
                     VStack {
                         ProgressView("Generating Chart...")
-                            .progressViewStyle(CircularProgressViewStyle(tint: .black))
-                            .foregroundColor(.black)
+                            .progressViewStyle(CircularProgressViewStyle(tint: theme.primaryText))
+                            .foregroundColor(theme.primaryText)
                             .padding()
                     }
                 }
@@ -86,7 +88,7 @@ struct ContentView: View {
                 DailyAffirmationView()
             }
             .toolbarBackground(Color.clear, for: .navigationBar)
-            .toolbarColorScheme(.dark, for: .navigationBar)
+            .toolbarColorScheme(theme.navColorScheme, for: .navigationBar)
             .navigationTitle("SoulSign")
             .onAppear {
                 requestNotificationPermission()

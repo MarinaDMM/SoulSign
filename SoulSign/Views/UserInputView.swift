@@ -13,6 +13,8 @@ struct UserInputView: View {
     @State private var birthDate: Date = Date()
     @State private var birthTime: Date = Date()
     @StateObject private var placeVM = PlaceSearchViewModel()
+    @Environment(\.colorScheme) private var colorScheme
+    private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
 
     var onSubmit: (_ fullName: String, _ birthDate: Date, _ birthTime: Date, _ birthPlace: String, _ coordinates: CLLocationCoordinate2D?) -> Void
 
@@ -22,26 +24,25 @@ struct UserInputView: View {
                 NightSkyBackground()
 
                 Form {
-                    Section(header: Text("Personal Info").foregroundColor(.white)) {
+                    Section(header: Text("Personal Info").foregroundColor(theme.primaryText)) {
                         TextField("Full Name", text: $fullName)
                             .autocapitalization(.words)
                             .multilineTextAlignment(.leading)
-                            .foregroundColor(.black)
-                            .accentColor(.black)
+                            .foregroundColor(theme.fieldText)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
 
-                    Section(header: Text("Birth Date").foregroundColor(.white)) {
+                    Section(header: Text("Birth Date").foregroundColor(theme.primaryText)) {
                         DatePicker("Select Date", selection: $birthDate, displayedComponents: .date)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
 
-                    Section(header: Text("Birth Time").foregroundColor(.white)) {
+                    Section(header: Text("Birth Time").foregroundColor(theme.primaryText)) {
                         DatePicker("Select Time", selection: $birthTime, displayedComponents: .hourAndMinute)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
 
-                    Section(header: Text("Birth Place").foregroundColor(.white)) {
+                    Section(header: Text("Birth Place").foregroundColor(theme.primaryText)) {
                         BirthPlaceSuggestionsView(placeVM: placeVM)
                     }
 
@@ -65,14 +66,12 @@ struct UserInputView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.clear, for: .navigationBar)
-            .toolbarColorScheme(.dark, for: .navigationBar)
+            .toolbarColorScheme(theme.navColorScheme, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    let titleText = Text("Enter Birth Details")
-                        .foregroundColor(.white)
+                    Text("Enter Birth Details")
+                        .foregroundColor(theme.primaryText)
                         .font(.largeTitle.weight(.bold))
-
-                    titleText
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.leading)
                 }
