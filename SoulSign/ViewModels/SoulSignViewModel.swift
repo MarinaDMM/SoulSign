@@ -48,6 +48,8 @@ final class SoulSignViewModel: ObservableObject {
         Place of Birth: \(birthPlace)\(coordNote)
 
         Focus on personality traits, soul purpose, life path, and any meaningful planetary alignments. Use warm, beginner-friendly language.
+
+        Important: write the reading as a self-contained piece, like a letter or a personal report addressed to \(fullName). Do not include any closing offers, invitations to ask questions, suggestions to explore further, or any phrase that implies an AI or assistant is available for follow-up. End the reading naturally — with an inspiring or reflective closing sentence — not with a call to action or an open-ended question.
         """
 
         let messages = [
