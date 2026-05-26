@@ -20,7 +20,7 @@ struct UserInputView: View {
 
     var body: some View {
         NavigationStack {
-            ZStack {
+            ZStack(alignment: .top) {
                 NightSkyBackground()
 
                 Form {
@@ -43,7 +43,10 @@ struct UserInputView: View {
                     }
 
                     Section(header: Text("Birth Place").foregroundColor(theme.primaryText)) {
-                        BirthPlaceSuggestionsView(placeVM: placeVM)
+                        // Only the text field lives inside the Form — the dropdown
+                        // is rendered in the ZStack above to avoid UITableView
+                        // hit-test issues that cause the wrong row to be selected.
+                        BirthPlaceTextField(placeVM: placeVM)
                     }
 
                     Section {
@@ -63,6 +66,14 @@ struct UserInputView: View {
                 .scrollContentBackground(.hidden)
                 .background(Color.clear)
                 .environment(\.locale, Locale(identifier: "en_US"))
+
+                // Suggestions dropdown floats over the Form in the ZStack.
+                // Vertical offset positions it roughly below the Birth Place row.
+                VStack {
+                    Spacer().frame(height: 310)
+                    BirthPlaceSuggestionsDropdown(placeVM: placeVM)
+                    Spacer()
+                }
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.clear, for: .navigationBar)
