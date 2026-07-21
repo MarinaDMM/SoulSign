@@ -13,8 +13,19 @@ final class SoulSignViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var chartResult: String = ""
     @Published var errorMessage: String?
+    @Published var birthDate: Date?
 
-    private let openAIService = OpenAIService()
+    private let claudeService = ClaudeService()
+
+    func generateChart(for profile: UserProfile) async {
+        await generateChart(
+            fullName: profile.name,
+            birthDate: profile.birthDate,
+            birthTime: profile.birthTime,
+            birthPlace: profile.birthPlace,
+            coordinates: profile.coordinates
+        )
+    }
 
     func generateChart(
         fullName: String,
@@ -23,6 +34,7 @@ final class SoulSignViewModel: ObservableObject {
         birthPlace: String,
         coordinates: CLLocationCoordinate2D?
     ) async {
+        self.birthDate = birthDate
         isLoading = true
         errorMessage = nil
 
@@ -40,16 +52,15 @@ final class SoulSignViewModel: ObservableObject {
         }
 
         let prompt = """
-        Create a detailed astrological natal chart reading for this person:
+        You are a sharp, poetic astrologer. Write a natal chart reading for \(fullName), born \(dateString) at \(timeString) in \(birthPlace)\(coordNote).
 
-        Full Name: \(fullName)
-        Date of Birth: \(dateString)
-        Time of Birth: \(timeString)
-        Place of Birth: \(birthPlace)\(coordNote)
-
-        Focus on personality traits, soul purpose, life path, and any meaningful planetary alignments. Use warm, beginner-friendly language.
-
-        Important: write the reading as a self-contained piece, like a letter or a personal report addressed to \(fullName). Do not include any closing offers, invitations to ask questions, suggestions to explore further, or any phrase that implies an AI or assistant is available for follow-up. End the reading naturally — with an inspiring or reflective closing sentence — not with a call to action or an open-ended question.
+        Rules — follow every one:
+        • Plain prose only. No markdown, no headers, no bullet points, no asterisks, no hashtags. Just flowing paragraphs. Never use the em dash "—" — it reads as machine-written. Use commas, periods, or line breaks instead.
+        • Keep it tight — 4 paragraphs maximum. Each paragraph should feel alive, not exhaustive.
+        • Keep all words as words. Occasionally place a glyph or emoji right after a word to accent it visually, not to replace it. For example: "your Sun ☉ in Scorpio ♏ burns quietly" or "the Moon 🌙 here asks for stillness." Use this sparingly, only where it adds something. Planet glyphs: ☉ ☽ ☿ ♀ ♂ ♃ ♄. Sign glyphs: ♈♉♊♋♌♍♎♏♐♑♒♓. Occasional emoji: 🌙 🔥 ✨ 🌊 💫 🕯️ — one or two per paragraph at most.
+        • Make it feel like a secret someone left for \(fullName) specifically. Intriguing details they'll want to sit with, not a summary they'll skim.
+        • Speak directly as "you." Intimate, a little mysterious, warm but never sentimental.
+        • No closing offers, no questions, no AI references. End on one quiet sentence that lingers.
         """
 
         let messages = [
@@ -57,7 +68,7 @@ final class SoulSignViewModel: ObservableObject {
         ]
 
         do {
-            let response = try await openAIService.send(messages: messages)
+            let response = try await claudeService.send(messages: messages)
             self.chartResult = response
         } catch {
             self.errorMessage = error.localizedDescription

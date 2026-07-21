@@ -37,31 +37,28 @@ class AffirmationService {
               let decoded = try? JSONDecoder().decode(AffirmationResponse.self, from: data) else {
             return nil
         }
-
         return decoded
     }
 
     static func fetchAffirmations(completion: @escaping (AffirmationResponse?) -> Void) {
-        let apiKey = Bundle.main.object(forInfoDictionaryKey: "OPENAI_API_KEY") as? String ?? ""
+        let apiKey = Constants.anthropicAPIKey
         if apiKey.isEmpty {
-            print("❌ OPENAI_API_KEY is missing or empty")
+            print("❌ ANTHROPIC_API_KEY is missing or empty")
             completion(nil)
             return
-        } else {
-            print("✅ OPENAI_API_KEY loaded")
         }
 
-        let url = URL(string: "https://api.openai.com/v1/chat/completions")!
+        let url = URL(string: "https://api.anthropic.com/v1/messages")!
 
-        let headers = [
-            "Content-Type": "application/json",
-            "Authorization": "Bearer \(apiKey)"
-        ]
-
-        let messages: [OpenAIModels.ChatMessage] = [
-            OpenAIModels.ChatMessage(role: "system", content: "You are an encouraging and creative life coach."),
-            OpenAIModels.ChatMessage(role: "user", content: """
-Generate daily affirmations in JSON format with exactly these keys: Finance, Love, MindSpirit, Career, Friendship, and Health. 
+        let body: [String: Any] = [
+            "model": "claude-opus-4-8",
+            "max_tokens": 512,
+            "system": "You are an encouraging and creative life coach.",
+            "messages": [
+                [
+                    "role": "user",
+                    "content": """
+Generate daily affirmations in JSON format with exactly these keys: Finance, Love, MindSpirit, Career, Friendship, and Health.
 Return ONLY raw JSON without any explanation, markdown, or formatting. Example:
 
 {
@@ -72,19 +69,17 @@ Return ONLY raw JSON without any explanation, markdown, or formatting. Example:
   "Friendship": "...",
   "Health": "..."
 }
-""")
+"""
+                ]
+            ]
         ]
-
-        let body = OpenAIModels.ChatRequest(
-            model: "gpt-3.5-turbo",
-            messages: messages,
-            temperature: 0.9
-        )
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.allHTTPHeaderFields = headers
-        request.httpBody = try? JSONEncoder().encode(body)
+        request.setValue(apiKey, forHTTPHeaderField: "x-api-key")
+        request.setValue("2023-06-01", forHTTPHeaderField: "anthropic-version")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
 
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -94,29 +89,28 @@ Return ONLY raw JSON without any explanation, markdown, or formatting. Example:
             }
 
             guard let data = data else {
-                print("❌ No data received from OpenAI")
+                print("❌ No data received from Claude")
                 DispatchQueue.main.async { completion(nil) }
                 return
             }
 
             if let raw = String(data: data, encoding: .utf8) {
-                print("🧾 Raw OpenAI response:\n\(raw)")
+                print("🧾 Raw Claude response:\n\(raw)")
             }
 
             guard
                 let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                let choices = json["choices"] as? [[String: Any]],
-                let message = choices.first?["message"] as? [String: Any],
-                let content = message["content"] as? String
+                let content = json["content"] as? [[String: Any]],
+                let text = content.first?["text"] as? String
             else {
-                print("❌ Failed to extract 'content' from OpenAI response")
+                print("❌ Failed to extract 'text' from Claude response")
                 DispatchQueue.main.async { completion(nil) }
                 return
             }
 
-            print("🔎 GPT content:\n\(content)")
+            print("🔎 Claude content:\n\(text)")
 
-            guard let jsonData = content.data(using: .utf8),
+            guard let jsonData = text.data(using: .utf8),
                   let affirmations = try? JSONDecoder().decode(AffirmationResponse.self, from: jsonData) else {
                 print("❌ Failed to decode content into AffirmationResponse")
                 DispatchQueue.main.async { completion(nil) }
@@ -135,4 +129,3 @@ Return ONLY raw JSON without any explanation, markdown, or formatting. Example:
         return formatter.string(from: Date())
     }
 }
-

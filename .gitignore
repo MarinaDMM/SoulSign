@@ -1,0 +1,25 @@
+# Secrets — never commit
+SoulSign/Secrets.xcconfig
+*.xcconfig
+
+# Xcode user-specific files
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+xcuserdata/
+
+# Pods user data
+Pods/Pods.xcodeproj/xcuserdata/
+
+# macOS
+.DS_Store
+
+# Build output
+build/
+DerivedData/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.build/
+*.resolved
