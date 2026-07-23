@@ -9,14 +9,19 @@ import SwiftUI
 struct TarotCardFace: View {
     let card: TarotCard
 
+    // All 78 assets are normalized to this exact ratio (750x1298) so every
+    // card's frame, corner radius, and border line up identically.
+    private static let cardAspectRatio: CGFloat = 750.0 / 1298.0
+    private static let cornerRadius: CGFloat = 7
+
     var body: some View {
         Image(card.imageName)
             .resizable()
-            .aspectRatio(contentMode: .fit)
-            .clipShape(RoundedRectangle(cornerRadius: 6))
+            .aspectRatio(Self.cardAspectRatio, contentMode: .fit)
+            .clipShape(RoundedRectangle(cornerRadius: Self.cornerRadius, style: .continuous))
             .overlay(
-                RoundedRectangle(cornerRadius: 6)
-                    .strokeBorder(.white.opacity(0.25), lineWidth: 0.8)
+                RoundedRectangle(cornerRadius: Self.cornerRadius, style: .continuous)
+                    .strokeBorder(.white.opacity(0.22), lineWidth: 1)
             )
     }
 }
@@ -57,6 +62,8 @@ struct TarotCardView: View {
 
                 TarotCardFace(card: vm.card)
                     .frame(maxWidth: 220)
+                    .padding(28)
+                    .background(cardBackdrop)
                     .shadow(color: .black.opacity(0.35), radius: 18, x: 0, y: 10)
                     .shadow(color: Color(red: 1.0, green: 0.85, blue: 0.55).opacity(0.30), radius: 30)
 
@@ -88,6 +95,22 @@ struct TarotCardView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 16)
         }
+    }
+
+    // MARK: Backdrop
+
+    private var cardBackdrop: some View {
+        RadialGradient(
+            colors: [
+                Color(red: 0.98, green: 0.90, blue: 0.74).opacity(0.20),
+                Color(red: 0.98, green: 0.90, blue: 0.74).opacity(0.06),
+                .clear
+            ],
+            center: .center,
+            startRadius: 20,
+            endRadius: 190
+        )
+        .blur(radius: 6)
     }
 
     // MARK: Loading & Error
