@@ -12,7 +12,7 @@ final class TarotViewModel: ObservableObject {
     @Published var errorMessage: String?
 
     private let claude = ClaudeService()
-    private let cacheKey = "tarot_daily_cache_v1"
+    private let cacheKey = "tarot_daily_cache_v2"
 
     func loadReading() async {
         let today = todayKey()
@@ -36,14 +36,14 @@ final class TarotViewModel: ObservableObject {
         let prompt = """
         Today is \(fullDateLabel()). The tarot card drawn for this day is "\(todayCard.name)" (\(todayCard.arcanaLabel)).
 
-        Themes for this card: \(todayCard.keywords).
+        Traditional Rider-Waite-Smith upright meaning of this card: \(todayCard.rwsMeaning)
 
-        Write a tarot reading for today. Speak directly to the reader as "you."
+        Write a tarot reading for today, grounded specifically in that traditional meaning above, not a generic horoscope. Speak directly to the reader as "you."
 
         Rules, follow every one:
         • Flowing prose, 3 paragraphs maximum. No markdown, no headers, no bullet points, no numbered lists.
         • Never use the em dash character. Use commas and periods instead.
-        • Tie the card's energy specifically to today, not just the card in general.
+        • Open by grounding the reading in what this specific card traditionally represents, then carry that meaning into how it might show up today.
         • Place an emoji or glyph right after a word occasionally to accent it (🌙 🔥 ✨ 🌊 💫 🕯️ ⭐). Two or three total across the whole reading, only where it adds something real.
         • Mystic and intimate, like quiet insight from someone who sees clearly.
         • End on one sentence that stays with the reader after they close the screen.
