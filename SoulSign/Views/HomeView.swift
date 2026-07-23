@@ -72,16 +72,16 @@ struct HomeView: View {
                                 columns: [GridItem(.flexible()), GridItem(.flexible())],
                                 spacing: 14
                             ) {
-                                FeatureTile("🌟", "Natal Chart",   "Your stars at birth",        hue: 0.12) {
+                                FeatureTile(.emoji("🌟"), "Natal Chart",   "Your stars at birth",        hue: 0.12) {
                                     path.append(AppDestination.profileList)
                                 }
-                                FeatureTile("🃏", "Tarot Today",   "Card of the day",             hue: 0.78) {
+                                FeatureTile(.image("tarot_major_fool"), "Tarot Today", "Card of the day", hue: 0.78) {
                                     path.append(AppDestination.tarot)
                                 }
-                                FeatureTile("💑", "Partner Chart", "Cosmic compatibility",        hue: 0.95) {
+                                FeatureTile(.emoji("💑"), "Partner Chart", "Cosmic compatibility",        hue: 0.95) {
                                     path.append(AppDestination.partnerChart)
                                 }
-                                FeatureTile("🌞", "Affirmations",  "Set your daily intention",   hue: 0.55) {
+                                FeatureTile(.emoji("🌞"), "Affirmations",  "Set your daily intention",   hue: 0.55) {
                                     path.append(AppDestination.affirmations)
                                 }
                             }
@@ -222,22 +222,27 @@ private struct AddChip: View {
     }
 }
 
+private enum FeatureIcon {
+    case emoji(String)
+    case image(String)
+}
+
 private struct FeatureTile: View {
-    let emoji: String
+    let icon: FeatureIcon
     let title: String
     let subtitle: String
     let hue: Double
     let action: () -> Void
 
-    init(_ emoji: String, _ title: String, _ subtitle: String, hue: Double, action: @escaping () -> Void) {
-        self.emoji = emoji; self.title = title; self.subtitle = subtitle
+    init(_ icon: FeatureIcon, _ title: String, _ subtitle: String, hue: Double, action: @escaping () -> Void) {
+        self.icon = icon; self.title = title; self.subtitle = subtitle
         self.hue = hue; self.action = action
     }
 
     var body: some View {
         Button(action: action) {
             VStack(alignment: .leading, spacing: 0) {
-                Text(emoji).font(.system(size: 30))
+                iconView
                 Spacer()
                 Text(title)
                     .font(.system(size: 15, weight: .semibold))
@@ -260,5 +265,23 @@ private struct FeatureTile: View {
             )
         }
         .buttonStyle(.plain)
+    }
+
+    @ViewBuilder
+    private var iconView: some View {
+        switch icon {
+        case .emoji(let e):
+            Text(e).font(.system(size: 30))
+        case .image(let name):
+            Image(name)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 30, height: 30 / (750.0 / 1298.0))
+                .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 4, style: .continuous)
+                        .strokeBorder(.white.opacity(0.35), lineWidth: 0.6)
+                )
+        }
     }
 }
