@@ -12,6 +12,7 @@ struct TarotCard: Identifiable, Hashable {
     let arcanaLabel: String
     let numeralString: String
     let keywords: String
+    let imageName: String  // Rider-Waite-Smith (1909) scan, Assets.xcassets/TarotCards
 }
 
 // MARK: - Deck
@@ -30,28 +31,28 @@ enum TarotDeck {
 
     // MARK: Major Arcana
     private static let majorArcana: [TarotCard] = [
-        .init(id: 0,  name: "The Fool",           emoji: "🌬️", hue: 0.58, arcanaLabel: "Major Arcana",  numeralString: "0",    keywords: "beginnings, spontaneity, leap of faith"),
-        .init(id: 1,  name: "The Magician",        emoji: "🪄",  hue: 0.12, arcanaLabel: "Major Arcana",  numeralString: "I",    keywords: "willpower, skill, manifestation"),
-        .init(id: 2,  name: "The High Priestess",  emoji: "🌙",  hue: 0.68, arcanaLabel: "Major Arcana",  numeralString: "II",   keywords: "intuition, mystery, subconscious"),
-        .init(id: 3,  name: "The Empress",         emoji: "🌹",  hue: 0.33, arcanaLabel: "Major Arcana",  numeralString: "III",  keywords: "abundance, fertility, nurturing"),
-        .init(id: 4,  name: "The Emperor",         emoji: "🏔️", hue: 0.03, arcanaLabel: "Major Arcana",  numeralString: "IV",   keywords: "authority, structure, stability"),
-        .init(id: 5,  name: "The Hierophant",      emoji: "📿",  hue: 0.28, arcanaLabel: "Major Arcana",  numeralString: "V",    keywords: "tradition, wisdom, guidance"),
-        .init(id: 6,  name: "The Lovers",          emoji: "💞",  hue: 0.93, arcanaLabel: "Major Arcana",  numeralString: "VI",   keywords: "love, choice, alignment"),
-        .init(id: 7,  name: "The Chariot",         emoji: "🏆",  hue: 0.60, arcanaLabel: "Major Arcana",  numeralString: "VII",  keywords: "victory, control, determination"),
-        .init(id: 8,  name: "Strength",            emoji: "🦁",  hue: 0.07, arcanaLabel: "Major Arcana",  numeralString: "VIII", keywords: "courage, patience, inner power"),
-        .init(id: 9,  name: "The Hermit",          emoji: "🕯️", hue: 0.25, arcanaLabel: "Major Arcana",  numeralString: "IX",   keywords: "solitude, introspection, guidance"),
-        .init(id: 10, name: "Wheel of Fortune",    emoji: "♾️",  hue: 0.10, arcanaLabel: "Major Arcana",  numeralString: "X",    keywords: "cycles, destiny, turning point"),
-        .init(id: 11, name: "Justice",             emoji: "⚖️",  hue: 0.55, arcanaLabel: "Major Arcana",  numeralString: "XI",   keywords: "fairness, truth, cause and effect"),
-        .init(id: 12, name: "The Hanged Man",      emoji: "🌀",  hue: 0.62, arcanaLabel: "Major Arcana",  numeralString: "XII",  keywords: "surrender, new perspective, pause"),
-        .init(id: 13, name: "Death",               emoji: "🥀",  hue: 0.72, arcanaLabel: "Major Arcana",  numeralString: "XIII", keywords: "transformation, endings, rebirth"),
-        .init(id: 14, name: "Temperance",          emoji: "🌊",  hue: 0.57, arcanaLabel: "Major Arcana",  numeralString: "XIV",  keywords: "balance, patience, moderation"),
-        .init(id: 15, name: "The Devil",           emoji: "🔮",  hue: 0.02, arcanaLabel: "Major Arcana",  numeralString: "XV",   keywords: "shadow self, attachment, materialism"),
-        .init(id: 16, name: "The Tower",           emoji: "⚡️", hue: 0.05, arcanaLabel: "Major Arcana",  numeralString: "XVI",  keywords: "upheaval, sudden change, revelation"),
-        .init(id: 17, name: "The Star",            emoji: "⭐",  hue: 0.59, arcanaLabel: "Major Arcana",  numeralString: "XVII", keywords: "hope, renewal, calm after storm"),
-        .init(id: 18, name: "The Moon",            emoji: "🌕",  hue: 0.69, arcanaLabel: "Major Arcana",  numeralString: "XVIII",keywords: "illusion, dreams, the unconscious"),
-        .init(id: 19, name: "The Sun",             emoji: "☀️",  hue: 0.12, arcanaLabel: "Major Arcana",  numeralString: "XIX",  keywords: "joy, vitality, clarity, success"),
-        .init(id: 20, name: "Judgement",           emoji: "🎺",  hue: 0.08, arcanaLabel: "Major Arcana",  numeralString: "XX",   keywords: "awakening, reckoning, absolution"),
-        .init(id: 21, name: "The World",           emoji: "🌍",  hue: 0.35, arcanaLabel: "Major Arcana",  numeralString: "XXI",  keywords: "completion, integration, wholeness"),
+        .init(id: 0,  name: "The Fool",           emoji: "🌬️", hue: 0.58, arcanaLabel: "Major Arcana",  numeralString: "0",    keywords: "beginnings, spontaneity, leap of faith",       imageName: "tarot_major_fool"),
+        .init(id: 1,  name: "The Magician",        emoji: "🪄",  hue: 0.12, arcanaLabel: "Major Arcana",  numeralString: "I",    keywords: "willpower, skill, manifestation",               imageName: "tarot_major_magician"),
+        .init(id: 2,  name: "The High Priestess",  emoji: "🌙",  hue: 0.68, arcanaLabel: "Major Arcana",  numeralString: "II",   keywords: "intuition, mystery, subconscious",              imageName: "tarot_major_high_priestess"),
+        .init(id: 3,  name: "The Empress",         emoji: "🌹",  hue: 0.33, arcanaLabel: "Major Arcana",  numeralString: "III",  keywords: "abundance, fertility, nurturing",               imageName: "tarot_major_empress"),
+        .init(id: 4,  name: "The Emperor",         emoji: "🏔️", hue: 0.03, arcanaLabel: "Major Arcana",  numeralString: "IV",   keywords: "authority, structure, stability",               imageName: "tarot_major_emperor"),
+        .init(id: 5,  name: "The Hierophant",      emoji: "📿",  hue: 0.28, arcanaLabel: "Major Arcana",  numeralString: "V",    keywords: "tradition, wisdom, guidance",                   imageName: "tarot_major_hierophant"),
+        .init(id: 6,  name: "The Lovers",          emoji: "💞",  hue: 0.93, arcanaLabel: "Major Arcana",  numeralString: "VI",   keywords: "love, choice, alignment",                       imageName: "tarot_major_lovers"),
+        .init(id: 7,  name: "The Chariot",         emoji: "🏆",  hue: 0.60, arcanaLabel: "Major Arcana",  numeralString: "VII",  keywords: "victory, control, determination",               imageName: "tarot_major_chariot"),
+        .init(id: 8,  name: "Strength",            emoji: "🦁",  hue: 0.07, arcanaLabel: "Major Arcana",  numeralString: "VIII", keywords: "courage, patience, inner power",                imageName: "tarot_major_strength"),
+        .init(id: 9,  name: "The Hermit",          emoji: "🕯️", hue: 0.25, arcanaLabel: "Major Arcana",  numeralString: "IX",   keywords: "solitude, introspection, guidance",             imageName: "tarot_major_hermit"),
+        .init(id: 10, name: "Wheel of Fortune",    emoji: "♾️",  hue: 0.10, arcanaLabel: "Major Arcana",  numeralString: "X",    keywords: "cycles, destiny, turning point",                imageName: "tarot_major_wheel_of_fortune"),
+        .init(id: 11, name: "Justice",             emoji: "⚖️",  hue: 0.55, arcanaLabel: "Major Arcana",  numeralString: "XI",   keywords: "fairness, truth, cause and effect",             imageName: "tarot_major_justice"),
+        .init(id: 12, name: "The Hanged Man",      emoji: "🌀",  hue: 0.62, arcanaLabel: "Major Arcana",  numeralString: "XII",  keywords: "surrender, new perspective, pause",             imageName: "tarot_major_hanged_man"),
+        .init(id: 13, name: "Death",               emoji: "🥀",  hue: 0.72, arcanaLabel: "Major Arcana",  numeralString: "XIII", keywords: "transformation, endings, rebirth",              imageName: "tarot_major_death"),
+        .init(id: 14, name: "Temperance",          emoji: "🌊",  hue: 0.57, arcanaLabel: "Major Arcana",  numeralString: "XIV",  keywords: "balance, patience, moderation",                 imageName: "tarot_major_temperance"),
+        .init(id: 15, name: "The Devil",           emoji: "🔮",  hue: 0.02, arcanaLabel: "Major Arcana",  numeralString: "XV",   keywords: "shadow self, attachment, materialism",          imageName: "tarot_major_devil"),
+        .init(id: 16, name: "The Tower",           emoji: "⚡️", hue: 0.05, arcanaLabel: "Major Arcana",  numeralString: "XVI",  keywords: "upheaval, sudden change, revelation",           imageName: "tarot_major_tower"),
+        .init(id: 17, name: "The Star",            emoji: "⭐",  hue: 0.59, arcanaLabel: "Major Arcana",  numeralString: "XVII", keywords: "hope, renewal, calm after storm",               imageName: "tarot_major_star"),
+        .init(id: 18, name: "The Moon",            emoji: "🌕",  hue: 0.69, arcanaLabel: "Major Arcana",  numeralString: "XVIII",keywords: "illusion, dreams, the unconscious",             imageName: "tarot_major_moon"),
+        .init(id: 19, name: "The Sun",             emoji: "☀️",  hue: 0.12, arcanaLabel: "Major Arcana",  numeralString: "XIX",  keywords: "joy, vitality, clarity, success",               imageName: "tarot_major_sun"),
+        .init(id: 20, name: "Judgement",           emoji: "🎺",  hue: 0.08, arcanaLabel: "Major Arcana",  numeralString: "XX",   keywords: "awakening, reckoning, absolution",              imageName: "tarot_major_judgement"),
+        .init(id: 21, name: "The World",           emoji: "🌍",  hue: 0.35, arcanaLabel: "Major Arcana",  numeralString: "XXI",  keywords: "completion, integration, wholeness",            imageName: "tarot_major_world"),
     ]
 
     // MARK: Minor Arcana helpers
@@ -94,10 +95,13 @@ enum TarotDeck {
             "mature authority, leadership, command",
         ]
         return ranks.enumerated().map { i, r in
-            TarotCard(id: baseId + i, name: "\(r.0) of \(suit)", emoji: r.2,
+            let suitSlug = suit.lowercased()
+            let rankNumber = String(format: "%02d", i + 1)
+            return TarotCard(id: baseId + i, name: "\(r.0) of \(suit)", emoji: r.2,
                       hue: hue, arcanaLabel: "\(suit) · Minor Arcana",
                       numeralString: r.1,
-                      keywords: rankKeywords[i] + ", \(suit.lowercased()) energy")
+                      keywords: rankKeywords[i] + ", \(suit.lowercased()) energy",
+                      imageName: "tarot_\(suitSlug)_\(rankNumber)")
         }
     }
 

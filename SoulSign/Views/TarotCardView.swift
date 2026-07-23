@@ -4,125 +4,20 @@
 //
 import SwiftUI
 
-// MARK: - Card Face
+// MARK: - Card Face (real 1909 Rider-Waite-Smith scan, public domain)
 
 struct TarotCardFace: View {
     let card: TarotCard
 
-    private var gradient: LinearGradient {
-        let h = card.hue
-        return LinearGradient(
-            stops: [
-                .init(color: Color(hue: h,        saturation: 0.65, brightness: 0.32), location: 0),
-                .init(color: Color(hue: h,        saturation: 0.55, brightness: 0.20), location: 0.55),
-                .init(color: Color(hue: h + 0.04, saturation: 0.45, brightness: 0.12), location: 1),
-            ],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-    }
-
-    private var glowColor: Color {
-        Color(hue: card.hue, saturation: 0.9, brightness: 0.85)
-    }
-
-    // Deterministic star positions per card
-    private var stars: [(x: Double, y: Double, r: Double)] {
-        var seed = UInt64(bitPattern: Int64(card.id) &* 1664525 &+ 1013904223)
-        func rng() -> Double {
-            seed = seed &* 6364136223846793005 &+ 1442695040888963407
-            return Double(seed >> 33) / Double(1 << 31)
-        }
-        return (0..<30).map { _ in (rng(), rng(), rng() * 1.1 + 0.4) }
-    }
-
     var body: some View {
-        ZStack {
-            // Background gradient
-            RoundedRectangle(cornerRadius: 14)
-                .fill(gradient)
-
-            // Star texture
-            Canvas { ctx, size in
-                for star in stars {
-                    let r = star.r
-                    let rect = CGRect(
-                        x: star.x * size.width  - r,
-                        y: star.y * size.height - r,
-                        width: r * 2, height: r * 2
-                    )
-                    ctx.fill(Path(ellipseIn: rect), with: .color(.white.opacity(0.15)))
-                }
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 14))
-
-            // Inner border
-            RoundedRectangle(cornerRadius: 10)
-                .strokeBorder(.white.opacity(0.18), lineWidth: 0.8)
-                .padding(9)
-
-            // Card content
-            VStack(spacing: 0) {
-                Spacer().frame(height: 20)
-
-                Text(card.numeralString)
-                    .font(.system(size: 12, weight: .light, design: .serif))
-                    .tracking(3.5)
-                    .foregroundColor(.white.opacity(0.50))
-
-                Spacer()
-
-                Text(card.emoji)
-                    .font(.system(size: 58))
-                    .shadow(color: glowColor.opacity(0.55), radius: 16)
-
-                Spacer()
-
-                Text(card.name.uppercased())
-                    .font(.system(size: 10.5, weight: .semibold))
-                    .tracking(2.5)
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-
-                Text(card.arcanaLabel.uppercased())
-                    .font(.system(size: 8, weight: .regular))
-                    .tracking(1.8)
-                    .foregroundColor(.white.opacity(0.42))
-                    .padding(.top, 5)
-
-                Spacer().frame(height: 20)
-            }
-            .padding(.horizontal, 14)
-
-            // Corner ornaments
-            VStack {
-                HStack {
-                    Text("◆").font(.system(size: 7)).foregroundColor(.white.opacity(0.28))
-                    Spacer()
-                    Text("◆").font(.system(size: 7)).foregroundColor(.white.opacity(0.28))
-                }
-                Spacer()
-                HStack {
-                    Text("◆").font(.system(size: 7)).foregroundColor(.white.opacity(0.28))
-                    Spacer()
-                    Text("◆").font(.system(size: 7)).foregroundColor(.white.opacity(0.28))
-                }
-            }
-            .padding(15)
-
-            // Outer border
-            RoundedRectangle(cornerRadius: 14)
-                .strokeBorder(
-                    LinearGradient(
-                        colors: [.white.opacity(0.55), .white.opacity(0.10), .white.opacity(0.38)],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    ),
-                    lineWidth: 1.2
-                )
-        }
-        .aspectRatio(0.62, contentMode: .fit)
+        Image(card.imageName)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .clipShape(RoundedRectangle(cornerRadius: 6))
+            .overlay(
+                RoundedRectangle(cornerRadius: 6)
+                    .strokeBorder(.white.opacity(0.25), lineWidth: 0.8)
+            )
     }
 }
 
@@ -162,10 +57,8 @@ struct TarotCardView: View {
 
                 TarotCardFace(card: vm.card)
                     .frame(maxWidth: 220)
-                    .shadow(
-                        color: Color(hue: vm.card.hue, saturation: 0.8, brightness: 0.6).opacity(0.45),
-                        radius: 32
-                    )
+                    .shadow(color: .black.opacity(0.35), radius: 18, x: 0, y: 10)
+                    .shadow(color: Color(red: 1.0, green: 0.85, blue: 0.55).opacity(0.30), radius: 30)
 
                 if vm.isLoading {
                     HStack(spacing: 12) {
