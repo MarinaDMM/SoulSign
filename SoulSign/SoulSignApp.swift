@@ -12,16 +12,14 @@ struct SoulSignApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @AppStorage("hasSeenWelcome") private var hasSeenWelcome = false
     @StateObject private var notificationRouter: NotificationRouter
+    @StateObject private var profileStore = ProfileStore()
+    @StateObject private var localization = LocalizationManager.shared
 
-    // 🔒 Strong reference to keep delegate alive
     private let notificationDelegate: NotificationDelegate
 
     init() {
-        // Initialize the router
         let router = NotificationRouter()
         self._notificationRouter = StateObject(wrappedValue: router)
-
-        // Assign the delegate and keep a strong reference
         let delegate = NotificationDelegate(router: router)
         self.notificationDelegate = delegate
         UNUserNotificationCenter.current().delegate = delegate
@@ -30,10 +28,15 @@ struct SoulSignApp: App {
     var body: some Scene {
         WindowGroup {
             if hasSeenWelcome {
-                ContentView()
+                HomeView()
                     .environmentObject(notificationRouter)
+                    .environmentObject(profileStore)
+                    .environmentObject(localization)
+                    .environment(\.locale, localization.language.locale)
             } else {
                 WelcomeView()
+                    .environmentObject(localization)
+                    .environment(\.locale, localization.language.locale)
             }
         }
     }

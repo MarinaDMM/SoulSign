@@ -2,25 +2,25 @@
 //  PlaceSearchViewModel.swift
 //  SoulSign
 //
-//  Created by Marina Dedikova on 09/05/2025.
-//
 import Foundation
-import GooglePlaces
+import MapKit
 import CoreLocation
 import Combine
 
-final class PlaceSearchViewModel: NSObject, ObservableObject {
+final class PlaceSearchViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDelegate {
     @Published var searchText = ""
-    @Published var suggestions: [GMSAutocompletePrediction] = []
+    @Published var suggestions: [MKLocalSearchCompletion] = []
     @Published var selectedPlaceName: String = ""
     @Published var selectedCoordinates: CLLocationCoordinate2D?
 
-    private let placesClient = GMSPlacesClient.shared()
+    private let completer = MKLocalSearchCompleter()
     private var cancellables = Set<AnyCancellable>()
     private var suppressNextSearch = false
 
     override init() {
         super.init()
+        completer.delegate = self
+        completer.resultTypes = [.address, .pointOfInterest]
         observeSearchText()
     }
 
@@ -29,63 +29,55 @@ final class PlaceSearchViewModel: NSObject, ObservableObject {
             .removeDuplicates()
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
             .sink { [weak self] query in
-                guard let self = self else { return }
+                guard let self else { return }
                 if self.suppressNextSearch {
                     self.suppressNextSearch = false
                     return
                 }
-                guard !query.isEmpty else {
+                if query.isEmpty {
                     self.suggestions = []
-                    return
+                    self.completer.cancel()
+                } else {
+                    self.completer.queryFragment = query
                 }
-                self.fetchPlacePredictions(for: query)
             }
             .store(in: &cancellables)
     }
 
-    func selectPrediction(_ prediction: GMSAutocompletePrediction) {
-        let displayText = prediction.attributedFullText.string
-        // Suppress the one debounce that fires from setting searchText below.
+    func selectSuggestion(_ suggestion: MKLocalSearchCompletion) {
         suppressNextSearch = true
-        searchText = displayText
-        selectedPlaceName = displayText
+        let display = suggestion.subtitle.isEmpty
+            ? suggestion.title
+            : "\(suggestion.title), \(suggestion.subtitle)"
+        searchText = display
+        selectedPlaceName = display
         suggestions = []
-        fetchCoordinates(for: prediction)
+        fetchCoordinates(for: suggestion)
     }
 
-    private func fetchPlacePredictions(for query: String) {
-        let filter = GMSAutocompleteFilter()
-        filter.types = ["geocode"]
-
-        placesClient.findAutocompletePredictions(fromQuery: query, filter: filter, sessionToken: nil) { [weak self] results, error in
-            if let error = error {
-                print("Autocomplete error: \(error.localizedDescription)")
+    private func fetchCoordinates(for suggestion: MKLocalSearchCompletion) {
+        let request = MKLocalSearch.Request(completion: suggestion)
+        MKLocalSearch(request: request).start { [weak self] response, error in
+            guard let self, let item = response?.mapItems.first else {
+                if let error { print("Place lookup error: \(error.localizedDescription)") }
                 return
             }
             DispatchQueue.main.async {
-                self?.suggestions = results ?? []
+                self.selectedCoordinates = item.placemark.coordinate
+                let city    = item.placemark.locality ?? item.name ?? ""
+                let country = item.placemark.country ?? ""
+                self.selectedPlaceName = [city, country].filter { !$0.isEmpty }.joined(separator: ", ")
             }
         }
     }
 
-    private func fetchCoordinates(for prediction: GMSAutocompletePrediction) {
-        let placeID = prediction.placeID
-        let fields: GMSPlaceField = [.coordinate, .name, .formattedAddress]
+    // MARK: MKLocalSearchCompleterDelegate
 
-        placesClient.fetchPlace(fromPlaceID: placeID, placeFields: fields, sessionToken: nil) { [weak self] place, error in
-            if let error = error {
-                print("Place details error: \(error.localizedDescription)")
-                return
-            }
-            guard let place = place else { return }
-            DispatchQueue.main.async {
-                self?.selectedCoordinates = place.coordinate
-                // Only update selectedPlaceName — do NOT touch searchText.
-                // Writing searchText here caused a second debounce that raced
-                // with the first suppress and re-triggered the search, making
-                // it impossible to keep a selection.
-                self?.selectedPlaceName = place.formattedAddress ?? place.name ?? ""
-            }
-        }
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        DispatchQueue.main.async { self.suggestions = completer.results }
+    }
+
+    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+        print("Autocomplete error: \(error.localizedDescription)")
     }
 }

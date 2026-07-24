@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WelcomeView: View {
     @AppStorage("hasSeenWelcome") private var hasSeenWelcome = false
+    @EnvironmentObject var loc: LocalizationManager
     @Environment(\.colorScheme) private var colorScheme
     private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
 
@@ -29,12 +30,12 @@ struct WelcomeView: View {
                     .scaledToFit()
                     .frame(height: 120)
 
-                Text("🌌 Welcome to SoulSign")
+                Text(loc.t("welcome_title"))
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(theme.primaryText)
 
-                Text("Discover your cosmic blueprint.\nExplore your soul's story through the stars.")
+                Text(loc.t("welcome_subtitle"))
                     .font(.title3)
                     .foregroundColor(theme.secondaryText)
                     .multilineTextAlignment(.center)
@@ -45,7 +46,7 @@ struct WelcomeView: View {
                 Button {
                     hasSeenWelcome = true
                 } label: {
-                    Text("Get Started")
+                    Text(loc.t("button_get_started"))
                         .font(.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
