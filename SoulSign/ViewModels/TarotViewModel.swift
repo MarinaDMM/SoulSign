@@ -14,12 +14,13 @@ final class TarotViewModel: ObservableObject {
     private let claude = ClaudeService()
     private let cacheKey = "tarot_daily_cache_v2"
 
-    func loadReading() async {
+    func loadReading(language: AppLanguage) async {
         let today = todayKey()
 
-        // Return cached reading if same card, same day
+        // Return cached reading if same card, same day, same language
         if let cached = UserDefaults.standard.dictionary(forKey: cacheKey),
            cached["date"] as? String == today,
+           cached["lang"] as? String == language.rawValue,
            let cardId   = cached["cardId"]  as? Int,
            let cachedText = cached["reading"] as? String,
            let cachedCard = TarotDeck.cards.first(where: { $0.id == cardId }) {
@@ -33,11 +34,13 @@ final class TarotViewModel: ObservableObject {
         isLoading  = true
         errorMessage = nil
 
+        let languageLine = language == .en ? "" : "\nWrite the entire reading in \(language.englishName). Every sentence must be in \(language.englishName), not English.\n"
+
         let prompt = """
-        Today is \(fullDateLabel()). The tarot card drawn for this day is "\(todayCard.name)" (\(todayCard.arcanaLabel)).
+        Today is \(fullDateLabel(language: language)). The tarot card drawn for this day is "\(todayCard.name)" (\(todayCard.arcanaLabel)).
 
         Traditional Rider-Waite-Smith upright meaning of this card: \(todayCard.rwsMeaning)
-
+        \(languageLine)
         Write a tarot reading for today, grounded specifically in that traditional meaning above, not a generic horoscope. Speak directly to the reader as "you."
 
         Rules, follow every one:
@@ -54,7 +57,7 @@ final class TarotViewModel: ObservableObject {
             let text = try await claude.send(messages: [ChatMessage(role: "user", content: prompt)])
             self.reading = text
             UserDefaults.standard.set(
-                ["date": today, "cardId": todayCard.id, "reading": text],
+                ["date": today, "lang": language.rawValue, "cardId": todayCard.id, "reading": text],
                 forKey: cacheKey
             )
         } catch {
@@ -70,8 +73,9 @@ final class TarotViewModel: ObservableObject {
         return f.string(from: Date())
     }
 
-    private func fullDateLabel() -> String {
+    private func fullDateLabel(language: AppLanguage) -> String {
         let f = DateFormatter()
+        f.locale = language.locale
         f.dateStyle = .full
         return f.string(from: Date())
     }

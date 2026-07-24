@@ -13,6 +13,7 @@ struct SoulSignApp: App {
     @AppStorage("hasSeenWelcome") private var hasSeenWelcome = false
     @StateObject private var notificationRouter: NotificationRouter
     @StateObject private var profileStore = ProfileStore()
+    @StateObject private var localization = LocalizationManager.shared
 
     private let notificationDelegate: NotificationDelegate
 
@@ -30,8 +31,12 @@ struct SoulSignApp: App {
                 HomeView()
                     .environmentObject(notificationRouter)
                     .environmentObject(profileStore)
+                    .environmentObject(localization)
+                    .environment(\.locale, localization.language.locale)
             } else {
                 WelcomeView()
+                    .environmentObject(localization)
+                    .environment(\.locale, localization.language.locale)
             }
         }
     }

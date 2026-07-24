@@ -13,6 +13,7 @@ struct UserInputView: View {
     @State private var birthDate: Date = Date()
     @State private var birthTime: Date = Date()
     @StateObject private var placeVM = PlaceSearchViewModel()
+    @EnvironmentObject var loc: LocalizationManager
     @Environment(\.colorScheme) private var colorScheme
     private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
 
@@ -23,25 +24,25 @@ struct UserInputView: View {
             NightSkyBackground()
 
             Form {
-                Section(header: Text("Personal Info").foregroundColor(theme.primaryText)) {
-                    TextField("Full Name", text: $fullName)
+                Section(header: Text(loc.t("section_personal_info")).foregroundColor(theme.primaryText)) {
+                    TextField(loc.t("field_full_name"), text: $fullName)
                         .autocapitalization(.words)
                         .multilineTextAlignment(.leading)
                         .foregroundColor(theme.fieldText)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-                Section(header: Text("Birth Date").foregroundColor(theme.primaryText)) {
-                    DatePicker("Select Date", selection: $birthDate, displayedComponents: .date)
+                Section(header: Text(loc.t("section_birth_date")).foregroundColor(theme.primaryText)) {
+                    DatePicker(loc.t("field_select_date"), selection: $birthDate, displayedComponents: .date)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-                Section(header: Text("Birth Time").foregroundColor(theme.primaryText)) {
-                    DatePicker("Select Time", selection: $birthTime, displayedComponents: .hourAndMinute)
+                Section(header: Text(loc.t("section_birth_time")).foregroundColor(theme.primaryText)) {
+                    DatePicker(loc.t("field_select_time"), selection: $birthTime, displayedComponents: .hourAndMinute)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-                Section(header: Text("Birth Place").foregroundColor(theme.primaryText)) {
+                Section(header: Text(loc.t("section_birth_place")).foregroundColor(theme.primaryText)) {
                     BirthPlaceTextField(placeVM: placeVM)
 
                     ForEach(placeVM.suggestions, id: \.self) { suggestion in
@@ -64,7 +65,7 @@ struct UserInputView: View {
                 }
 
                 Section {
-                    Button("Add Person ✨") {
+                    Button(loc.t("button_add_person")) {
                         onSubmit(
                             fullName,
                             birthDate,
@@ -79,9 +80,9 @@ struct UserInputView: View {
             }
             .scrollContentBackground(.hidden)
             .background(Color.clear)
-            .environment(\.locale, Locale(identifier: "en_US"))
+            .environment(\.locale, loc.language.locale)
         }
-        .navigationTitle("New Person")
+        .navigationTitle(loc.t("nav_new_person"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.clear, for: .navigationBar)
         .toolbarColorScheme(theme.navColorScheme, for: .navigationBar)

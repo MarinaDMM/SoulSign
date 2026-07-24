@@ -12,11 +12,13 @@
 		1CFA8D699157B861B0186578 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFF69B9E99D78EB585D39CC0 /* UserProfile.swift */; };
 		270D0E7A199A941D45F0671F /* TarotCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A81225703D9D6B0BA611E4D5 /* TarotCardView.swift */; };
 		2DE698A02D45DE2CBF6CA26F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA10265D825CEB5851C12CB6 /* HomeView.swift */; };
+		304F9BBD33A92843A3801448 /* Translations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABCBA812F5F9FD53B61CDC7 /* Translations.swift */; };
 		372AF2361A679A0876B3531B /* DestinyMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF0F93C03F548B77002AE07 /* DestinyMatrix.swift */; };
 		3BC4FAC498FF39471DB99DC8 /* ProfileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04069C45FF369233F254D81 /* ProfileListView.swift */; };
 		3CEFBA7DDEE94E576B56E337 /* ClaudeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEF0250B17D6AF5CC072735 /* ClaudeService.swift */; };
 		400B154E95F1884A38BF3275 /* PartnerChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EC769C271B9F25C45B5457 /* PartnerChartView.swift */; };
 		49A6FF315C7ED9EC767C6580 /* DestinyMatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9C86E31CA816CFEAEF4536 /* DestinyMatrixView.swift */; };
+		BB36FA73604A6767CC5868D2 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D292ED184B351DBE20D2E /* AppLanguage.swift */; };
 		C534CCBEF25A1CCFB4E2BABC /* TarotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED01E0C41F7A5401F48CC629 /* TarotViewModel.swift */; };
 		C8161BC42E2AAA4C00247BAC /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8161BC32E2AAA4700247BAC /* Notification+Name.swift */; };
 		C82233842DF2251300454554 /* Lottie.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C82233822DF224AE00454554 /* Lottie.xcframework */; };
@@ -47,6 +49,7 @@
 		C8CDF3552DCE44C7004F9888 /* sparkles.json in Resources */ = {isa = PBXBuildFile; fileRef = C8CDF3542DCE44C7004F9888 /* sparkles.json */; };
 		C8D42AF22DF0744A00E2ABBA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D42AF12DF0744A00E2ABBA /* AppDelegate.swift */; };
 		C8D42AF32DF0744A00E2ABBB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D42AF42DF0744A00E2ABBB /* Theme.swift */; };
+		CE26133AE78156ED7B15161D /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F9E707CEA3CB86982DA0A /* LocalizationManager.swift */; };
 		FA627D35EC5E1E783957CAD9 /* NatalChartReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1849E5BCE5767C1B8F2285E9 /* NatalChartReadingView.swift */; };
 /* End PBXBuildFile section */
 
@@ -67,15 +70,18 @@
 
 /* Begin PBXFileReference section */
 		1849E5BCE5767C1B8F2285E9 /* NatalChartReadingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NatalChartReadingView.swift; sourceTree = "<group>"; };
+		1ABCBA812F5F9FD53B61CDC7 /* Translations.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Translations.swift; sourceTree = "<group>"; };
 		29EA0E96DE62F6F3445A2FF8 /* TarotCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TarotCard.swift; sourceTree = "<group>"; };
 		51EC769C271B9F25C45B5457 /* PartnerChartView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PartnerChartView.swift; sourceTree = "<group>"; };
 		57DC7B570E6434F3BF7B7E11 /* Pods-SoulSign.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoulSign.debug.xcconfig"; path = "Target Support Files/Pods-SoulSign/Pods-SoulSign.debug.xcconfig"; sourceTree = "<group>"; };
 		872005CF2EB00DBB33DEC8C6 /* Pods-SoulSign.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoulSign.release.xcconfig"; path = "Target Support Files/Pods-SoulSign/Pods-SoulSign.release.xcconfig"; sourceTree = "<group>"; };
 		8AF0F93C03F548B77002AE07 /* DestinyMatrix.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DestinyMatrix.swift; sourceTree = "<group>"; };
+		8C7D292ED184B351DBE20D2E /* AppLanguage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
 		A81225703D9D6B0BA611E4D5 /* TarotCardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TarotCardView.swift; sourceTree = "<group>"; };
 		AA10265D825CEB5851C12CB6 /* HomeView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		AA7A56B8693F5003DD20FBDE /* ProfileStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileStore.swift; sourceTree = "<group>"; };
 		AAEF0250B17D6AF5CC072735 /* ClaudeService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ClaudeService.swift; sourceTree = "<group>"; };
+		AE7F9E707CEA3CB86982DA0A /* LocalizationManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
 		AFF69B9E99D78EB585D39CC0 /* UserProfile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		BE5DD73FEBD589512EA370BD /* Pods_SoulSign.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoulSign.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8161BC32E2AAA4700247BAC /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
@@ -132,6 +138,17 @@
 				872005CF2EB00DBB33DEC8C6 /* Pods-SoulSign.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		51765799D7B51CD60AAC141E /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				8C7D292ED184B351DBE20D2E /* AppLanguage.swift */,
+				AE7F9E707CEA3CB86982DA0A /* LocalizationManager.swift */,
+				1ABCBA812F5F9FD53B61CDC7 /* Translations.swift */,
+			);
+			name = Localization;
+			path = Localization;
 			sourceTree = "<group>";
 		};
 		C81385432DF0A2A200C58473 /* Frameworks */ = {
@@ -192,6 +209,7 @@
 				C86BB1272E24169A006B02A9 /* Secrets.xcconfig */,
 				C8D42AF12DF0744A00E2ABBA /* AppDelegate.swift */,
 				C8D42AF42DF0744A00E2ABBB /* Theme.swift */,
+				51765799D7B51CD60AAC141E /* Localization */,
 			);
 			path = SoulSign;
 			sourceTree = "<group>";
@@ -417,6 +435,9 @@
 				400B154E95F1884A38BF3275 /* PartnerChartView.swift in Sources */,
 				196DA977F95ABB9D6C4F1ACE /* TarotCard.swift in Sources */,
 				C534CCBEF25A1CCFB4E2BABC /* TarotViewModel.swift in Sources */,
+				BB36FA73604A6767CC5868D2 /* AppLanguage.swift in Sources */,
+				CE26133AE78156ED7B15161D /* LocalizationManager.swift in Sources */,
+				304F9BBD33A92843A3801448 /* Translations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

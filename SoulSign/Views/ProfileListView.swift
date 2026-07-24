@@ -7,12 +7,16 @@ import SwiftUI
 struct ProfileListView: View {
     @Binding var path: NavigationPath
     @EnvironmentObject var profileStore: ProfileStore
+    @EnvironmentObject var loc: LocalizationManager
     @Environment(\.colorScheme) private var colorScheme
     private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
 
-    private let dateFormatter: DateFormatter = {
-        let f = DateFormatter(); f.dateStyle = .medium; return f
-    }()
+    private var dateFormatter: DateFormatter {
+        let f = DateFormatter()
+        f.dateStyle = .medium
+        f.locale = loc.language.locale
+        return f
+    }
 
     var body: some View {
         ZStack {
@@ -37,7 +41,7 @@ struct ProfileListView: View {
                 .scrollContentBackground(.hidden)
             }
         }
-        .navigationTitle("People")
+        .navigationTitle(loc.t("nav_people"))
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -54,14 +58,14 @@ struct ProfileListView: View {
     private var emptyState: some View {
         VStack(spacing: 20) {
             Text("🌌").font(.system(size: 64))
-            Text("No charts yet")
+            Text(loc.t("empty_no_charts"))
                 .font(.title2.bold())
                 .foregroundColor(theme.primaryText)
-            Text("Add someone to read their natal chart.")
+            Text(loc.t("empty_add_someone"))
                 .font(.subheadline)
                 .foregroundColor(theme.primaryText.opacity(0.6))
                 .multilineTextAlignment(.center)
-            Button("Add Your First Person") {
+            Button(loc.t("button_add_first_person")) {
                 path.append(AppDestination.newProfile)
             }
             .padding(.horizontal, 28)

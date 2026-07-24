@@ -7,6 +7,7 @@ import SwiftUI
 
 struct NatalChartView: View {
     let matrix: DestinyMatrix
+    @EnvironmentObject var loc: LocalizationManager
 
     private let zodiacGlyphs = ["♈","♉","♊","♋","♌","♍","♎","♏","♐","♑","♒","♓"]
 
@@ -28,7 +29,7 @@ struct NatalChartView: View {
 
     var body: some View {
         VStack(spacing: 10) {
-            Text("Natal Chart")
+            Text(loc.t("natal_chart"))
                 .font(.title3.weight(.semibold))
                 .foregroundColor(.white.opacity(0.85))
 
@@ -182,10 +183,10 @@ struct NatalChartView: View {
 
             // Legend
             HStack(spacing: 14) {
-                legendDot(Color(hue: 0.12, saturation: 0.85, brightness: 0.92), "Cardinal")
-                legendDot(Color(hue: 0.78, saturation: 0.70, brightness: 0.80), "Soul")
-                legendDot(Color(hue: 0.60, saturation: 0.70, brightness: 0.80), "Aspect")
-                legendDot(Color(hue: 0.52, saturation: 0.60, brightness: 0.74), "Path")
+                legendDot(Color(hue: 0.12, saturation: 0.85, brightness: 0.92), loc.t("legend_cardinal"))
+                legendDot(Color(hue: 0.78, saturation: 0.70, brightness: 0.80), loc.t("legend_soul"))
+                legendDot(Color(hue: 0.60, saturation: 0.70, brightness: 0.80), loc.t("legend_aspect"))
+                legendDot(Color(hue: 0.52, saturation: 0.60, brightness: 0.74), loc.t("legend_path"))
             }
         }
         .padding()

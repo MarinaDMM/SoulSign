@@ -7,6 +7,7 @@ import SwiftUI
 struct NatalChartReadingView: View {
     let profile: UserProfile
     @EnvironmentObject var profileStore: ProfileStore
+    @EnvironmentObject var loc: LocalizationManager
     @StateObject private var viewModel = SoulSignViewModel()
     @Environment(\.colorScheme) private var colorScheme
     private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
@@ -35,7 +36,7 @@ struct NatalChartReadingView: View {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
                 .scaleEffect(1.4)
-            Text("Reading \(profile.firstName)'s stars...")
+            Text(loc.t("reading_stars_of", profile.firstName))
                 .font(.subheadline)
                 .foregroundColor(.white.opacity(0.70))
         }
@@ -44,7 +45,7 @@ struct NatalChartReadingView: View {
     private var readingView: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                Text("✨ \(profile.firstName)'s Reading")
+                Text(loc.t("reading_title_of", profile.firstName))
                     .font(.title2.bold())
                     .foregroundColor(theme.primaryText)
 
@@ -59,7 +60,7 @@ struct NatalChartReadingView: View {
                 Button {
                     Task { await regenerate() }
                 } label: {
-                    Label("Regenerate Reading", systemImage: "arrow.clockwise")
+                    Label(loc.t("button_regenerate_reading"), systemImage: "arrow.clockwise")
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(theme.secondaryButtonBg)
@@ -77,7 +78,7 @@ struct NatalChartReadingView: View {
             Text(message)
                 .foregroundColor(.red)
                 .multilineTextAlignment(.center)
-            Button("Try Again") {
+            Button(loc.t("button_try_again")) {
                 Task { await loadReading() }
             }
             .padding(.horizontal, 28).padding(.vertical, 12)
@@ -91,18 +92,19 @@ struct NatalChartReadingView: View {
     // MARK: - Logic
 
     private func loadReading() async {
-        if let cached = profile.cachedReading, !cached.isEmpty {
+        if let cached = profile.cachedReading, !cached.isEmpty,
+           profile.cachedReadingLanguage == loc.language.rawValue {
             viewModel.chartResult = cached
             viewModel.birthDate   = profile.birthDate
         } else {
-            await viewModel.generateChart(for: profile)
+            await viewModel.generateChart(for: profile, language: loc.language)
             saveReading()
         }
     }
 
     private func regenerate() async {
         viewModel.chartResult = ""
-        await viewModel.generateChart(for: profile)
+        await viewModel.generateChart(for: profile, language: loc.language)
         saveReading()
     }
 
@@ -111,6 +113,7 @@ struct NatalChartReadingView: View {
         var updated = profile
         updated.cachedReading = viewModel.chartResult
         updated.readingDate   = Date()
+        updated.cachedReadingLanguage = loc.language.rawValue
         profileStore.update(updated)
     }
 }

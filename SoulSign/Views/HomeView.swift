@@ -18,6 +18,7 @@ enum AppDestination: Hashable {
 struct HomeView: View {
     @EnvironmentObject var profileStore: ProfileStore
     @EnvironmentObject var notificationRouter: NotificationRouter
+    @EnvironmentObject var loc: LocalizationManager
     @Environment(\.colorScheme) private var colorScheme
     private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
 
@@ -30,19 +31,24 @@ struct HomeView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 32) {
                         // Header
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("SoulSign")
-                                .font(.largeTitle.bold())
-                                .foregroundColor(theme.primaryText)
-                            Text("What calls to you today?")
-                                .font(.subheadline)
-                                .foregroundColor(theme.primaryText.opacity(0.55))
+                        HStack(alignment: .top) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("SoulSign")
+                                    .font(.largeTitle.bold())
+                                    .foregroundColor(theme.primaryText)
+                                Text(loc.t("app_tagline"))
+                                    .font(.subheadline)
+                                    .foregroundColor(theme.primaryText.opacity(0.55))
+                            }
+                            Spacer()
+                            LanguagePickerButton()
+                                .padding(.top, 6)
                         }
 
                         // Saved profiles row
                         if !profileStore.profiles.isEmpty {
                             VStack(alignment: .leading, spacing: 12) {
-                                SectionHeader("Your People")
+                                SectionHeader(loc.t("section_your_people"))
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 14) {
                                         ForEach(profileStore.profiles) { profile in
@@ -67,21 +73,21 @@ struct HomeView: View {
 
                         // Feature tiles
                         VStack(alignment: .leading, spacing: 12) {
-                            SectionHeader("Explore")
+                            SectionHeader(loc.t("section_explore"))
                             LazyVGrid(
                                 columns: [GridItem(.flexible()), GridItem(.flexible())],
                                 spacing: 14
                             ) {
-                                FeatureTile(.emoji("🌟"), "Natal Chart",   "Your stars at birth",        hue: 0.12) {
+                                FeatureTile(.emoji("🌟"), loc.t("natal_chart"), loc.t("subtitle_natal"), hue: 0.12) {
                                     path.append(AppDestination.profileList)
                                 }
-                                FeatureTile(.image("tarot_major_fool"), "Tarot Today", "Card of the day", hue: 0.78) {
+                                FeatureTile(.image("tarot_major_fool"), loc.t("tarot_today"), loc.t("subtitle_tarot"), hue: 0.78) {
                                     path.append(AppDestination.tarot)
                                 }
-                                FeatureTile(.emoji("💑"), "Partner Chart", "Cosmic compatibility",        hue: 0.95) {
+                                FeatureTile(.emoji("💑"), loc.t("partner_chart"), loc.t("subtitle_partner"), hue: 0.95) {
                                     path.append(AppDestination.partnerChart)
                                 }
-                                FeatureTile(.emoji("🌞"), "Affirmations",  "Set your daily intention",   hue: 0.55) {
+                                FeatureTile(.emoji("🌞"), loc.t("affirmations"), loc.t("subtitle_affirmations"), hue: 0.55) {
                                     path.append(AppDestination.affirmations)
                                 }
                             }
@@ -144,7 +150,7 @@ struct HomeView: View {
     }
 
     private func scheduleDailyAffirmationNotification() {
-        AffirmationService.fetchAffirmations { affirmations in
+        AffirmationService.fetchAffirmations(language: loc.language) { affirmations in
             guard let a = affirmations else { return }
             let body = [a.Finance, a.Love, a.MindSpirit, a.Career, a.Friendship, a.Health]
                 .randomElement() ?? "You are amazing."
@@ -203,6 +209,8 @@ struct ProfileChip: View {
 }
 
 private struct AddChip: View {
+    @EnvironmentObject var loc: LocalizationManager
+
     var body: some View {
         VStack(spacing: 6) {
             Circle()
@@ -214,11 +222,49 @@ private struct AddChip: View {
                         .font(.system(size: 20, weight: .medium))
                         .foregroundColor(.white.opacity(0.65))
                 )
-            Text("Add")
+            Text(loc.t("add_label"))
                 .font(.caption)
                 .foregroundColor(.white.opacity(0.55))
         }
         .frame(width: 64)
+    }
+}
+
+// MARK: - Language Picker
+
+struct LanguagePickerButton: View {
+    @EnvironmentObject var loc: LocalizationManager
+
+    var body: some View {
+        Menu {
+            ForEach(AppLanguage.allCases, id: \.self) { lang in
+                Button {
+                    loc.language = lang
+                } label: {
+                    if lang == loc.language {
+                        Label(lang.displayName, systemImage: "checkmark")
+                    } else {
+                        Text(lang.displayName)
+                    }
+                }
+            }
+        } label: {
+            HStack(spacing: 5) {
+                Image(systemName: "globe")
+                    .font(.system(size: 13, weight: .medium))
+                Text(loc.language.shortCode)
+                    .font(.system(size: 13, weight: .semibold))
+            }
+            .foregroundColor(.white.opacity(0.85))
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(
+                Capsule().fill(.white.opacity(0.10))
+            )
+            .overlay(
+                Capsule().strokeBorder(.white.opacity(0.20), lineWidth: 1)
+            )
+        }
     }
 }
 

@@ -17,13 +17,14 @@ final class SoulSignViewModel: ObservableObject {
 
     private let claudeService = ClaudeService()
 
-    func generateChart(for profile: UserProfile) async {
+    func generateChart(for profile: UserProfile, language: AppLanguage) async {
         await generateChart(
             fullName: profile.name,
             birthDate: profile.birthDate,
             birthTime: profile.birthTime,
             birthPlace: profile.birthPlace,
-            coordinates: profile.coordinates
+            coordinates: profile.coordinates,
+            language: language
         )
     }
 
@@ -32,7 +33,8 @@ final class SoulSignViewModel: ObservableObject {
         birthDate: Date,
         birthTime: Date,
         birthPlace: String,
-        coordinates: CLLocationCoordinate2D?
+        coordinates: CLLocationCoordinate2D?,
+        language: AppLanguage
     ) async {
         self.birthDate = birthDate
         isLoading = true
@@ -51,10 +53,12 @@ final class SoulSignViewModel: ObservableObject {
             coordNote = "\nCoordinates: \(coord.latitude), \(coord.longitude)"
         }
 
+        let languageLine = language == .en ? "" : "\n• Write the entire reading in \(language.englishName). Every sentence must be in \(language.englishName), not English."
+
         let prompt = """
         You are a sharp, poetic astrologer. Write a natal chart reading for \(fullName), born \(dateString) at \(timeString) in \(birthPlace)\(coordNote).
 
-        Rules — follow every one:
+        Rules — follow every one:\(languageLine)
         • Plain prose only. No markdown, no headers, no bullet points, no asterisks, no hashtags. Just flowing paragraphs. Never use the em dash "—" — it reads as machine-written. Use commas, periods, or line breaks instead.
         • Keep it tight — 4 paragraphs maximum. Each paragraph should feel alive, not exhaustive.
         • Keep all words as words. Occasionally place a glyph or emoji right after a word to accent it visually, not to replace it. For example: "your Sun ☉ in Scorpio ♏ burns quietly" or "the Moon 🌙 here asks for stillness." Use this sparingly, only where it adds something. Planet glyphs: ☉ ☽ ☿ ♀ ♂ ♃ ♄. Sign glyphs: ♈♉♊♋♌♍♎♏♐♑♒♓. Occasional emoji: 🌙 🔥 ✨ 🌊 💫 🕯️ — one or two per paragraph at most.

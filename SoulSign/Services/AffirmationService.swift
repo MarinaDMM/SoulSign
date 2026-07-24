@@ -17,22 +17,25 @@ struct AffirmationResponse: Codable {
 class AffirmationService {
     private static let cacheKey = "todaysAffirmation"
     private static let cacheDateKey = "todaysAffirmationDate"
+    private static let cacheLangKey = "todaysAffirmationLang"
 
-    static func fetchAndStoreAffirmations(completion: @escaping (AffirmationResponse?) -> Void) {
-        fetchAffirmations { result in
+    static func fetchAndStoreAffirmations(language: AppLanguage, completion: @escaping (AffirmationResponse?) -> Void) {
+        fetchAffirmations(language: language) { result in
             if let result = result {
                 if let data = try? JSONEncoder().encode(result) {
                     UserDefaults.standard.set(data, forKey: cacheKey)
                     UserDefaults.standard.set(currentDateString(), forKey: cacheDateKey)
+                    UserDefaults.standard.set(language.rawValue, forKey: cacheLangKey)
                 }
             }
             completion(result)
         }
     }
 
-    static func loadStoredAffirmations() -> AffirmationResponse? {
+    static func loadStoredAffirmations(language: AppLanguage) -> AffirmationResponse? {
         guard let cachedDate = UserDefaults.standard.string(forKey: cacheDateKey),
               cachedDate == currentDateString(),
+              UserDefaults.standard.string(forKey: cacheLangKey) == language.rawValue,
               let data = UserDefaults.standard.data(forKey: cacheKey),
               let decoded = try? JSONDecoder().decode(AffirmationResponse.self, from: data) else {
             return nil
@@ -40,7 +43,7 @@ class AffirmationService {
         return decoded
     }
 
-    static func fetchAffirmations(completion: @escaping (AffirmationResponse?) -> Void) {
+    static func fetchAffirmations(language: AppLanguage, completion: @escaping (AffirmationResponse?) -> Void) {
         let apiKey = Constants.anthropicAPIKey
         if apiKey.isEmpty {
             print("❌ ANTHROPIC_API_KEY is missing or empty")
@@ -50,6 +53,8 @@ class AffirmationService {
 
         let url = URL(string: "https://api.anthropic.com/v1/messages")!
 
+        let languageLine = language == .en ? "" : " Write every affirmation in \(language.englishName)."
+
         let body: [String: Any] = [
             "model": "claude-opus-4-8",
             "max_tokens": 512,
@@ -58,7 +63,7 @@ class AffirmationService {
                 [
                     "role": "user",
                     "content": """
-Generate daily affirmations in JSON format with exactly these keys: Finance, Love, MindSpirit, Career, Friendship, and Health.
+Generate daily affirmations in JSON format with exactly these keys: Finance, Love, MindSpirit, Career, Friendship, and Health.\(languageLine)
 Return ONLY raw JSON without any explanation, markdown, or formatting. Example:
 
 {

@@ -11,6 +11,7 @@ struct DailyAffirmationView: View {
     @State private var isLoading = false
     @State private var errorMessage: String?
     @State private var forceRefresh = false
+    @EnvironmentObject var loc: LocalizationManager
     @Environment(\.colorScheme) private var colorScheme
     private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
 
@@ -21,28 +22,28 @@ struct DailyAffirmationView: View {
 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
-                        Text("Daily Affirmations")
+                        Text(loc.t("daily_affirmations_title"))
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .foregroundColor(theme.primaryText)
                             .padding(.bottom, 10)
 
                         if isLoading {
-                            ProgressView("Loading Affirmations...")
+                            ProgressView(loc.t("loading_affirmations"))
                                 .foregroundColor(theme.primaryText)
                         } else if let affirmations = affirmations {
-                            affirmationBlock(title: "💰 Finance",     text: affirmations.Finance)
-                            affirmationBlock(title: "❤️ Love",        text: affirmations.Love)
-                            affirmationBlock(title: "🧘 Mind & Spirit", text: affirmations.MindSpirit)
-                            affirmationBlock(title: "💼 Career",      text: affirmations.Career)
-                            affirmationBlock(title: "🤝 Friendship",  text: affirmations.Friendship)
-                            affirmationBlock(title: "🩺 Health",      text: affirmations.Health)
+                            affirmationBlock(title: loc.t("category_finance"),     text: affirmations.Finance)
+                            affirmationBlock(title: loc.t("category_love"),        text: affirmations.Love)
+                            affirmationBlock(title: loc.t("category_mind_spirit"), text: affirmations.MindSpirit)
+                            affirmationBlock(title: loc.t("category_career"),      text: affirmations.Career)
+                            affirmationBlock(title: loc.t("category_friendship"),  text: affirmations.Friendship)
+                            affirmationBlock(title: loc.t("category_health"),      text: affirmations.Health)
                         } else if let errorMessage = errorMessage {
                             Text(errorMessage)
                                 .foregroundColor(.red)
                         }
 
-                        Button("🔁 Refresh Affirmations") {
+                        Button(loc.t("button_refresh_affirmations")) {
                             forceRefresh = true
                             fetchAffirmations()
                         }
@@ -65,15 +66,15 @@ struct DailyAffirmationView: View {
         isLoading = true
         errorMessage = nil
 
-        if !forceRefresh, let cached = AffirmationService.loadStoredAffirmations() {
+        if !forceRefresh, let cached = AffirmationService.loadStoredAffirmations(language: loc.language) {
             self.affirmations = cached
             self.isLoading = false
         } else {
-            AffirmationService.fetchAndStoreAffirmations { result in
+            AffirmationService.fetchAndStoreAffirmations(language: loc.language) { result in
                 self.isLoading = false
                 self.affirmations = result
                 if result == nil {
-                    self.errorMessage = "Failed to load affirmations. Try again later."
+                    self.errorMessage = loc.t("affirmations_failed")
                 }
                 self.forceRefresh = false
             }

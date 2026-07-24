@@ -30,6 +30,7 @@ struct TarotCardFace: View {
 
 struct TarotCardView: View {
     @StateObject private var vm = TarotViewModel()
+    @EnvironmentObject var loc: LocalizationManager
     @Environment(\.colorScheme) private var colorScheme
     private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
 
@@ -45,9 +46,9 @@ struct TarotCardView: View {
                 contentView
             }
         }
-        .navigationTitle("Tarot Today")
+        .navigationTitle(loc.t("tarot_today"))
         .navigationBarTitleDisplayMode(.inline)
-        .task { await vm.loadReading() }
+        .task { await vm.loadReading(language: loc.language) }
     }
 
     // MARK: Content
@@ -71,7 +72,7 @@ struct TarotCardView: View {
                     HStack(spacing: 12) {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: .white.opacity(0.7)))
-                        Text("Reading the cards...")
+                        Text(loc.t("reading_the_cards"))
                             .font(.subheadline)
                             .foregroundColor(theme.primaryText.opacity(0.60))
                     }
@@ -84,7 +85,7 @@ struct TarotCardView: View {
                 }
 
                 if !vm.reading.isEmpty {
-                    Text("A new card rises tomorrow at midnight.")
+                    Text(loc.t("tarot_tomorrow_note"))
                         .font(.caption2)
                         .tracking(0.5)
                         .foregroundColor(theme.primaryText.opacity(0.32))
@@ -120,7 +121,7 @@ struct TarotCardView: View {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
                 .scaleEffect(1.4)
-            Text("Drawing your card...")
+            Text(loc.t("drawing_your_card"))
                 .font(.subheadline)
                 .foregroundColor(.white.opacity(0.70))
         }
@@ -133,8 +134,8 @@ struct TarotCardView: View {
                 .foregroundColor(.red)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
-            Button("Try Again") {
-                Task { await vm.loadReading() }
+            Button(loc.t("button_try_again")) {
+                Task { await vm.loadReading(language: loc.language) }
             }
             .padding(.horizontal, 28).padding(.vertical, 12)
             .background(theme.primaryButtonBg)
@@ -148,7 +149,8 @@ struct TarotCardView: View {
 
     private var todayLabel: String {
         let f = DateFormatter()
-        f.dateFormat = "EEEE, MMMM d"
+        f.locale = loc.language.locale
+        f.setLocalizedDateFormatFromTemplate("EEEE, MMMM d")
         return f.string(from: Date()).uppercased()
     }
 }

@@ -5,6 +5,7 @@
 import SwiftUI
 
 struct PartnerChartView: View {
+    @EnvironmentObject var loc: LocalizationManager
     @Environment(\.colorScheme) private var colorScheme
     private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
 
@@ -15,17 +16,17 @@ struct PartnerChartView: View {
                 Text("💑")
                     .font(.system(size: 80))
                     .shadow(color: .pink.opacity(0.5), radius: 20)
-                Text("Partner Chart")
+                Text(loc.t("partner_chart"))
                     .font(.title.bold())
                     .foregroundColor(theme.primaryText)
-                Text("Compare two charts and explore your cosmic connection.\nComing soon.")
+                Text(loc.t("partner_chart_body"))
                     .font(.body)
                     .foregroundColor(theme.primaryText.opacity(0.60))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 32)
             }
         }
-        .navigationTitle("Partner Chart")
+        .navigationTitle(loc.t("partner_chart"))
         .navigationBarTitleDisplayMode(.inline)
     }
 }
