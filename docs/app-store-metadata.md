@@ -17,7 +17,7 @@ Astrology & Tarot Readings
 
 **Copyright**
 ```
-© 2026 [Your legal name or business name]
+© 2026 MariBond
 ```
 
 **Privacy Policy URL**
