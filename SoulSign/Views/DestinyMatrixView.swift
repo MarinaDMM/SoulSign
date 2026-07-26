@@ -47,8 +47,11 @@ struct NatalChartView: View {
 
                 // Convert degrees (0° = top, clockwise) → CGPoint on a ring
                 func pt(_ deg: Double, _ r: CGFloat) -> CGPoint {
-                    let rad = (deg - 90) * .pi / 180
-                    return CGPoint(x: cx + r * cos(rad), y: cy + r * sin(rad))
+                    // Keep the maths in CGFloat throughout; mixing Double and
+                    // CGFloat here makes the cos/sin overload ambiguous.
+                    let rad = CGFloat(deg - 90) * .pi / 180
+                    return CGPoint(x: cx + r * CoreGraphics.cos(rad),
+                                   y: cy + r * CoreGraphics.sin(rad))
                 }
 
                 // ── Background fill ──────────────────────────────────────────
