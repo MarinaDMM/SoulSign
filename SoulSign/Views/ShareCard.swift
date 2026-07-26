@@ -19,10 +19,51 @@ enum ShareCardRenderer {
         return renderer.uiImage
     }
 
+    /// Renders a view into a single-page PDF, drawing directly into the PDF's
+    /// CGContext (not a flattened raster), so the page stays crisp regardless
+    /// of length.
+    static func renderPDF<Content: View>(_ view: Content, pageSize: CGSize) -> Data? {
+        let renderer = ImageRenderer(content: view.frame(width: pageSize.width, height: pageSize.height))
+        let pdfRenderer = UIGraphicsPDFRenderer(bounds: CGRect(origin: .zero, size: pageSize))
+        return pdfRenderer.pdfData { context in
+            context.beginPage()
+            renderer.render { _, drawInContext in
+                drawInContext(context.cgContext)
+            }
+        }
+    }
+
+    /// Precisely measures the height a block of text will need, so a PDF
+    /// page can be sized to fit the full, untruncated text with no clipping.
+    static func measuredTextHeight(_ text: String, fontName: String, fontSize: CGFloat, lineSpacing: CGFloat, width: CGFloat) -> CGFloat {
+        let font = UIFont(name: fontName, size: fontSize) ?? .systemFont(ofSize: fontSize)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = lineSpacing
+        let attrs: [NSAttributedString.Key: Any] = [.font: font, .paragraphStyle: paragraphStyle]
+        let bounding = (text as NSString).boundingRect(
+            with: CGSize(width: width, height: .greatestFiniteMagnitude),
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            attributes: attrs,
+            context: nil
+        )
+        return ceil(bounding.height)
+    }
+
     static func writeTempPNG(_ image: UIImage, name: String) -> URL? {
         guard let data = image.pngData() else { return nil }
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent("\(name)-\(UUID().uuidString).png")
+        do {
+            try data.write(to: url)
+            return url
+        } catch {
+            return nil
+        }
+    }
+
+    static func writeTempPDF(_ data: Data, name: String) -> URL? {
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("\(name)-\(UUID().uuidString).pdf")
         do {
             try data.write(to: url)
             return url
@@ -117,47 +158,119 @@ struct AffirmationShareCard: View {
     }
 }
 
-// MARK: - Natal chart share card
+// MARK: - Natal chart PDF share
 
-struct NatalChartShareCard: View {
+/// Layout constants shared between the PDF content view and its height
+/// calculation, so the two never drift out of sync.
+@MainActor
+private enum NatalPDFLayout {
+    static let pageWidth: CGFloat = 900
+    static let topPadding: CGFloat = 80
+    static let titleFontSize: CGFloat = 38
+    static let titleBlockHeight: CGFloat = 130   // generous, covers 1-2 line names
+    static let chartWidth: CGFloat = 680
+    static let chartHeight: CGFloat = 740
+    static let chartBottomSpacing: CGFloat = 70
+    static let textSideMargin: CGFloat = 90
+    static let textFontName = "Georgia"
+    static let textFontSize: CGFloat = 27
+    static let textLineSpacing: CGFloat = 11
+    static let textBottomSpacing: CGFloat = 80
+    static let footerHeight: CGFloat = 140
+    static let bottomPadding: CGFloat = 90
+
+    static var textWidth: CGFloat { pageWidth - 2 * textSideMargin }
+
+    static func pageHeight(forReading reading: String) -> CGFloat {
+        let textHeight = ShareCardRenderer.measuredTextHeight(
+            reading, fontName: textFontName, fontSize: textFontSize,
+            lineSpacing: textLineSpacing, width: textWidth
+        )
+        return topPadding + titleBlockHeight + chartHeight + chartBottomSpacing
+             + textHeight + textBottomSpacing + footerHeight + bottomPadding
+    }
+}
+
+struct NatalChartPDFPage: View {
     let firstName: String
     let matrix: DestinyMatrix
     let reading: String
     @EnvironmentObject var loc: LocalizationManager
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             ShareCardBackground()
             VStack(spacing: 0) {
-                Spacer(minLength: 70)
+                Spacer().frame(height: NatalPDFLayout.topPadding)
 
                 Text(loc.t("reading_title_of", firstName))
-                    .font(.system(size: 42, weight: .bold))
+                    .font(.system(size: NatalPDFLayout.titleFontSize, weight: .bold))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 60)
-                    .padding(.bottom, 50)
+                    .frame(height: NatalPDFLayout.titleBlockHeight)
 
                 NatalChartView(matrix: matrix)
-                    .frame(width: 640, height: 700)
+                    .frame(width: NatalPDFLayout.chartWidth, height: NatalPDFLayout.chartHeight)
+                    .padding(.bottom, NatalPDFLayout.chartBottomSpacing)
 
-                Spacer(minLength: 40)
-
-                Text(shareExcerpt(from: reading, maxChars: 260))
-                    .font(.system(size: 30, weight: .medium, design: .serif))
+                Text(reading)
+                    .font(.custom(NatalPDFLayout.textFontName, size: NatalPDFLayout.textFontSize))
                     .foregroundColor(.white.opacity(0.92))
-                    .multilineTextAlignment(.center)
-                    .lineSpacing(9)
-                    .padding(.horizontal, 100)
-
-                Spacer(minLength: 60)
+                    .multilineTextAlignment(.leading)
+                    .lineSpacing(NatalPDFLayout.textLineSpacing)
+                    .frame(width: NatalPDFLayout.textWidth, alignment: .leading)
+                    .padding(.bottom, NatalPDFLayout.textBottomSpacing)
 
                 ShareCardFooter()
-                    .padding(.bottom, 90)
             }
         }
-        .frame(width: 1080, height: 1920)
-        .clipped()
+        .frame(width: NatalPDFLayout.pageWidth)
+    }
+}
+
+struct NatalChartPDFShareButton: View {
+    let firstName: String
+    let matrix: DestinyMatrix
+    let reading: String
+    @EnvironmentObject var loc: LocalizationManager
+    @State private var fileURL: URL?
+    @State private var previewImage: UIImage?
+
+    var body: some View {
+        Group {
+            if let fileURL, let previewImage {
+                ShareLink(
+                    item: fileURL,
+                    preview: SharePreview(loc.t("reading_title_of", firstName), image: Image(uiImage: previewImage))
+                ) {
+                    Image(systemName: "square.and.arrow.up")
+                }
+            } else {
+                Image(systemName: "square.and.arrow.up")
+                    .foregroundColor(.white.opacity(0.25))
+            }
+        }
+        .onAppear {
+            if fileURL == nil { generate() }
+        }
+    }
+
+    private func generate() {
+        let pageHeight = NatalPDFLayout.pageHeight(forReading: reading)
+        let content = NatalChartPDFPage(firstName: firstName, matrix: matrix, reading: reading)
+            .environmentObject(loc)
+
+        guard let pdfData = ShareCardRenderer.renderPDF(
+            content, pageSize: CGSize(width: NatalPDFLayout.pageWidth, height: pageHeight)
+        ) else { return }
+        fileURL = ShareCardRenderer.writeTempPDF(pdfData, name: "natal-chart")
+
+        // A shorter raster crop (top portion) as the share-sheet thumbnail.
+        let previewHeight = min(pageHeight, 1400)
+        previewImage = ShareCardRenderer.render(
+            content, size: CGSize(width: NatalPDFLayout.pageWidth, height: previewHeight)
+        )
     }
 }
 
