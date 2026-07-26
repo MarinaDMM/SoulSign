@@ -27,9 +27,19 @@ enum ShareCardRenderer {
         let pdfRenderer = UIGraphicsPDFRenderer(bounds: CGRect(origin: .zero, size: pageSize))
         return pdfRenderer.pdfData { context in
             context.beginPage()
+            let cgContext = context.cgContext
+            // ImageRenderer's render(rasterizationScale:renderer:) draws assuming
+            // a bottom-left-origin (Core Graphics native) space, while
+            // UIGraphicsPDFRenderer's context is already flipped to top-left for
+            // ordinary UIKit drawing. Combined as-is, the page comes out upside
+            // down — flip it back before handing off the context.
+            cgContext.saveGState()
+            cgContext.translateBy(x: 0, y: pageSize.height)
+            cgContext.scaleBy(x: 1, y: -1)
             renderer.render { _, drawInContext in
-                drawInContext(context.cgContext)
+                drawInContext(cgContext)
             }
+            cgContext.restoreGState()
         }
     }
 
