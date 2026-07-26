@@ -7,6 +7,12 @@ target 'SoulSign' do
 
   pod 'GoogleMaps'
   pod 'GooglePlaces'
+
+  # Unit/integration tests @testable-import the app module, so they need the
+  # same framework/module search paths (they don't re-link the pods).
+  target 'SoulSignTests' do
+    inherit! :search_paths
+  end
 end
 
 # Ensure every Pods target (including the Pods_SoulSign umbrella framework)

@@ -13,6 +13,12 @@ struct ChatMessage: Codable {
 final class ClaudeService {
     private let endpoint = "https://api.anthropic.com/v1/messages"
     private let model = "claude-opus-4-8"
+    private let session: URLSession
+
+    /// Session is injectable so tests can supply a mocked URLSession.
+    init(session: URLSession = .shared) {
+        self.session = session
+    }
 
     func send(messages: [ChatMessage]) async throws -> String {
         guard let url = URL(string: endpoint) else {
@@ -32,7 +38,7 @@ final class ClaudeService {
         ]
         request.httpBody = try JSONSerialization.data(withJSONObject: body)
 
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await session.data(for: request)
 
         if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
             let raw = String(data: data, encoding: .utf8) ?? "unknown error"

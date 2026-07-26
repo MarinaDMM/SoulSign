@@ -1,0 +1,77 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Unit · Integration · UI
+    runs-on: macos-15
+    timeout-minutes: 40
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select latest stable Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Create placeholder Secrets.xcconfig
+        # The real file is git-ignored (holds the Anthropic key). Tests never
+        # hit the live API (URLSession is mocked), so dummy values are fine and
+        # the build's $(ANTHROPIC_API_KEY) reference still resolves.
+        run: |
+          cat > SoulSign/Secrets.xcconfig <<'EOF'
+          ANTHROPIC_API_KEY = ci-dummy-key
+          GOOGLE_MAPS_API_KEY = ci-dummy-key
+          GOOGLE_PLACES_API_KEY = ci-dummy-key
+          EOF
+
+      - name: Install CocoaPods dependencies
+        run: pod install --repo-update
+
+      - name: Select a simulator
+        id: sim
+        run: |
+          UDID=$(xcrun simctl list devices available \
+            | grep -E 'iPhone (1[5-9]|[2-9][0-9])' \
+            | grep -Eo '[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}' \
+            | head -1)
+          if [ -z "$UDID" ]; then
+            UDID=$(xcrun simctl list devices available \
+              | grep -Eo '[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}' | head -1)
+          fi
+          echo "Using simulator: $UDID"
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+
+      - name: Run tests
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -workspace SoulSign.xcworkspace \
+            -scheme SoulSign \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
+            -resultBundlePath TestResults.xcresult \
+            CODE_SIGNING_ALLOWED=NO \
+            | xcbeautify || xcodebuild test \
+              -workspace SoulSign.xcworkspace \
+              -scheme SoulSign \
+              -destination "id=${{ steps.sim.outputs.udid }}" \
+              CODE_SIGNING_ALLOWED=NO
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: TestResults.xcresult
+          if-no-files-found: ignore

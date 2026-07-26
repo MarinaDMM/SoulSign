@@ -6,9 +6,16 @@ import Foundation
 
 final class ProfileStore: ObservableObject {
     @Published var profiles: [UserProfile] = []
-    private let key = "soulsign_profiles_v1"
+    private let key: String
+    private let defaults: UserDefaults
 
-    init() { load() }
+    /// Storage is injectable so tests can run against an isolated
+    /// UserDefaults suite instead of the shared, app-wide domain.
+    init(defaults: UserDefaults = .standard, key: String = "soulsign_profiles_v1") {
+        self.defaults = defaults
+        self.key = key
+        load()
+    }
 
     func add(_ profile: UserProfile) {
         profiles.append(profile)
@@ -28,12 +35,12 @@ final class ProfileStore: ObservableObject {
 
     private func save() {
         if let data = try? JSONEncoder().encode(profiles) {
-            UserDefaults.standard.set(data, forKey: key)
+            defaults.set(data, forKey: key)
         }
     }
 
     private func load() {
-        guard let data = UserDefaults.standard.data(forKey: key),
+        guard let data = defaults.data(forKey: key),
               let decoded = try? JSONDecoder().decode([UserProfile].self, from: data) else { return }
         profiles = decoded
     }

@@ -15,6 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        // UI-test hook: runs before SwiftUI builds any StateObject, so it
+        // reliably wipes saved profiles for a deterministic empty start.
+        // Guarded by a launch argument, so real users are never affected.
+        if ProcessInfo.processInfo.arguments.contains("-uitest-reset") {
+            UserDefaults.standard.removeObject(forKey: "soulsign_profiles_v1")
+        }
+
         if let mapsKey = Bundle.main.object(forInfoDictionaryKey: "GOOGLE_MAPS_API_KEY") as? String {
             GMSServices.provideAPIKey(mapsKey)
         }

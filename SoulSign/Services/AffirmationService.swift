@@ -19,6 +19,9 @@ class AffirmationService {
     private static let cacheDateKey = "todaysAffirmationDate"
     private static let cacheLangKey = "todaysAffirmationLang"
 
+    /// Overridable so tests can inject a mocked URLSession.
+    static var session: URLSession = .shared
+
     static func fetchAndStoreAffirmations(language: AppLanguage, completion: @escaping (AffirmationResponse?) -> Void) {
         fetchAffirmations(language: language) { result in
             if let result = result {
@@ -86,7 +89,7 @@ Return ONLY raw JSON without any explanation, markdown, or formatting. Example:
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
 
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        session.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("❌ Network error: \(error.localizedDescription)")
                 DispatchQueue.main.async { completion(nil) }

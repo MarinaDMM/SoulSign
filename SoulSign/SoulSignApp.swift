@@ -18,6 +18,7 @@ struct SoulSignApp: App {
     private let notificationDelegate: NotificationDelegate
 
     init() {
+        // (The -uitest-reset hook lives in AppDelegate, which runs earlier.)
         let router = NotificationRouter()
         self._notificationRouter = StateObject(wrappedValue: router)
         let delegate = NotificationDelegate(router: router)
