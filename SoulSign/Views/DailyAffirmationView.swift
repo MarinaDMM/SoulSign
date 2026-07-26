@@ -16,49 +16,46 @@ struct DailyAffirmationView: View {
     private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                NightSkyBackground()
+        // No NavigationView here: this screen is already pushed inside
+        // HomeView's NavigationStack. A nested NavigationView renders as a
+        // blank split-view on iPad, hiding all the content behind a sidebar.
+        ZStack {
+            NightSkyBackground()
 
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
-                        Text(loc.t("daily_affirmations_title"))
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    if isLoading {
+                        ProgressView(loc.t("loading_affirmations"))
                             .foregroundColor(theme.primaryText)
-                            .padding(.bottom, 10)
+                    } else if let affirmations = affirmations {
+                        affirmationBlock(title: loc.t("category_finance"),     text: affirmations.Finance)
+                        affirmationBlock(title: loc.t("category_love"),        text: affirmations.Love)
+                        affirmationBlock(title: loc.t("category_mind_spirit"), text: affirmations.MindSpirit)
+                        affirmationBlock(title: loc.t("category_career"),      text: affirmations.Career)
+                        affirmationBlock(title: loc.t("category_friendship"),  text: affirmations.Friendship)
+                        affirmationBlock(title: loc.t("category_health"),      text: affirmations.Health)
+                    } else if let errorMessage = errorMessage {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                    }
 
-                        if isLoading {
-                            ProgressView(loc.t("loading_affirmations"))
-                                .foregroundColor(theme.primaryText)
-                        } else if let affirmations = affirmations {
-                            affirmationBlock(title: loc.t("category_finance"),     text: affirmations.Finance)
-                            affirmationBlock(title: loc.t("category_love"),        text: affirmations.Love)
-                            affirmationBlock(title: loc.t("category_mind_spirit"), text: affirmations.MindSpirit)
-                            affirmationBlock(title: loc.t("category_career"),      text: affirmations.Career)
-                            affirmationBlock(title: loc.t("category_friendship"),  text: affirmations.Friendship)
-                            affirmationBlock(title: loc.t("category_health"),      text: affirmations.Health)
-                        } else if let errorMessage = errorMessage {
-                            Text(errorMessage)
-                                .foregroundColor(.red)
-                        }
-
-                        Button(loc.t("button_refresh_affirmations")) {
-                            forceRefresh = true
-                            fetchAffirmations()
-                        }
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(theme.secondaryButtonBg)
-                        .foregroundColor(theme.secondaryButtonText)
-                        .cornerRadius(12)
+                    Button(loc.t("button_refresh_affirmations")) {
+                        forceRefresh = true
+                        fetchAffirmations()
                     }
                     .padding()
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(maxWidth: .infinity)
+                    .background(theme.secondaryButtonBg)
+                    .foregroundColor(theme.secondaryButtonText)
+                    .cornerRadius(12)
                 }
+                .padding()
+                .frame(maxWidth: 700, alignment: .leading)
+                .frame(maxWidth: .infinity)
             }
-            .navigationBarHidden(true)
         }
+        .navigationTitle(loc.t("daily_affirmations_title"))
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear { fetchAffirmations() }
     }
 
