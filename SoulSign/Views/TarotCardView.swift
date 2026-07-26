@@ -51,7 +51,7 @@ struct TarotCardView: View {
         .toolbar {
             if !vm.reading.isEmpty {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    ShareCardButton(fileName: "tarot", previewTitle: vm.card.name) {
+                    ShareCardButton(previewTitle: vm.card.name) {
                         TarotShareCard(card: vm.card, reading: vm.reading, dateLabel: todayLabel)
                     }
                     .foregroundColor(theme.primaryText)

@@ -59,18 +59,6 @@ enum ShareCardRenderer {
         return ceil(bounding.height)
     }
 
-    static func writeTempPNG(_ image: UIImage, name: String) -> URL? {
-        guard let data = image.pngData() else { return nil }
-        let url = FileManager.default.temporaryDirectory
-            .appendingPathComponent("\(name)-\(UUID().uuidString).png")
-        do {
-            try data.write(to: url)
-            return url
-        } catch {
-            return nil
-        }
-    }
-
     static func writeTempPDF(_ data: Data, name: String) -> URL? {
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent("\(name)-\(UUID().uuidString).pdf")
@@ -344,25 +332,28 @@ struct TarotShareCard: View {
 // MARK: - Reusable share button
 
 struct ShareCardButton<CardContent: View>: View {
-    let fileName: String
     let previewTitle: String
     let card: CardContent
     @EnvironmentObject var loc: LocalizationManager
-    @State private var fileURL: URL?
     @State private var renderedImage: UIImage?
 
-    init(fileName: String, previewTitle: String, @ViewBuilder card: () -> CardContent) {
-        self.fileName = fileName
+    init(previewTitle: String, @ViewBuilder card: () -> CardContent) {
         self.previewTitle = previewTitle
         self.card = card()
     }
 
     var body: some View {
         Group {
-            if let fileURL, let renderedImage {
+            if let renderedImage {
+                // Share the rendered Image directly (SwiftUI's Image has its
+                // own Transferable conformance that exports real PNG data),
+                // not a file URL — apps like WhatsApp treat a shared file
+                // reference as a generic document attachment, but recognize
+                // actual image data as a real inline photo.
+                let shareImage = Image(uiImage: renderedImage)
                 ShareLink(
-                    item: fileURL,
-                    preview: SharePreview(previewTitle, image: Image(uiImage: renderedImage))
+                    item: shareImage,
+                    preview: SharePreview(previewTitle, image: shareImage)
                 ) {
                     Image(systemName: "square.and.arrow.up")
                 }
@@ -372,16 +363,14 @@ struct ShareCardButton<CardContent: View>: View {
             }
         }
         .onAppear {
-            if fileURL == nil { generate() }
+            if renderedImage == nil { generate() }
         }
     }
 
     private func generate() {
-        guard let uiImage = ShareCardRenderer.render(
+        renderedImage = ShareCardRenderer.render(
             card.environmentObject(loc),
             size: CGSize(width: 1080, height: 1920)
-        ) else { return }
-        renderedImage = uiImage
-        fileURL = ShareCardRenderer.writeTempPNG(uiImage, name: fileName)
+        )
     }
 }

@@ -88,7 +88,7 @@ struct DailyAffirmationView: View {
                     .font(.headline)
                     .foregroundColor(theme.cardText)
                 Spacer()
-                ShareCardButton(fileName: "affirmation", previewTitle: title) {
+                ShareCardButton(previewTitle: title) {
                     AffirmationShareCard(categoryTitle: title, text: text)
                 }
                 .font(.subheadline)
