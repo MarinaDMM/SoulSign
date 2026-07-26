@@ -142,7 +142,7 @@
 		C876113C2E27B5950012AC37 /* AffirmationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffirmationService.swift; sourceTree = "<group>"; };
 		C876113E2E27B5F70012AC37 /* DailyAffirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyAffirmationView.swift; sourceTree = "<group>"; };
 		C87611412E28F5040012AC37 /* NotificationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDelegate.swift; sourceTree = "<group>"; };
-		C87611422E28F5E30012AC37 /* NotificationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationRouter.swift; path = /Users/marina.dedikova/projectB/SoulSign/SoulSign/NotificationRouter.swift; sourceTree = "<absolute>"; };
+		C87611422E28F5E30012AC37 /* NotificationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRouter.swift; sourceTree = "<group>"; };
 		C8877A6F2DF4C94600492065 /* BirthPlaceSuggestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthPlaceSuggestionsView.swift; sourceTree = "<group>"; };
 		C8CDF3262DCE1E33004F9888 /* SoulSign.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoulSign.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8CDF3292DCE1E33004F9888 /* SoulSignApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoulSignApp.swift; sourceTree = "<group>"; };
