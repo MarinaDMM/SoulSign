@@ -35,7 +35,8 @@ struct NatalChartReadingView: View {
                     ) {
                         NatalChartShareCard(
                             firstName: profile.firstName,
-                            matrix: DestinyMatrix.compute(from: profile.birthDate)
+                            matrix: DestinyMatrix.compute(from: profile.birthDate),
+                            reading: viewModel.chartResult
                         )
                     }
                     .foregroundColor(theme.primaryText)

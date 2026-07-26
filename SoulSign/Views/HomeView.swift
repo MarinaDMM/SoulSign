@@ -134,6 +134,12 @@ struct HomeView: View {
                 requestNotificationPermission()
                 scheduleDailyAffirmationNotification()
             }
+            .onChange(of: loc.language) { _ in
+                // The scheduled notification bakes in fixed content at a fixed
+                // language; re-schedule (same identifier replaces the pending
+                // one) whenever the language changes so it doesn't fire stale.
+                scheduleDailyAffirmationNotification()
+            }
             .onReceive(NotificationCenter.default.publisher(for: .didReceiveNotificationResponse)) { _ in
                 DispatchQueue.main.async {
                     path.append(AppDestination.affirmations)

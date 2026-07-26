@@ -64,11 +64,22 @@ private struct ShareCardFooter: View {
             Text(loc.t("share_tagline"))
                 .font(.system(size: 18, weight: .medium))
                 .foregroundColor(.white.opacity(0.65))
-            Text("apps.apple.com/app/id6794421639")
-                .font(.system(size: 16, weight: .medium))
-                .foregroundColor(.white.opacity(0.45))
         }
     }
+}
+
+/// Takes the first paragraph of a reading and trims it to a card-friendly
+/// length, breaking on a word boundary rather than mid-word.
+private func shareExcerpt(from text: String, maxChars: Int) -> String {
+    let firstParagraph = text.components(separatedBy: "\n\n").first ?? text
+    let trimmed = firstParagraph.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard trimmed.count > maxChars else { return trimmed }
+    let cutIndex = trimmed.index(trimmed.startIndex, offsetBy: maxChars)
+    let truncated = trimmed[..<cutIndex]
+    if let lastSpace = truncated.lastIndex(of: " ") {
+        return String(truncated[..<lastSpace]) + "…"
+    }
+    return String(truncated) + "…"
 }
 
 // MARK: - Affirmation share card
@@ -111,31 +122,99 @@ struct AffirmationShareCard: View {
 struct NatalChartShareCard: View {
     let firstName: String
     let matrix: DestinyMatrix
+    let reading: String
     @EnvironmentObject var loc: LocalizationManager
 
     var body: some View {
         ZStack {
             ShareCardBackground()
             VStack(spacing: 0) {
-                Spacer(minLength: 150)
+                Spacer(minLength: 70)
 
                 Text(loc.t("reading_title_of", firstName))
-                    .font(.system(size: 44, weight: .bold))
+                    .font(.system(size: 42, weight: .bold))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 60)
-                    .padding(.bottom, 70)
+                    .padding(.bottom, 50)
 
                 NatalChartView(matrix: matrix)
-                    .frame(width: 820, height: 900)
+                    .frame(width: 640, height: 700)
 
-                Spacer(minLength: 130)
+                Spacer(minLength: 40)
+
+                Text(shareExcerpt(from: reading, maxChars: 260))
+                    .font(.system(size: 30, weight: .medium, design: .serif))
+                    .foregroundColor(.white.opacity(0.92))
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(9)
+                    .padding(.horizontal, 100)
+
+                Spacer(minLength: 60)
 
                 ShareCardFooter()
-                    .padding(.bottom, 110)
+                    .padding(.bottom, 90)
             }
         }
         .frame(width: 1080, height: 1920)
+        .clipped()
+    }
+}
+
+// MARK: - Tarot share card
+
+struct TarotShareCard: View {
+    let card: TarotCard
+    let reading: String
+    let dateLabel: String
+
+    private static let cardAspectRatio: CGFloat = 750.0 / 1298.0
+
+    var body: some View {
+        ZStack {
+            ShareCardBackground()
+            VStack(spacing: 0) {
+                Spacer(minLength: 80)
+
+                Text(dateLabel)
+                    .font(.system(size: 22, weight: .medium))
+                    .tracking(3)
+                    .foregroundColor(.white.opacity(0.5))
+                    .padding(.bottom, 40)
+
+                Image(card.imageName)
+                    .resizable()
+                    .aspectRatio(Self.cardAspectRatio, contentMode: .fit)
+                    .frame(width: 340)
+                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                            .strokeBorder(.white.opacity(0.25), lineWidth: 1)
+                    )
+                    .shadow(color: .black.opacity(0.4), radius: 20, y: 10)
+                    .padding(.bottom, 46)
+
+                Text(card.name.uppercased())
+                    .font(.system(size: 34, weight: .bold))
+                    .tracking(2)
+                    .foregroundColor(.white)
+                    .padding(.bottom, 34)
+
+                Text(shareExcerpt(from: reading, maxChars: 260))
+                    .font(.system(size: 28, weight: .medium, design: .serif))
+                    .foregroundColor(.white.opacity(0.92))
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(8)
+                    .padding(.horizontal, 100)
+
+                Spacer(minLength: 60)
+
+                ShareCardFooter()
+                    .padding(.bottom, 90)
+            }
+        }
+        .frame(width: 1080, height: 1920)
+        .clipped()
     }
 }
 
