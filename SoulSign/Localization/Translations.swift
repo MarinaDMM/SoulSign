@@ -63,6 +63,7 @@ enum Translations {
         "reading_stars_of": "Reading %@'s stars...",
         "reading_title_of": "✨ %@'s Reading",
         "button_regenerate_reading": "Regenerate Reading",
+        "share_tagline": "Astrology · Tarot · Affirmations",
     ]
 
     static let nl: [String: String] = [
@@ -117,6 +118,7 @@ enum Translations {
         "reading_stars_of": "De sterren van %@ worden gelezen...",
         "reading_title_of": "✨ %@'s Lezing",
         "button_regenerate_reading": "Lezing Opnieuw Genereren",
+        "share_tagline": "Astrologie · Tarot · Affirmaties",
     ]
 
     static let fr: [String: String] = [
@@ -171,6 +173,7 @@ enum Translations {
         "reading_stars_of": "Lecture des étoiles de %@...",
         "reading_title_of": "✨ Lecture de %@",
         "button_regenerate_reading": "Régénérer la Lecture",
+        "share_tagline": "Astrologie · Tarot · Affirmations",
     ]
 
     static let de: [String: String] = [
@@ -225,6 +228,7 @@ enum Translations {
         "reading_stars_of": "Die Sterne von %@ werden gelesen...",
         "reading_title_of": "✨ %@s Deutung",
         "button_regenerate_reading": "Deutung Neu Erstellen",
+        "share_tagline": "Astrologie · Tarot · Affirmationen",
     ]
 
     static let es: [String: String] = [
@@ -279,6 +283,7 @@ enum Translations {
         "reading_stars_of": "Leyendo las estrellas de %@...",
         "reading_title_of": "✨ Lectura de %@",
         "button_regenerate_reading": "Regenerar Lectura",
+        "share_tagline": "Astrología · Tarot · Afirmaciones",
     ]
 
     static let it: [String: String] = [
@@ -333,6 +338,7 @@ enum Translations {
         "reading_stars_of": "Lettura delle stelle di %@...",
         "reading_title_of": "✨ Lettura di %@",
         "button_regenerate_reading": "Rigenera Lettura",
+        "share_tagline": "Astrologia · Tarocchi · Affermazioni",
     ]
 
     static let ru: [String: String] = [
@@ -387,6 +393,7 @@ enum Translations {
         "reading_stars_of": "Читаем звёзды %@...",
         "reading_title_of": "✨ Расклад для %@",
         "button_regenerate_reading": "Обновить Расклад",
+        "share_tagline": "Астрология · Таро · Аффирмации",
     ]
 
     static let uk: [String: String] = [
@@ -441,6 +448,7 @@ enum Translations {
         "reading_stars_of": "Читаємо зорі %@...",
         "reading_title_of": "✨ Розклад для %@",
         "button_regenerate_reading": "Оновити Розклад",
+        "share_tagline": "Астрологія · Таро · Афірмації",
     ]
 
     static let pl: [String: String] = [
@@ -495,5 +503,6 @@ enum Translations {
         "reading_stars_of": "Odczytywanie gwiazd %@...",
         "reading_title_of": "✨ Odczyt dla %@",
         "button_regenerate_reading": "Odśwież Odczyt",
+        "share_tagline": "Astrologia · Tarot · Afirmacje",
     ]
 }

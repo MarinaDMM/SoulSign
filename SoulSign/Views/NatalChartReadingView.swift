@@ -26,6 +26,22 @@ struct NatalChartReadingView: View {
         }
         .navigationTitle(profile.firstName)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            if !viewModel.chartResult.isEmpty {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    ShareCardButton(
+                        fileName: "natal-chart",
+                        previewTitle: loc.t("reading_title_of", profile.firstName)
+                    ) {
+                        NatalChartShareCard(
+                            firstName: profile.firstName,
+                            matrix: DestinyMatrix.compute(from: profile.birthDate)
+                        )
+                    }
+                    .foregroundColor(theme.primaryText)
+                }
+            }
+        }
         .task { await loadReading() }
     }
 

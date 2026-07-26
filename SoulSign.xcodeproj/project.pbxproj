@@ -18,6 +18,7 @@
 		3CEFBA7DDEE94E576B56E337 /* ClaudeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEF0250B17D6AF5CC072735 /* ClaudeService.swift */; };
 		400B154E95F1884A38BF3275 /* PartnerChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EC769C271B9F25C45B5457 /* PartnerChartView.swift */; };
 		49A6FF315C7ED9EC767C6580 /* DestinyMatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9C86E31CA816CFEAEF4536 /* DestinyMatrixView.swift */; };
+		87BC90CF24440EC70F30DF07 /* ShareCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C7875291825CA5D81A658 /* ShareCard.swift */; };
 		BB36FA73604A6767CC5868D2 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D292ED184B351DBE20D2E /* AppLanguage.swift */; };
 		C534CCBEF25A1CCFB4E2BABC /* TarotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED01E0C41F7A5401F48CC629 /* TarotViewModel.swift */; };
 		C8161BC42E2AAA4C00247BAC /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8161BC32E2AAA4700247BAC /* Notification+Name.swift */; };
@@ -116,6 +117,7 @@
 		CE9C86E31CA816CFEAEF4536 /* DestinyMatrixView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DestinyMatrixView.swift; sourceTree = "<group>"; };
 		E04069C45FF369233F254D81 /* ProfileListView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileListView.swift; sourceTree = "<group>"; };
 		ED01E0C41F7A5401F48CC629 /* TarotViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TarotViewModel.swift; sourceTree = "<group>"; };
+		F76C7875291825CA5D81A658 /* ShareCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ShareCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -248,6 +250,7 @@
 				1849E5BCE5767C1B8F2285E9 /* NatalChartReadingView.swift */,
 				A81225703D9D6B0BA611E4D5 /* TarotCardView.swift */,
 				51EC769C271B9F25C45B5457 /* PartnerChartView.swift */,
+				F76C7875291825CA5D81A658 /* ShareCard.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -438,6 +441,7 @@
 				BB36FA73604A6767CC5868D2 /* AppLanguage.swift in Sources */,
 				CE26133AE78156ED7B15161D /* LocalizationManager.swift in Sources */,
 				304F9BBD33A92843A3801448 /* Translations.swift in Sources */,
+				87BC90CF24440EC70F30DF07 /* ShareCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

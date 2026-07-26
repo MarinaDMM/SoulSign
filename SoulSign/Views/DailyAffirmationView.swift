@@ -83,9 +83,17 @@ struct DailyAffirmationView: View {
 
     private func affirmationBlock(title: String, text: String) -> some View {
         VStack(alignment: .leading) {
-            Text(title)
-                .font(.headline)
-                .foregroundColor(theme.cardText)
+            HStack(alignment: .top) {
+                Text(title)
+                    .font(.headline)
+                    .foregroundColor(theme.cardText)
+                Spacer()
+                ShareCardButton(fileName: "affirmation", previewTitle: title) {
+                    AffirmationShareCard(categoryTitle: title, text: text)
+                }
+                .font(.subheadline)
+                .foregroundColor(theme.cardText.opacity(0.55))
+            }
             Text("\"\(text)\"")
                 .font(.body)
                 .italic()
