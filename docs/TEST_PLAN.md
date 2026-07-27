@@ -20,7 +20,7 @@ end-to-end UI tests. All run in CI on every push and pull request.
 Run locally:
 
 ```bash
-xcodebuild test -workspace SoulSign.xcworkspace -scheme SoulSign \
+xcodebuild test -project SoulSign.xcodeproj -scheme SoulSign \
   -destination 'platform=iOS Simulator,name=iPhone 16' CODE_SIGNING_ALLOWED=NO
 ```
 
@@ -72,7 +72,7 @@ that flag, that clears saved profiles for a clean start).
 ## What we deliberately skip
 
 - SwiftUI view layout / pixel rendering (covered by manual review + screenshots).
-- Third-party SDK internals (GoogleMaps/GooglePlaces, Lottie).
+- Third-party SDK internals (Lottie).
 - Live Claude API calls — intentionally mocked to keep CI fast, free, and
   non-flaky. The prompt *content* is out of scope for automated assertion.
 
@@ -89,5 +89,10 @@ that flag, that clears saved profiles for a clean start).
 
 `.github/workflows/tests.yml` runs the full suite on `macos-15` for every push
 to `main` and every pull request: it creates a placeholder `Secrets.xcconfig`,
-runs `pod install`, picks an available simulator, and runs `xcodebuild test`
-with code signing disabled. The `.xcresult` bundle is uploaded as an artifact.
+picks an available simulator, and runs `xcodebuild test` with code signing
+disabled. The `.xcresult` bundle is uploaded as an artifact.
+
+## Dependencies
+
+Lottie only, via Swift Package Manager. There is no CocoaPods setup and no
+`.xcworkspace` — build and test against `SoulSign.xcodeproj` directly.

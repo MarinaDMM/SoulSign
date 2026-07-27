@@ -23,7 +23,6 @@
 		6117F335154E84417E0C647E /* DestinyMatrixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BFDDCD4B85054CD3CC4AA3 /* DestinyMatrixTests.swift */; };
 		705161AF48F7D0E92734A9E6 /* ClaudeServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00A75063027FD0A9F6E74B5 /* ClaudeServiceTests.swift */; };
 		74CE39813A56F6D6D4EDC089 /* ProfileStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F0A90C5D0634FD2D8E4F81 /* ProfileStoreTests.swift */; };
-		77292C4B59A9B793B12F7A35 /* Pods_SoulSignTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27242FF370F0FF1AC0972DF1 /* Pods_SoulSignTests.framework */; };
 		87BC90CF24440EC70F30DF07 /* ShareCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C7875291825CA5D81A658 /* ShareCard.swift */; };
 		97497DC1DBFE882ED609F943 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2DF9AA295428EF46773D0AB /* Foundation.framework */; };
 		BB36FA73604A6767CC5868D2 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D292ED184B351DBE20D2E /* AppLanguage.swift */; };
@@ -31,8 +30,6 @@
 		C8161BC42E2AAA4C00247BAC /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8161BC32E2AAA4700247BAC /* Notification+Name.swift */; };
 		C82233842DF2251300454554 /* Lottie.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C82233822DF224AE00454554 /* Lottie.xcframework */; };
 		C82233852DF2251300454554 /* Lottie.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C82233822DF224AE00454554 /* Lottie.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C82233872DF2251500454554 /* Pods_SoulSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE5DD73FEBD589512EA370BD /* Pods_SoulSign.framework */; };
-		C82233882DF2251500454554 /* Pods_SoulSign.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE5DD73FEBD589512EA370BD /* Pods_SoulSign.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C8333BF42E293E45000A14C2 /* OpenAIChatModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8333BF32E293E3F000A14C2 /* OpenAIChatModels.swift */; };
 		C8333BF82E294691000A14C2 /* Secrets.xcconfig.example in Resources */ = {isa = PBXBuildFile; fileRef = C8333BF72E29468A000A14C2 /* Secrets.xcconfig.example */; };
 		C876113D2E27B59B0012AC37 /* AffirmationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C876113C2E27B5950012AC37 /* AffirmationService.swift */; };
@@ -90,7 +87,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C82233882DF2251500454554 /* Pods_SoulSign.framework in Embed Frameworks */,
 				C82233852DF2251300454554 /* Lottie.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -104,21 +100,16 @@
 		1ABCBA812F5F9FD53B61CDC7 /* Translations.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Translations.swift; sourceTree = "<group>"; };
 		1AFE8A933580AF220A8BBC95 /* UserProfileTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UserProfileTests.swift; sourceTree = "<group>"; };
 		24163E6560202DCEC622E82D /* SoulSignUITests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SoulSignUITests.swift; sourceTree = "<group>"; };
-		27242FF370F0FF1AC0972DF1 /* Pods_SoulSignTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoulSignTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		29EA0E96DE62F6F3445A2FF8 /* TarotCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TarotCard.swift; sourceTree = "<group>"; };
 		393BACDB5CAB7E85D7591382 /* ClaudeServiceTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ClaudeServiceTests.swift; sourceTree = "<group>"; };
-		47EBBDA59933D802407A2BC4 /* Pods-SoulSignTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoulSignTests.debug.xcconfig"; path = "Target Support Files/Pods-SoulSignTests/Pods-SoulSignTests.debug.xcconfig"; sourceTree = "<group>"; };
 		51EC769C271B9F25C45B5457 /* PartnerChartView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PartnerChartView.swift; sourceTree = "<group>"; };
 		56C70E7B1C44DD9BE034A897 /* ProfileStoreTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileStoreTests.swift; sourceTree = "<group>"; };
 		576C688FE23B6F0F62B7AE02 /* SoulSignTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoulSignTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		57DC7B570E6434F3BF7B7E11 /* Pods-SoulSign.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoulSign.debug.xcconfig"; path = "Target Support Files/Pods-SoulSign/Pods-SoulSign.debug.xcconfig"; sourceTree = "<group>"; };
 		5A2EC1D5BC9A01236D559A52 /* DestinyMatrixTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DestinyMatrixTests.swift; sourceTree = "<group>"; };
-		5CDADD0AD44FB613BBAFFE2A /* Pods-SoulSignTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoulSignTests.release.xcconfig"; path = "Target Support Files/Pods-SoulSignTests/Pods-SoulSignTests.release.xcconfig"; sourceTree = "<group>"; };
 		5F3DEF7BB6A4AC5367C595E5 /* SoulSignUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoulSignUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		60BE5424BD71F73BAE380A5D /* AffirmationServiceTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AffirmationServiceTests.swift; sourceTree = "<group>"; };
 		78B275833BF3E998E75D37D1 /* TarotDeckTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TarotDeckTests.swift; sourceTree = "<group>"; };
 		793B03D78E404B17A954BE64 /* MockURLProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MockURLProtocol.swift; path = Support/MockURLProtocol.swift; sourceTree = "<group>"; };
-		872005CF2EB00DBB33DEC8C6 /* Pods-SoulSign.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoulSign.release.xcconfig"; path = "Target Support Files/Pods-SoulSign/Pods-SoulSign.release.xcconfig"; sourceTree = "<group>"; };
 		8AF0F93C03F548B77002AE07 /* DestinyMatrix.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DestinyMatrix.swift; sourceTree = "<group>"; };
 		8C7D292ED184B351DBE20D2E /* AppLanguage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
 		924C5396291323AD565A4C01 /* SoulSignTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoulSignTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,7 +122,6 @@
 		AE7F9E707CEA3CB86982DA0A /* LocalizationManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
 		AFF69B9E99D78EB585D39CC0 /* UserProfile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		B878AA216655066122DBCA18 /* LocalizationTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalizationTests.swift; sourceTree = "<group>"; };
-		BE5DD73FEBD589512EA370BD /* Pods_SoulSign.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoulSign.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C66AD1BD2A005C3E11E97554 /* LocalizationTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalizationTests.swift; sourceTree = "<group>"; };
 		C8161BC32E2AAA4700247BAC /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
 		C82233822DF224AE00454554 /* Lottie.xcframework */ = {isa = PBXFileReference; expectedSignature = "SelfSigned:892F1B43047B50538F2F46EAD92900DD3D4811F3582178C061A5FB20F111CB26"; lastKnownFileType = wrapper.xcframework; path = Lottie.xcframework; sourceTree = "<group>"; };
@@ -189,7 +179,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F84CC68E6BE20186C5114DBE /* Foundation.framework in Frameworks */,
-				77292C4B59A9B793B12F7A35 /* Pods_SoulSignTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,7 +186,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C82233872DF2251500454554 /* Pods_SoulSign.framework in Frameworks */,
 				C82233842DF2251300454554 /* Lottie.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -208,10 +196,6 @@
 		1BB365788DCF3CECEF813559 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				57DC7B570E6434F3BF7B7E11 /* Pods-SoulSign.debug.xcconfig */,
-				872005CF2EB00DBB33DEC8C6 /* Pods-SoulSign.release.xcconfig */,
-				5CDADD0AD44FB613BBAFFE2A /* Pods-SoulSignTests.release.xcconfig */,
-				47EBBDA59933D802407A2BC4 /* Pods-SoulSignTests.debug.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -272,9 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				C82233822DF224AE00454554 /* Lottie.xcframework */,
-				BE5DD73FEBD589512EA370BD /* Pods_SoulSign.framework */,
 				DB8F70D6DC4D72AB5DA047D7 /* iOS */,
-				27242FF370F0FF1AC0972DF1 /* Pods_SoulSignTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -451,7 +433,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3ABBCA847BA2FA5E3597A67C /* Build configuration list for PBXNativeTarget "SoulSignTests" */;
 			buildPhases = (
-				82425A86CB6A505B3DB98FBE /* [CP] Check Pods Manifest.lock */,
 				C938B0D7409BE45BDDAE11A6 /* Sources */,
 				6E7A9729C1E14078927E137C /* Frameworks */,
 				25E7B4C3CFFEEDC6A95719DF /* Resources */,
@@ -470,11 +451,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C8CDF3342DCE1E36004F9888 /* Build configuration list for PBXNativeTarget "SoulSign" */;
 			buildPhases = (
-				47BBD3FE091B941591908470 /* [CP] Check Pods Manifest.lock */,
 				C8CDF3222DCE1E33004F9888 /* Sources */,
 				C8CDF3232DCE1E33004F9888 /* Frameworks */,
 				C8CDF3242DCE1E33004F9888 /* Resources */,
-				BEF6B321D82D03E6D3082639 /* [CP] Copy Pods Resources */,
 				C82233862DF2251300454554 /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -550,70 +529,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		47BBD3FE091B941591908470 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SoulSign-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		82425A86CB6A505B3DB98FBE /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SoulSignTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BEF6B321D82D03E6D3082639 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SoulSign/Pods-SoulSign-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SoulSign/Pods-SoulSign-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SoulSign/Pods-SoulSign-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9E7F19A21708B58241A892EA /* Sources */ = {
@@ -701,7 +616,6 @@
 /* Begin XCBuildConfiguration section */
 		5E6010F1E4C8DBD2C0968640 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 47EBBDA59933D802407A2BC4 /* Pods-SoulSignTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -741,7 +655,6 @@
 		};
 		7C8D270B36F6FE0E99AB48A7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5CDADD0AD44FB613BBAFFE2A /* Pods-SoulSignTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -896,13 +809,12 @@
 		};
 		C8CDF3352DCE1E36004F9888 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 57DC7B570E6434F3BF7B7E11 /* Pods-SoulSign.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"SoulSign/Preview Content\"";
 				DEVELOPMENT_TEAM = 5R32MDPGF2;
 				ENABLE_PREVIEWS = YES;
@@ -931,13 +843,12 @@
 		};
 		C8CDF3362DCE1E36004F9888 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 872005CF2EB00DBB33DEC8C6 /* Pods-SoulSign.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"SoulSign/Preview Content\"";
 				DEVELOPMENT_TEAM = 5R32MDPGF2;
 				ENABLE_PREVIEWS = YES;

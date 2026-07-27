@@ -23,3 +23,6 @@ DerivedData/
 # Swift Package Manager
 .build/
 *.resolved
+
+# CocoaPods (removed - no longer used)
+Pods/

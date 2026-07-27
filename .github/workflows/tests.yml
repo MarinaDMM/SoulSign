@@ -27,17 +27,12 @@ jobs:
 
       - name: Create placeholder Secrets.xcconfig
         # The real file is git-ignored (holds the Anthropic key). Tests never
-        # hit the live API (URLSession is mocked), so dummy values are fine and
+        # hit the live API (URLSession is mocked), so a dummy value is fine and
         # the build's $(ANTHROPIC_API_KEY) reference still resolves.
         run: |
           cat > SoulSign/Secrets.xcconfig <<'EOF'
           ANTHROPIC_API_KEY = ci-dummy-key
-          GOOGLE_MAPS_API_KEY = ci-dummy-key
-          GOOGLE_PLACES_API_KEY = ci-dummy-key
           EOF
-
-      - name: Install CocoaPods dependencies
-        run: pod install --repo-update
 
       - name: Select a simulator
         id: sim
@@ -57,13 +52,13 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild test \
-            -workspace SoulSign.xcworkspace \
+            -project SoulSign.xcodeproj \
             -scheme SoulSign \
             -destination "id=${{ steps.sim.outputs.udid }}" \
             -resultBundlePath TestResults.xcresult \
             CODE_SIGNING_ALLOWED=NO \
             | xcbeautify || xcodebuild test \
-              -workspace SoulSign.xcworkspace \
+              -project SoulSign.xcodeproj \
               -scheme SoulSign \
               -destination "id=${{ steps.sim.outputs.udid }}" \
               CODE_SIGNING_ALLOWED=NO

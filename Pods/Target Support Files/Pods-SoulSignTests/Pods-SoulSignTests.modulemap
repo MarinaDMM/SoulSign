@@ -1,6 +1,0 @@
-framework module Pods_SoulSignTests {
-  umbrella header "Pods-SoulSignTests-umbrella.h"
-
-  export *
-  module * { export * }
-}
