@@ -64,6 +64,16 @@ enum Translations {
         "reading_title_of": "✨ %@'s Reading",
         "button_regenerate_reading": "Regenerate Reading",
         "share_tagline": "Astrology · Tarot · Affirmations",
+        "choose_person": "Choose Person",
+        "button_cancel": "Cancel",
+        "partner_intro": "Pick two people and read what happens between their charts.",
+        "partner_person_one": "First Person",
+        "partner_person_two": "Second Person",
+        "partner_tap_to_choose": "Tap to choose",
+        "partner_tap_to_change": "Tap to change",
+        "button_read_together": "Read Our Charts ✨",
+        "partner_pick_two_hint": "Choose two people to see your connection.",
+        "partner_reading_loading": "Reading the space between you...",
     ]
 
     static let nl: [String: String] = [
@@ -119,6 +129,16 @@ enum Translations {
         "reading_title_of": "✨ %@'s Lezing",
         "button_regenerate_reading": "Lezing Opnieuw Genereren",
         "share_tagline": "Astrologie · Tarot · Affirmaties",
+        "choose_person": "Kies Persoon",
+        "button_cancel": "Annuleren",
+        "partner_intro": "Kies twee mensen en lees wat er tussen hun horoscopen gebeurt.",
+        "partner_person_one": "Eerste Persoon",
+        "partner_person_two": "Tweede Persoon",
+        "partner_tap_to_choose": "Tik om te kiezen",
+        "partner_tap_to_change": "Tik om te wijzigen",
+        "button_read_together": "Lees Onze Horoscopen ✨",
+        "partner_pick_two_hint": "Kies twee mensen om jullie verbinding te zien.",
+        "partner_reading_loading": "De ruimte tussen jullie wordt gelezen...",
     ]
 
     static let fr: [String: String] = [
@@ -174,6 +194,16 @@ enum Translations {
         "reading_title_of": "✨ Lecture de %@",
         "button_regenerate_reading": "Régénérer la Lecture",
         "share_tagline": "Astrologie · Tarot · Affirmations",
+        "choose_person": "Choisir une Personne",
+        "button_cancel": "Annuler",
+        "partner_intro": "Choisissez deux personnes et découvrez ce qui se passe entre leurs thèmes.",
+        "partner_person_one": "Première Personne",
+        "partner_person_two": "Deuxième Personne",
+        "partner_tap_to_choose": "Touchez pour choisir",
+        "partner_tap_to_change": "Touchez pour changer",
+        "button_read_together": "Lire Nos Thèmes ✨",
+        "partner_pick_two_hint": "Choisissez deux personnes pour voir votre connexion.",
+        "partner_reading_loading": "Lecture de l'espace entre vous...",
     ]
 
     static let de: [String: String] = [
@@ -229,6 +259,16 @@ enum Translations {
         "reading_title_of": "✨ %@s Deutung",
         "button_regenerate_reading": "Deutung Neu Erstellen",
         "share_tagline": "Astrologie · Tarot · Affirmationen",
+        "choose_person": "Person Wählen",
+        "button_cancel": "Abbrechen",
+        "partner_intro": "Wähle zwei Menschen und lies, was zwischen ihren Horoskopen geschieht.",
+        "partner_person_one": "Erste Person",
+        "partner_person_two": "Zweite Person",
+        "partner_tap_to_choose": "Zum Wählen tippen",
+        "partner_tap_to_change": "Zum Ändern tippen",
+        "button_read_together": "Unsere Horoskope Lesen ✨",
+        "partner_pick_two_hint": "Wähle zwei Menschen, um eure Verbindung zu sehen.",
+        "partner_reading_loading": "Der Raum zwischen euch wird gelesen...",
     ]
 
     static let es: [String: String] = [
@@ -284,6 +324,16 @@ enum Translations {
         "reading_title_of": "✨ Lectura de %@",
         "button_regenerate_reading": "Regenerar Lectura",
         "share_tagline": "Astrología · Tarot · Afirmaciones",
+        "choose_person": "Elegir Persona",
+        "button_cancel": "Cancelar",
+        "partner_intro": "Elige dos personas y lee lo que ocurre entre sus cartas.",
+        "partner_person_one": "Primera Persona",
+        "partner_person_two": "Segunda Persona",
+        "partner_tap_to_choose": "Toca para elegir",
+        "partner_tap_to_change": "Toca para cambiar",
+        "button_read_together": "Leer Nuestras Cartas ✨",
+        "partner_pick_two_hint": "Elige dos personas para ver vuestra conexión.",
+        "partner_reading_loading": "Leyendo el espacio entre vosotros...",
     ]
 
     static let it: [String: String] = [
@@ -339,6 +389,16 @@ enum Translations {
         "reading_title_of": "✨ Lettura di %@",
         "button_regenerate_reading": "Rigenera Lettura",
         "share_tagline": "Astrologia · Tarocchi · Affermazioni",
+        "choose_person": "Scegli Persona",
+        "button_cancel": "Annulla",
+        "partner_intro": "Scegli due persone e leggi cosa accade tra i loro temi.",
+        "partner_person_one": "Prima Persona",
+        "partner_person_two": "Seconda Persona",
+        "partner_tap_to_choose": "Tocca per scegliere",
+        "partner_tap_to_change": "Tocca per cambiare",
+        "button_read_together": "Leggi i Nostri Temi ✨",
+        "partner_pick_two_hint": "Scegli due persone per vedere il vostro legame.",
+        "partner_reading_loading": "Lettura dello spazio tra voi...",
     ]
 
     static let ru: [String: String] = [
@@ -394,6 +454,16 @@ enum Translations {
         "reading_title_of": "✨ Расклад для %@",
         "button_regenerate_reading": "Обновить Расклад",
         "share_tagline": "Астрология · Таро · Аффирмации",
+        "choose_person": "Выбрать Человека",
+        "button_cancel": "Отмена",
+        "partner_intro": "Выбери двух людей и узнай, что происходит между их картами.",
+        "partner_person_one": "Первый Человек",
+        "partner_person_two": "Второй Человек",
+        "partner_tap_to_choose": "Нажми, чтобы выбрать",
+        "partner_tap_to_change": "Нажми, чтобы изменить",
+        "button_read_together": "Прочитать Наши Карты ✨",
+        "partner_pick_two_hint": "Выбери двух людей, чтобы увидеть вашу связь.",
+        "partner_reading_loading": "Читаем пространство между вами...",
     ]
 
     static let uk: [String: String] = [
@@ -449,6 +519,16 @@ enum Translations {
         "reading_title_of": "✨ Розклад для %@",
         "button_regenerate_reading": "Оновити Розклад",
         "share_tagline": "Астрологія · Таро · Афірмації",
+        "choose_person": "Обрати Людину",
+        "button_cancel": "Скасувати",
+        "partner_intro": "Обери двох людей і дізнайся, що відбувається між їхніми картами.",
+        "partner_person_one": "Перша Людина",
+        "partner_person_two": "Друга Людина",
+        "partner_tap_to_choose": "Натисни, щоб обрати",
+        "partner_tap_to_change": "Натисни, щоб змінити",
+        "button_read_together": "Прочитати Наші Карти ✨",
+        "partner_pick_two_hint": "Обери двох людей, щоб побачити ваш зв'язок.",
+        "partner_reading_loading": "Читаємо простір між вами...",
     ]
 
     static let pl: [String: String] = [
@@ -504,5 +584,15 @@ enum Translations {
         "reading_title_of": "✨ Odczyt dla %@",
         "button_regenerate_reading": "Odśwież Odczyt",
         "share_tagline": "Astrologia · Tarot · Afirmacje",
+        "choose_person": "Wybierz Osobę",
+        "button_cancel": "Anuluj",
+        "partner_intro": "Wybierz dwie osoby i przeczytaj, co dzieje się między ich horoskopami.",
+        "partner_person_one": "Pierwsza Osoba",
+        "partner_person_two": "Druga Osoba",
+        "partner_tap_to_choose": "Dotknij, aby wybrać",
+        "partner_tap_to_change": "Dotknij, aby zmienić",
+        "button_read_together": "Przeczytaj Nasze Horoskopy ✨",
+        "partner_pick_two_hint": "Wybierz dwie osoby, aby zobaczyć wasze połączenie.",
+        "partner_reading_loading": "Odczytywanie przestrzeni między wami...",
     ]
 }

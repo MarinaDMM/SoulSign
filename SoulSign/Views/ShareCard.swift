@@ -272,6 +272,51 @@ struct NatalChartPDFShareButton: View {
     }
 }
 
+// MARK: - Partner (synastry) share card
+
+struct PartnerShareCard: View {
+    let nameA: String
+    let nameB: String
+    let reading: String
+
+    var body: some View {
+        ZStack {
+            ShareCardBackground()
+            VStack(spacing: 0) {
+                Spacer(minLength: 190)
+
+                Text("💑")
+                    .font(.system(size: 78))
+                    .padding(.bottom, 34)
+
+                Text("\(nameA.uppercased())  ♥  \(nameB.uppercased())")
+                    .font(.system(size: 34, weight: .semibold))
+                    .tracking(2)
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.7)
+                    .padding(.horizontal, 80)
+                    .padding(.bottom, 44)
+
+                Text(shareExcerpt(from: reading, maxChars: 280))
+                    .font(.system(size: 30, weight: .medium, design: .serif))
+                    .foregroundColor(.white.opacity(0.92))
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(10)
+                    .padding(.horizontal, 95)
+
+                Spacer(minLength: 190)
+
+                ShareCardFooter()
+                    .padding(.bottom, 110)
+            }
+        }
+        .frame(width: 1080, height: 1920)
+        .clipped()
+    }
+}
+
 // MARK: - Tarot share card
 
 struct TarotShareCard: View {
