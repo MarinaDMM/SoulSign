@@ -19,10 +19,12 @@ struct HomeView: View {
     @EnvironmentObject var profileStore: ProfileStore
     @EnvironmentObject var notificationRouter: NotificationRouter
     @EnvironmentObject var loc: LocalizationManager
+    @EnvironmentObject var subs: SubscriptionManager
     @Environment(\.colorScheme) private var colorScheme
     private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
 
     @State private var path = NavigationPath()
+    @State private var showPaywall = false
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -60,9 +62,13 @@ struct HomeView: View {
                                             .buttonStyle(.plain)
                                         }
                                         Button {
-                                            path.append(AppDestination.newProfile)
+                                            if subs.isPlus || profileStore.profiles.count < FreeTier.maxSavedPeople {
+                                                path.append(AppDestination.newProfile)
+                                            } else {
+                                                showPaywall = true
+                                            }
                                         } label: {
-                                            AddChip()
+                                            AddChip(locked: !subs.isPlus && profileStore.profiles.count >= FreeTier.maxSavedPeople)
                                         }
                                         .buttonStyle(.plain)
                                     }
@@ -84,8 +90,13 @@ struct HomeView: View {
                                 FeatureTile(.image("tarot_major_fool"), loc.t("tarot_today"), loc.t("subtitle_tarot"), hue: 0.78) {
                                     path.append(AppDestination.tarot)
                                 }
-                                FeatureTile(.emoji("💑"), loc.t("partner_chart"), loc.t("subtitle_partner"), hue: 0.95) {
-                                    path.append(AppDestination.partnerChart)
+                                FeatureTile(.emoji("💑"), loc.t("partner_chart"), loc.t("subtitle_partner"),
+                                            hue: 0.95, locked: !subs.isPlus) {
+                                    if subs.isPlus {
+                                        path.append(AppDestination.partnerChart)
+                                    } else {
+                                        showPaywall = true
+                                    }
                                 }
                                 FeatureTile(.emoji("🌞"), loc.t("affirmations"), loc.t("subtitle_affirmations"), hue: 0.55) {
                                     path.append(AppDestination.affirmations)
@@ -128,6 +139,13 @@ struct HomeView: View {
 
                 case .affirmations:
                     DailyAffirmationView()
+                }
+            }
+            .sheet(isPresented: $showPaywall) {
+                NavigationStack {
+                    PaywallView()
+                        .environmentObject(subs)
+                        .environmentObject(loc)
                 }
             }
             .onAppear {
@@ -215,6 +233,7 @@ struct ProfileChip: View {
 }
 
 private struct AddChip: View {
+    var locked: Bool = false
     @EnvironmentObject var loc: LocalizationManager
 
     var body: some View {
@@ -224,8 +243,8 @@ private struct AddChip: View {
                 .background(Circle().fill(.white.opacity(0.07)))
                 .frame(width: 54, height: 54)
                 .overlay(
-                    Image(systemName: "plus")
-                        .font(.system(size: 20, weight: .medium))
+                    Image(systemName: locked ? "lock.fill" : "plus")
+                        .font(.system(size: locked ? 17 : 20, weight: .medium))
                         .foregroundColor(.white.opacity(0.65))
                 )
             Text(loc.t("add_label"))
@@ -284,17 +303,27 @@ private struct FeatureTile: View {
     let title: String
     let subtitle: String
     let hue: Double
+    let locked: Bool
     let action: () -> Void
 
-    init(_ icon: FeatureIcon, _ title: String, _ subtitle: String, hue: Double, action: @escaping () -> Void) {
+    init(_ icon: FeatureIcon, _ title: String, _ subtitle: String,
+         hue: Double, locked: Bool = false, action: @escaping () -> Void) {
         self.icon = icon; self.title = title; self.subtitle = subtitle
-        self.hue = hue; self.action = action
+        self.hue = hue; self.locked = locked; self.action = action
     }
 
     var body: some View {
         Button(action: action) {
             VStack(alignment: .leading, spacing: 0) {
-                iconView
+                HStack(alignment: .top) {
+                    iconView
+                    Spacer()
+                    if locked {
+                        Image(systemName: "lock.fill")
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundColor(.white.opacity(0.55))
+                    }
+                }
                 Spacer()
                 Text(title)
                     .font(.system(size: 15, weight: .semibold))

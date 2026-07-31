@@ -1,0 +1,67 @@
+{
+  "identifier" : "5B2A1C77-PLUS-CONF-0001",
+  "nonRenewingSubscriptions" : [],
+  "products" : [],
+  "settings" : {
+    "_applicationInternalID" : "6794421639",
+    "_developerTeamID" : "5R32MDPGF2",
+    "_lastSynchronizedDate" : 775000000
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21500001",
+      "localizations" : [],
+      "name" : "SoulSign Plus",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [],
+          "codeOffers" : [],
+          "displayPrice" : "6.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "21500002",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Partner charts, unlimited people, and deeper readings.",
+              "displayName" : "SoulSign Plus (Monthly)",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.marinad.SoulSign.plus.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "SoulSign Plus Monthly",
+          "subscriptionGroupID" : "21500001",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : []
+        },
+        {
+          "adHocOffers" : [],
+          "codeOffers" : [],
+          "displayPrice" : "39.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "21500003",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Partner charts, unlimited people, and deeper readings. Best value.",
+              "displayName" : "SoulSign Plus (Yearly)",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.marinad.SoulSign.plus.yearly",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "SoulSign Plus Yearly",
+          "subscriptionGroupID" : "21500001",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : []
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

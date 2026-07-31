@@ -14,6 +14,7 @@ struct SoulSignApp: App {
     @StateObject private var notificationRouter: NotificationRouter
     @StateObject private var profileStore = ProfileStore()
     @StateObject private var localization = LocalizationManager.shared
+    @StateObject private var subscriptions = SubscriptionManager.shared
 
     private let notificationDelegate: NotificationDelegate
 
@@ -33,7 +34,9 @@ struct SoulSignApp: App {
                     .environmentObject(notificationRouter)
                     .environmentObject(profileStore)
                     .environmentObject(localization)
+                    .environmentObject(subscriptions)
                     .environment(\.locale, localization.language.locale)
+                    .task { await subscriptions.refreshEntitlement() }
             } else {
                 WelcomeView()
                     .environmentObject(localization)
