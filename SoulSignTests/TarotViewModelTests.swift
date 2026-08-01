@@ -34,6 +34,15 @@ final class TarotViewModelTests: XCTestCase {
         XCTAssertTrue(prompt.contains(card.rwsMeaning))
     }
 
+    func testPromptInstructsCardNameAsSubjectNotYou() {
+        let card = TarotDeck.cards.first(where: { $0.name == "The Hermit" })!
+        let prompt = TarotViewModel.buildPrompt(card: card, language: .en, dateLabel: "today")
+        XCTAssertTrue(prompt.contains("The Hermit"))
+        XCTAssertFalse(prompt.contains("Speak directly to the reader as \"you.\""),
+                       "should no longer instruct blanket \"you\" address")
+        XCTAssertTrue(prompt.contains("subject"), "should instruct the card's name to carry sentences")
+    }
+
     func testEnglishPromptHasNoLanguageInstruction() {
         let card = TarotDeck.cards[0]
         let prompt = TarotViewModel.buildPrompt(card: card, language: .en, dateLabel: "today")

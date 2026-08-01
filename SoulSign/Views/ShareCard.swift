@@ -107,20 +107,6 @@ private struct ShareCardFooter: View {
     }
 }
 
-/// Takes the first paragraph of a reading and trims it to a card-friendly
-/// length, breaking on a word boundary rather than mid-word.
-private func shareExcerpt(from text: String, maxChars: Int) -> String {
-    let firstParagraph = text.components(separatedBy: "\n\n").first ?? text
-    let trimmed = firstParagraph.trimmingCharacters(in: .whitespacesAndNewlines)
-    guard trimmed.count > maxChars else { return trimmed }
-    let cutIndex = trimmed.index(trimmed.startIndex, offsetBy: maxChars)
-    let truncated = trimmed[..<cutIndex]
-    if let lastSpace = truncated.lastIndex(of: " ") {
-        return String(truncated[..<lastSpace]) + "…"
-    }
-    return String(truncated) + "…"
-}
-
 // MARK: - Affirmation share card
 
 struct AffirmationShareCard: View {
@@ -272,105 +258,270 @@ struct NatalChartPDFShareButton: View {
     }
 }
 
-// MARK: - Partner (synastry) share card
+// MARK: - Tarot PDF share
 
-struct PartnerShareCard: View {
-    let nameA: String
-    let nameB: String
-    let reading: String
+@MainActor
+private enum TarotPDFLayout {
+    static let pageWidth: CGFloat = 900
+    static let topPadding: CGFloat = 80
+    static let dateFontSize: CGFloat = 22
+    static let dateBlockHeight: CGFloat = 60
+    static let cardWidth: CGFloat = 300
+    static let cardAspectRatio: CGFloat = 750.0 / 1298.0
+    static var cardHeight: CGFloat { cardWidth / cardAspectRatio }
+    static let cardBottomSpacing: CGFloat = 40
+    static let titleFontSize: CGFloat = 38
+    static let titleBlockHeight: CGFloat = 90
+    static let textSideMargin: CGFloat = 90
+    static let textFontName = "Georgia"
+    static let textFontSize: CGFloat = 27
+    static let textLineSpacing: CGFloat = 11
+    static let textBottomSpacing: CGFloat = 80
+    static let footerHeight: CGFloat = 140
+    static let bottomPadding: CGFloat = 90
 
-    var body: some View {
-        ZStack {
-            ShareCardBackground()
-            VStack(spacing: 0) {
-                Spacer(minLength: 190)
+    static var textWidth: CGFloat { pageWidth - 2 * textSideMargin }
 
-                Text("💑")
-                    .font(.system(size: 78))
-                    .padding(.bottom, 34)
-
-                Text("\(nameA.uppercased())  ♥  \(nameB.uppercased())")
-                    .font(.system(size: 34, weight: .semibold))
-                    .tracking(2)
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                    .minimumScaleFactor(0.7)
-                    .padding(.horizontal, 80)
-                    .padding(.bottom, 44)
-
-                Text(shareExcerpt(from: reading, maxChars: 280))
-                    .font(.system(size: 30, weight: .medium, design: .serif))
-                    .foregroundColor(.white.opacity(0.92))
-                    .multilineTextAlignment(.center)
-                    .lineSpacing(10)
-                    .padding(.horizontal, 95)
-
-                Spacer(minLength: 190)
-
-                ShareCardFooter()
-                    .padding(.bottom, 110)
-            }
-        }
-        .frame(width: 1080, height: 1920)
-        .clipped()
+    static func pageHeight(forReading reading: String) -> CGFloat {
+        let textHeight = ShareCardRenderer.measuredTextHeight(
+            reading, fontName: textFontName, fontSize: textFontSize,
+            lineSpacing: textLineSpacing, width: textWidth
+        )
+        return topPadding + dateBlockHeight + cardHeight + cardBottomSpacing
+             + titleBlockHeight + textHeight + textBottomSpacing + footerHeight + bottomPadding
     }
 }
 
-// MARK: - Tarot share card
-
-struct TarotShareCard: View {
+struct TarotPDFPage: View {
     let card: TarotCard
     let reading: String
     let dateLabel: String
-
-    private static let cardAspectRatio: CGFloat = 750.0 / 1298.0
+    @EnvironmentObject var loc: LocalizationManager
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             ShareCardBackground()
             VStack(spacing: 0) {
-                Spacer(minLength: 80)
+                Spacer().frame(height: TarotPDFLayout.topPadding)
 
-                Text(dateLabel)
-                    .font(.system(size: 22, weight: .medium))
+                Text(dateLabel.uppercased())
+                    .font(.system(size: TarotPDFLayout.dateFontSize, weight: .medium))
                     .tracking(3)
                     .foregroundColor(.white.opacity(0.5))
-                    .padding(.bottom, 40)
+                    .frame(height: TarotPDFLayout.dateBlockHeight)
 
                 Image(card.imageName)
                     .resizable()
-                    .aspectRatio(Self.cardAspectRatio, contentMode: .fit)
-                    .frame(width: 340)
+                    .aspectRatio(TarotPDFLayout.cardAspectRatio, contentMode: .fit)
+                    .frame(width: TarotPDFLayout.cardWidth)
                     .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                     .overlay(
                         RoundedRectangle(cornerRadius: 8, style: .continuous)
                             .strokeBorder(.white.opacity(0.25), lineWidth: 1)
                     )
                     .shadow(color: .black.opacity(0.4), radius: 20, y: 10)
-                    .padding(.bottom, 46)
+                    .padding(.bottom, TarotPDFLayout.cardBottomSpacing)
 
-                Text(card.name.uppercased())
-                    .font(.system(size: 34, weight: .bold))
-                    .tracking(2)
+                Text(card.name)
+                    .font(.system(size: TarotPDFLayout.titleFontSize, weight: .bold))
                     .foregroundColor(.white)
-                    .padding(.bottom, 34)
-
-                Text(shareExcerpt(from: reading, maxChars: 260))
-                    .font(.system(size: 28, weight: .medium, design: .serif))
-                    .foregroundColor(.white.opacity(0.92))
                     .multilineTextAlignment(.center)
-                    .lineSpacing(8)
-                    .padding(.horizontal, 100)
+                    .padding(.horizontal, 60)
+                    .frame(height: TarotPDFLayout.titleBlockHeight)
 
-                Spacer(minLength: 60)
+                Text(reading)
+                    .font(.custom(TarotPDFLayout.textFontName, size: TarotPDFLayout.textFontSize))
+                    .foregroundColor(.white.opacity(0.92))
+                    .multilineTextAlignment(.leading)
+                    .lineSpacing(TarotPDFLayout.textLineSpacing)
+                    .frame(width: TarotPDFLayout.textWidth, alignment: .leading)
+                    .padding(.bottom, TarotPDFLayout.textBottomSpacing)
 
                 ShareCardFooter()
-                    .padding(.bottom, 90)
             }
         }
-        .frame(width: 1080, height: 1920)
-        .clipped()
+        .frame(width: TarotPDFLayout.pageWidth)
+    }
+}
+
+struct TarotPDFShareButton: View {
+    let card: TarotCard
+    let reading: String
+    let dateLabel: String
+    @EnvironmentObject var loc: LocalizationManager
+    @State private var fileURL: URL?
+    @State private var previewImage: UIImage?
+
+    var body: some View {
+        Group {
+            if let fileURL, let previewImage {
+                ShareLink(
+                    item: fileURL,
+                    preview: SharePreview(card.name, image: Image(uiImage: previewImage))
+                ) {
+                    Image(systemName: "square.and.arrow.up")
+                }
+            } else {
+                Image(systemName: "square.and.arrow.up")
+                    .foregroundColor(.white.opacity(0.25))
+            }
+        }
+        .onAppear {
+            if fileURL == nil { generate() }
+        }
+    }
+
+    private func generate() {
+        let pageHeight = TarotPDFLayout.pageHeight(forReading: reading)
+        let content = TarotPDFPage(card: card, reading: reading, dateLabel: dateLabel)
+            .environmentObject(loc)
+
+        guard let pdfData = ShareCardRenderer.renderPDF(
+            content, pageSize: CGSize(width: TarotPDFLayout.pageWidth, height: pageHeight)
+        ) else { return }
+        fileURL = ShareCardRenderer.writeTempPDF(pdfData, name: "tarot-reading")
+
+        // A shorter raster crop (top portion) as the share-sheet thumbnail.
+        let previewHeight = min(pageHeight, 1400)
+        previewImage = ShareCardRenderer.render(
+            content, size: CGSize(width: TarotPDFLayout.pageWidth, height: previewHeight)
+        )
+    }
+}
+
+// MARK: - Partner (synastry) PDF share
+
+@MainActor
+private enum PartnerPDFLayout {
+    static let pageWidth: CGFloat = 900
+    static let topPadding: CGFloat = 80
+    static let avatarSize: CGFloat = 110
+    static let avatarRowHeight: CGFloat = 170
+    static let titleFontSize: CGFloat = 38
+    static let titleBlockHeight: CGFloat = 110
+    static let textSideMargin: CGFloat = 90
+    static let textFontName = "Georgia"
+    static let textFontSize: CGFloat = 27
+    static let textLineSpacing: CGFloat = 11
+    static let textBottomSpacing: CGFloat = 80
+    static let footerHeight: CGFloat = 140
+    static let bottomPadding: CGFloat = 90
+
+    static var textWidth: CGFloat { pageWidth - 2 * textSideMargin }
+
+    static func pageHeight(forReading reading: String) -> CGFloat {
+        let textHeight = ShareCardRenderer.measuredTextHeight(
+            reading, fontName: textFontName, fontSize: textFontSize,
+            lineSpacing: textLineSpacing, width: textWidth
+        )
+        return topPadding + avatarRowHeight + titleBlockHeight
+             + textHeight + textBottomSpacing + footerHeight + bottomPadding
+    }
+}
+
+struct PartnerPDFPage: View {
+    let nameA: String
+    let nameB: String
+    let initialsA: String
+    let initialsB: String
+    let reading: String
+    @EnvironmentObject var loc: LocalizationManager
+
+    var body: some View {
+        ZStack(alignment: .top) {
+            ShareCardBackground()
+            VStack(spacing: 0) {
+                Spacer().frame(height: PartnerPDFLayout.topPadding)
+
+                HStack(spacing: 30) {
+                    avatar(initialsA)
+                    Text("♥")
+                        .font(.system(size: 30))
+                        .foregroundColor(.pink.opacity(0.8))
+                    avatar(initialsB)
+                }
+                .frame(height: PartnerPDFLayout.avatarRowHeight)
+
+                Text("\(nameA) & \(nameB)")
+                    .font(.system(size: PartnerPDFLayout.titleFontSize, weight: .bold))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 60)
+                    .frame(height: PartnerPDFLayout.titleBlockHeight)
+
+                Text(reading)
+                    .font(.custom(PartnerPDFLayout.textFontName, size: PartnerPDFLayout.textFontSize))
+                    .foregroundColor(.white.opacity(0.92))
+                    .multilineTextAlignment(.leading)
+                    .lineSpacing(PartnerPDFLayout.textLineSpacing)
+                    .frame(width: PartnerPDFLayout.textWidth, alignment: .leading)
+                    .padding(.bottom, PartnerPDFLayout.textBottomSpacing)
+
+                ShareCardFooter()
+            }
+        }
+        .frame(width: PartnerPDFLayout.pageWidth)
+    }
+
+    private func avatar(_ initials: String) -> some View {
+        Circle()
+            .fill(LinearGradient(
+                colors: [Color(hue: 0.75, saturation: 0.55, brightness: 0.65),
+                         Color(hue: 0.65, saturation: 0.65, brightness: 0.50)],
+                startPoint: .topLeading, endPoint: .bottomTrailing
+            ))
+            .frame(width: PartnerPDFLayout.avatarSize, height: PartnerPDFLayout.avatarSize)
+            .overlay(
+                Text(initials)
+                    .font(.system(size: 40, weight: .semibold))
+                    .foregroundColor(.white)
+            )
+    }
+}
+
+struct PartnerPDFShareButton: View {
+    let nameA: String
+    let nameB: String
+    let initialsA: String
+    let initialsB: String
+    let reading: String
+    @EnvironmentObject var loc: LocalizationManager
+    @State private var fileURL: URL?
+    @State private var previewImage: UIImage?
+
+    var body: some View {
+        Group {
+            if let fileURL, let previewImage {
+                ShareLink(
+                    item: fileURL,
+                    preview: SharePreview("\(nameA) & \(nameB)", image: Image(uiImage: previewImage))
+                ) {
+                    Image(systemName: "square.and.arrow.up")
+                }
+            } else {
+                Image(systemName: "square.and.arrow.up")
+                    .foregroundColor(.white.opacity(0.25))
+            }
+        }
+        .onAppear {
+            if fileURL == nil { generate() }
+        }
+    }
+
+    private func generate() {
+        let pageHeight = PartnerPDFLayout.pageHeight(forReading: reading)
+        let content = PartnerPDFPage(nameA: nameA, nameB: nameB, initialsA: initialsA, initialsB: initialsB, reading: reading)
+            .environmentObject(loc)
+
+        guard let pdfData = ShareCardRenderer.renderPDF(
+            content, pageSize: CGSize(width: PartnerPDFLayout.pageWidth, height: pageHeight)
+        ) else { return }
+        fileURL = ShareCardRenderer.writeTempPDF(pdfData, name: "partner-chart")
+
+        let previewHeight = min(pageHeight, 1400)
+        previewImage = ShareCardRenderer.render(
+            content, size: CGSize(width: PartnerPDFLayout.pageWidth, height: previewHeight)
+        )
     }
 }
 

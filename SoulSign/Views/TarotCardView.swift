@@ -69,10 +69,8 @@ struct TarotCardView: View {
                     .foregroundColor(theme.primaryText)
 
                     if !vm.reading.isEmpty {
-                        ShareCardButton(previewTitle: vm.card.name) {
-                            TarotShareCard(card: vm.card, reading: vm.reading, dateLabel: todayLabel)
-                        }
-                        .foregroundColor(theme.primaryText)
+                        TarotPDFShareButton(card: vm.card, reading: vm.reading, dateLabel: todayLabel)
+                            .foregroundColor(theme.primaryText)
                     }
                 }
             }

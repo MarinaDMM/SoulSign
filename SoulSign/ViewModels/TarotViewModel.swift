@@ -88,12 +88,13 @@ final class TarotViewModel: ObservableObject {
 
         Traditional Rider-Waite-Smith upright meaning of this card: \(card.rwsMeaning)
         \(languageLine)
-        Write a tarot reading for today, grounded specifically in that traditional meaning above, not a generic horoscope. Speak directly to the reader as "you."
+        Write a tarot reading for today, grounded specifically in that traditional meaning above, not a generic horoscope.
 
         Rules, follow every one:
         • Flowing prose, 3 paragraphs maximum. No markdown, no headers, no bullet points, no numbered lists.
         • Never use the em dash character. Use commas and periods instead.
-        • Open by grounding the reading in what this specific card traditionally represents, then carry that meaning into how it might show up today.
+        • Make the card itself the subject of most sentences, by name, for example "\(card.name) leaps without looking" or "\(card.name) rules through logic," rather than making "you" the subject. Refer to the card by name at least two or three times across the reading, not only in the opening.
+        • Open by grounding the reading in what this specific card traditionally represents, then carry that meaning into how it might show up today. It is fine to address the reader occasionally, but the card's name should carry the sentence, not a generic "you."
         • Place an emoji or glyph right after a word occasionally to accent it (🌙 🔥 ✨ 🌊 💫 🕯️ ⭐). Two or three total across the whole reading, only where it adds something real.
         • Mystic and intimate, like quiet insight from someone who sees clearly.
         • End on one sentence that stays with the reader after they close the screen.

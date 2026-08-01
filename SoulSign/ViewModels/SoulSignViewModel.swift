@@ -85,6 +85,7 @@ final class SoulSignViewModel: ObservableObject {
         }
 
         let languageLine = language == .en ? "" : "\n• Write the entire reading in \(language.englishName). Every sentence must be in \(language.englishName), not English."
+        let firstName = fullName.components(separatedBy: " ").first ?? fullName
 
         let depthInstruction: String
         switch depth {
@@ -102,9 +103,9 @@ final class SoulSignViewModel: ObservableObject {
         Rules, follow every one:\(languageLine)
         • Plain prose only. No markdown, no headers, no bullet points, no asterisks, no hashtags. Just flowing paragraphs. Never use the em dash character, it reads as machine written. Use commas, periods, or line breaks instead.
         \(depthInstruction)
-        • Keep all words as words. Occasionally place a glyph or emoji right after a word to accent it visually, not to replace it. For example: "your Sun ☉ in Scorpio ♏ burns quietly" or "the Moon 🌙 here asks for stillness." Use this sparingly, only where it adds something. Planet glyphs: ☉ ☽ ☿ ♀ ♂ ♃ ♄. Sign glyphs: ♈♉♊♋♌♍♎♏♐♑♒♓. Occasional emoji: 🌙 🔥 ✨ 🌊 💫 🕯️, one or two per paragraph at most.
+        • Keep all words as words. Occasionally place a glyph or emoji right after a word to accent it visually, not to replace it. For example: "\(firstName)'s Sun ☉ in Scorpio ♏ burns quietly" or "the Moon 🌙 here asks for stillness." Use this sparingly, only where it adds something. Planet glyphs: ☉ ☽ ☿ ♀ ♂ ♃ ♄. Sign glyphs: ♈♉♊♋♌♍♎♏♐♑♒♓. Occasional emoji: 🌙 🔥 ✨ 🌊 💫 🕯️, one or two per paragraph at most.
         • Make it feel like a secret someone left for \(fullName) specifically. Intriguing details they'll want to sit with, not a summary they'll skim.
-        • Speak directly as "you." Intimate, a little mysterious, warm but never sentimental.
+        • Address \(firstName) by name throughout, not by "you" or "your." Write "\(firstName)'s Moon sits in..." rather than "your Moon sits in...", the way an astrologer would speak about someone specifically, not to a generic reader. Intimate, a little mysterious, warm but never sentimental.
         • No closing offers, no questions, no AI references. End on one quiet sentence that lingers.
         """
     }

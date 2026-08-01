@@ -72,6 +72,15 @@ final class PartnerChartViewModelTests: XCTestCase {
                       "first names are referenced for the writing instruction")
     }
 
+    func testPromptAddressesByNameNotPronoun() {
+        let prompt = PartnerChartViewModel.buildPrompt(
+            a: person("Luna Rivers"), b: person("Teo Marin"), language: .en)
+        XCTAssertFalse(prompt.contains("Speak to them as a pair, using \"you two\""),
+                       "should no longer instruct pronoun-pair address as the default")
+        XCTAssertTrue(prompt.contains("Luna meets Teo") || prompt.contains("throughout"),
+                      "should model naming both people as the sentence subject")
+    }
+
     func testPromptIncludesBirthPlacesAndCoordinates() {
         let prompt = PartnerChartViewModel.buildPrompt(
             a: person("Luna"), b: person("Teo"), language: .en)

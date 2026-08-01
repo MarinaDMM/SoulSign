@@ -151,10 +151,8 @@ struct TarotHistoryDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                ShareCardButton(previewTitle: card.name) {
-                    TarotShareCard(card: card, reading: reading, dateLabel: dateLabel.uppercased())
-                }
-                .foregroundColor(theme.primaryText)
+                TarotPDFShareButton(card: card, reading: reading, dateLabel: dateLabel.uppercased())
+                    .foregroundColor(theme.primaryText)
             }
         }
     }

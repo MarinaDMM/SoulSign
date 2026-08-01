@@ -49,6 +49,12 @@ final class SoulSignViewModelTests: XCTestCase {
         }
     }
 
+    func testPromptAddressesByFirstNameNotYou() {
+        let p = prompt(depth: .standard)
+        XCTAssertTrue(p.contains("Luna's Sun"), "should model naming, e.g. \"Luna's Sun ☉ in Scorpio\"")
+        XCTAssertFalse(p.contains("\"your Sun"), "should not model addressing as \"your Sun\"")
+    }
+
     func testNonEnglishPromptNamesTheLanguageAtBothDepths() {
         for depth in [ReadingDepth.standard, .deep] {
             let p = prompt(depth: depth, language: .fr)

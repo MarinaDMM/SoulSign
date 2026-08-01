@@ -82,8 +82,8 @@ final class PartnerChartViewModel: ObservableObject {
         Rules, follow every one:\(languageLine)
         • Plain prose only. No markdown, no headers, no bullet points, no asterisks. Just flowing paragraphs. Never use the em dash character, it reads as machine written. Use commas, periods, or line breaks instead.
         • 4 paragraphs maximum.
-        • Name both people by their first names, \(a.firstName) and \(b.firstName), rather than saying "person one" or "the first chart."
-        • Speak to them as a pair, using "you two" or "between you." Intimate, a little mysterious, warm but never sentimental.
+        • Name both people by their first names, \(a.firstName) and \(b.firstName), throughout, not "person one," "the first chart," "you two," or "between you." Write "\(a.firstName) meets \(b.firstName) easily here" rather than "you two meet easily here."
+        • Intimate, a little mysterious, warm but never sentimental.
         • Keep all words as words. Occasionally place a glyph or emoji right after a word to accent it, not to replace it. For example "her Moon 🌙 in Cancer ♋ softens." Planet glyphs: ☉ ☽ ☿ ♀ ♂ ♃ ♄. Sign glyphs: ♈♉♊♋♌♍♎♏♐♑♒♓. One or two per paragraph at most.
         • Be honest about friction as well as harmony. A reading that is only flattering is not useful.
         • No closing offers, no questions, no AI references. End on one quiet sentence that lingers.

@@ -30,13 +30,11 @@ struct PartnerChartReadingView: View {
         .toolbar {
             if !viewModel.reading.isEmpty {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    ShareCardButton(previewTitle: "\(personA.firstName) & \(personB.firstName)") {
-                        PartnerShareCard(
-                            nameA: personA.firstName,
-                            nameB: personB.firstName,
-                            reading: viewModel.reading
-                        )
-                    }
+                    PartnerPDFShareButton(
+                        nameA: personA.firstName, nameB: personB.firstName,
+                        initialsA: personA.initials, initialsB: personB.initials,
+                        reading: viewModel.reading
+                    )
                     .foregroundColor(theme.primaryText)
                 }
             }
