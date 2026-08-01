@@ -28,7 +28,7 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.marinad.SoulSign.plus.monthly",
+          "productID" : "com.marinad.SoulSign.plus.monthly.v2",
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "SoulSign Plus Monthly",
           "subscriptionGroupID" : "21500001",
@@ -50,7 +50,7 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.marinad.SoulSign.plus.yearly",
+          "productID" : "com.marinad.SoulSign.plus.yearly.v2",
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "SoulSign Plus Yearly",
           "subscriptionGroupID" : "21500001",

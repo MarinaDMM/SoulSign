@@ -8,8 +8,12 @@ import Foundation
 import StoreKit
 
 enum PlusProduct: String, CaseIterable {
-    case monthly = "com.marinad.SoulSign.plus.monthly"
-    case yearly  = "com.marinad.SoulSign.plus.yearly"
+    // ".v2" because the original IDs (without suffix) were claimed by an
+    // earlier, abandoned App Store Connect attempt — Apple permanently
+    // reserves a Product ID for an app once created, even after deletion,
+    // so those originals can never be reused.
+    case monthly = "com.marinad.SoulSign.plus.monthly.v2"
+    case yearly  = "com.marinad.SoulSign.plus.yearly.v2"
 }
 
 /// Free-tier limits. Plus removes them.
