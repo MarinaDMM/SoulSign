@@ -117,17 +117,22 @@ struct PersonPickerView: View {
         .padding(.vertical, 4)
     }
 
+    /// Distinguishes "you've never added anyone" from "everyone you've
+    /// saved is already picked in the other slot" — those need different
+    /// copy, since the second case with the old shared "No charts yet"
+    /// text incorrectly implied nothing had been saved.
     private var emptyState: some View {
-        VStack(spacing: 20) {
+        let allPeopleTakenElsewhere = !profileStore.profiles.isEmpty
+        return VStack(spacing: 20) {
             Text("🌌").font(.system(size: 56))
-            Text(loc.t("empty_no_charts"))
+            Text(loc.t(allPeopleTakenElsewhere ? "empty_all_picked_title" : "empty_no_charts"))
                 .font(.title3.bold())
                 .foregroundColor(theme.primaryText)
-            Text(loc.t("empty_add_someone"))
+            Text(loc.t(allPeopleTakenElsewhere ? "empty_all_picked_body" : "empty_add_someone"))
                 .font(.subheadline)
                 .foregroundColor(theme.primaryText.opacity(0.6))
                 .multilineTextAlignment(.center)
-            Button(loc.t("button_add_first_person")) {
+            Button(loc.t(allPeopleTakenElsewhere ? "button_add_another_person" : "button_add_first_person")) {
                 showingNewPerson = true
             }
             .padding(.horizontal, 28).padding(.vertical, 12)
