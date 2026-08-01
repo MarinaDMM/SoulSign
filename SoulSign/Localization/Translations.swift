@@ -100,7 +100,7 @@ enum Translations {
         "tarot_redrawn_badge": "Redrawn",
         "reading_standard": "Standard",
         "reading_deep": "Deep ✨",
-        "empty_all_picked_title": "Already Chosen",
+        "empty_all_picked_title": "Add Another Person",
         "empty_all_picked_body": "Add someone new to pair with them.",
         "button_add_another_person": "Add Another Person",
     ]
@@ -194,7 +194,7 @@ enum Translations {
         "tarot_redrawn_badge": "Opnieuw Getrokken",
         "reading_standard": "Standaard",
         "reading_deep": "Diepgaand ✨",
-        "empty_all_picked_title": "Al Gekozen",
+        "empty_all_picked_title": "Nog Iemand Toevoegen",
         "empty_all_picked_body": "Voeg iemand nieuws toe om mee te koppelen.",
         "button_add_another_person": "Nog Iemand Toevoegen",
     ]
@@ -288,7 +288,7 @@ enum Translations {
         "tarot_redrawn_badge": "Retiré",
         "reading_standard": "Standard",
         "reading_deep": "Approfondie ✨",
-        "empty_all_picked_title": "Déjà Choisi",
+        "empty_all_picked_title": "Ajouter une Autre Personne",
         "empty_all_picked_body": "Ajoutez une nouvelle personne à associer.",
         "button_add_another_person": "Ajouter une Autre Personne",
     ]
@@ -382,7 +382,7 @@ enum Translations {
         "tarot_redrawn_badge": "Neu Gezogen",
         "reading_standard": "Standard",
         "reading_deep": "Tiefgehend ✨",
-        "empty_all_picked_title": "Bereits Gewählt",
+        "empty_all_picked_title": "Weitere Person Hinzufügen",
         "empty_all_picked_body": "Füge jemand Neuen hinzu, um sie zu verbinden.",
         "button_add_another_person": "Weitere Person Hinzufügen",
     ]
@@ -476,7 +476,7 @@ enum Translations {
         "tarot_redrawn_badge": "Repetida",
         "reading_standard": "Estándar",
         "reading_deep": "Profunda ✨",
-        "empty_all_picked_title": "Ya Elegido",
+        "empty_all_picked_title": "Añadir Otra Persona",
         "empty_all_picked_body": "Añade a alguien nuevo para emparejar.",
         "button_add_another_person": "Añadir Otra Persona",
     ]
@@ -570,7 +570,7 @@ enum Translations {
         "tarot_redrawn_badge": "Ripescata",
         "reading_standard": "Standard",
         "reading_deep": "Approfondita ✨",
-        "empty_all_picked_title": "Già Scelto",
+        "empty_all_picked_title": "Aggiungi un'Altra Persona",
         "empty_all_picked_body": "Aggiungi qualcuno di nuovo da abbinare.",
         "button_add_another_person": "Aggiungi un'Altra Persona",
     ]
@@ -664,7 +664,7 @@ enum Translations {
         "tarot_redrawn_badge": "Перетянута",
         "reading_standard": "Стандартный",
         "reading_deep": "Глубокий ✨",
-        "empty_all_picked_title": "Уже Выбран",
+        "empty_all_picked_title": "Добавить Ещё Человека",
         "empty_all_picked_body": "Добавь нового человека для пары.",
         "button_add_another_person": "Добавить Ещё Человека",
     ]
@@ -758,7 +758,7 @@ enum Translations {
         "tarot_redrawn_badge": "Перетягнуто",
         "reading_standard": "Стандартний",
         "reading_deep": "Глибокий ✨",
-        "empty_all_picked_title": "Вже Обрано",
+        "empty_all_picked_title": "Додати Ще Людину",
         "empty_all_picked_body": "Додай нову людину для пари.",
         "button_add_another_person": "Додати Ще Людину",
     ]
@@ -852,7 +852,7 @@ enum Translations {
         "tarot_redrawn_badge": "Wylosowano Ponownie",
         "reading_standard": "Standardowy",
         "reading_deep": "Głęboki ✨",
-        "empty_all_picked_title": "Już Wybrano",
+        "empty_all_picked_title": "Dodaj Kolejną Osobę",
         "empty_all_picked_body": "Dodaj nową osobę do pary.",
         "button_add_another_person": "Dodaj Kolejną Osobę",
     ]
