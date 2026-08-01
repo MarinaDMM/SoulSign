@@ -93,6 +93,13 @@ enum Translations {
         "plus_locked_partner": "Partner Charts are part of SoulSign Plus.",
         "plus_locked_people": "Free accounts can save up to %@ people.",
         "plus_unlock": "Unlock with Plus",
+        "tarot_history_title": "Tarot History",
+        "tarot_history_today": "Today",
+        "tarot_history_empty": "Come back tomorrow for your next card.",
+        "button_draw_again": "Draw Again",
+        "tarot_redrawn_badge": "Redrawn",
+        "reading_standard": "Standard",
+        "reading_deep": "Deep ✨",
     ]
 
     static let nl: [String: String] = [
@@ -177,6 +184,13 @@ enum Translations {
         "plus_locked_partner": "Partnerhoroscopen horen bij SoulSign Plus.",
         "plus_locked_people": "Gratis accounts kunnen tot %@ mensen opslaan.",
         "plus_unlock": "Ontgrendel met Plus",
+        "tarot_history_title": "Tarotgeschiedenis",
+        "tarot_history_today": "Vandaag",
+        "tarot_history_empty": "Kom morgen terug voor je volgende kaart.",
+        "button_draw_again": "Trek Opnieuw",
+        "tarot_redrawn_badge": "Opnieuw Getrokken",
+        "reading_standard": "Standaard",
+        "reading_deep": "Diepgaand ✨",
     ]
 
     static let fr: [String: String] = [
@@ -261,6 +275,13 @@ enum Translations {
         "plus_locked_partner": "Les thèmes de couple font partie de SoulSign Plus.",
         "plus_locked_people": "Les comptes gratuits peuvent enregistrer jusqu'à %@ personnes.",
         "plus_unlock": "Débloquer avec Plus",
+        "tarot_history_title": "Historique du Tarot",
+        "tarot_history_today": "Aujourd'hui",
+        "tarot_history_empty": "Revenez demain pour votre prochaine carte.",
+        "button_draw_again": "Tirer à Nouveau",
+        "tarot_redrawn_badge": "Retiré",
+        "reading_standard": "Standard",
+        "reading_deep": "Approfondie ✨",
     ]
 
     static let de: [String: String] = [
@@ -345,6 +366,13 @@ enum Translations {
         "plus_locked_partner": "Partnerhoroskope gehören zu SoulSign Plus.",
         "plus_locked_people": "Kostenlose Accounts können bis zu %@ Menschen speichern.",
         "plus_unlock": "Mit Plus Freischalten",
+        "tarot_history_title": "Tarot-Verlauf",
+        "tarot_history_today": "Heute",
+        "tarot_history_empty": "Komm morgen für deine nächste Karte wieder.",
+        "button_draw_again": "Erneut Ziehen",
+        "tarot_redrawn_badge": "Neu Gezogen",
+        "reading_standard": "Standard",
+        "reading_deep": "Tiefgehend ✨",
     ]
 
     static let es: [String: String] = [
@@ -429,6 +457,13 @@ enum Translations {
         "plus_locked_partner": "Las cartas de pareja son parte de SoulSign Plus.",
         "plus_locked_people": "Las cuentas gratuitas pueden guardar hasta %@ personas.",
         "plus_unlock": "Desbloquear con Plus",
+        "tarot_history_title": "Historial de Tarot",
+        "tarot_history_today": "Hoy",
+        "tarot_history_empty": "Vuelve mañana a por tu próxima carta.",
+        "button_draw_again": "Sacar de Nuevo",
+        "tarot_redrawn_badge": "Repetida",
+        "reading_standard": "Estándar",
+        "reading_deep": "Profunda ✨",
     ]
 
     static let it: [String: String] = [
@@ -513,6 +548,13 @@ enum Translations {
         "plus_locked_partner": "I temi di coppia fanno parte di SoulSign Plus.",
         "plus_locked_people": "Gli account gratuiti possono salvare fino a %@ persone.",
         "plus_unlock": "Sblocca con Plus",
+        "tarot_history_title": "Cronologia Tarocchi",
+        "tarot_history_today": "Oggi",
+        "tarot_history_empty": "Torna domani per la tua prossima carta.",
+        "button_draw_again": "Pesca di Nuovo",
+        "tarot_redrawn_badge": "Ripescata",
+        "reading_standard": "Standard",
+        "reading_deep": "Approfondita ✨",
     ]
 
     static let ru: [String: String] = [
@@ -597,6 +639,13 @@ enum Translations {
         "plus_locked_partner": "Карты пары входят в SoulSign Plus.",
         "plus_locked_people": "Бесплатные аккаунты могут сохранить до %@ человек.",
         "plus_unlock": "Открыть с Plus",
+        "tarot_history_title": "История Таро",
+        "tarot_history_today": "Сегодня",
+        "tarot_history_empty": "Возвращайся завтра за новой картой.",
+        "button_draw_again": "Вытянуть Снова",
+        "tarot_redrawn_badge": "Перетянута",
+        "reading_standard": "Стандартный",
+        "reading_deep": "Глубокий ✨",
     ]
 
     static let uk: [String: String] = [
@@ -681,6 +730,13 @@ enum Translations {
         "plus_locked_partner": "Карти пари входять до SoulSign Plus.",
         "plus_locked_people": "Безкоштовні акаунти можуть зберегти до %@ людей.",
         "plus_unlock": "Відкрити з Plus",
+        "tarot_history_title": "Історія Таро",
+        "tarot_history_today": "Сьогодні",
+        "tarot_history_empty": "Повертайся завтра за новою картою.",
+        "button_draw_again": "Витягнути Знову",
+        "tarot_redrawn_badge": "Перетягнуто",
+        "reading_standard": "Стандартний",
+        "reading_deep": "Глибокий ✨",
     ]
 
     static let pl: [String: String] = [
@@ -765,5 +821,12 @@ enum Translations {
         "plus_locked_partner": "Horoskopy pary są częścią SoulSign Plus.",
         "plus_locked_people": "Darmowe konta mogą zapisać do %@ osób.",
         "plus_unlock": "Odblokuj z Plus",
+        "tarot_history_title": "Historia Tarota",
+        "tarot_history_today": "Dzisiaj",
+        "tarot_history_empty": "Wróć jutro po kolejną kartę.",
+        "button_draw_again": "Losuj Ponownie",
+        "tarot_redrawn_badge": "Wylosowano Ponownie",
+        "reading_standard": "Standardowy",
+        "reading_deep": "Głęboki ✨",
     ]
 }

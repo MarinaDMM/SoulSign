@@ -48,6 +48,15 @@ xcodebuild test -project SoulSign.xcodeproj -scheme SoulSign \
 - **SubscriptionManager** — the entitlement rule as a pure function:
   active grants Plus; expired, refunded/revoked, and foreign product IDs do
   not; a nil expiry is not treated as expired.
+- **TarotHistoryStore** — day-key formatting, save/read round trip, a
+  re-draw overwrites that day's entry rather than duplicating it, missing
+  days return nil, most-recent-first ordering, pruning beyond 90 entries.
+- **TarotViewModel** — re-draw never returns the excluded card (and always
+  returns a real deck card), prompt grounded in the card's RWS meaning,
+  language handling, no em dash.
+- **SoulSignViewModel** — standard vs. deep reading depth: paragraph count
+  instruction, deep prompt covers Sun/Moon/love/ambition facets, both depths
+  forbid em dash and headers and name the subject, language handling.
 
 ### Integration (mocked `URLSession` / StoreKit test session)
 
@@ -82,6 +91,17 @@ end-to-end. That is why the entitlement rule is extracted as
   a Back button must appear, proving the screen actually rendered).
 - Language picker opens and lists languages.
 - Natal Chart tile opens the People screen.
+
+### Manual verification (StoreKit purchase flow, Plus feature gates)
+
+Not automated (would require driving Apple's native purchase sheet from
+UI tests), verified manually via a real purchase against the bundled
+`SoulSign.storekit` test config: paywall shows live prices and the 52%
+annual badge; purchasing flips Partner Chart, the people-limit Add
+chip, Tarot history/re-draw, and the natal Deep reading toggle from
+locked to unlocked; Tarot history correctly overwrites the day's entry
+on re-draw and shows a "Redrawn" badge; the natal Standard/Deep toggle
+produces genuinely different, independently cached readings.
 
 UI tests use launch arguments for determinism: `-hasSeenWelcome YES`,
 `-soulsign_language_v1 en`, and `-uitest-reset` (an app hook, active only under

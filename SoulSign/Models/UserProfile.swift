@@ -16,6 +16,9 @@ struct UserProfile: Identifiable, Codable, Hashable {
     var cachedReading: String?
     var readingDate: Date?
     var cachedReadingLanguage: String?
+    var cachedDeepReading: String?
+    var deepReadingDate: Date?
+    var cachedDeepReadingLanguage: String?
 
     static func == (lhs: UserProfile, rhs: UserProfile) -> Bool { lhs.id == rhs.id }
     func hash(into hasher: inout Hasher) { hasher.combine(id) }

@@ -9,37 +9,84 @@ final class TarotViewModel: ObservableObject {
     @Published var card: TarotCard = TarotDeck.cardForToday()
     @Published var reading: String = ""
     @Published var isLoading = false
+    @Published var isRedrawnToday = false
     @Published var errorMessage: String?
+    @Published var historyEntries: [(dateKey: String, card: TarotCard, entry: TarotHistoryEntry)] = []
 
-    private let claude = ClaudeService()
-    private let cacheKey = "tarot_daily_cache_v2"
+    private let claude: ClaudeService
+    private let store: TarotHistoryStore
+
+    init(claude: ClaudeService = ClaudeService(), store: TarotHistoryStore = TarotHistoryStore()) {
+        self.claude = claude
+        self.store = store
+    }
 
     func loadReading(language: AppLanguage) async {
-        let today = todayKey()
-
-        // Return cached reading if same card, same day, same language
-        if let cached = UserDefaults.standard.dictionary(forKey: cacheKey),
-           cached["date"] as? String == today,
-           cached["lang"] as? String == language.rawValue,
-           let cardId   = cached["cardId"]  as? Int,
-           let cachedText = cached["reading"] as? String,
-           let cachedCard = TarotDeck.cards.first(where: { $0.id == cardId }) {
-            self.card    = cachedCard
-            self.reading = cachedText
+        let today = Date()
+        if let existing = store.entry(for: today),
+           existing.lang == language.rawValue,
+           let existingCard = TarotDeck.cards.first(where: { $0.id == existing.cardId }) {
+            self.card = existingCard
+            self.reading = existing.reading
+            self.isRedrawnToday = existing.isRedraw
             return
         }
+        await generate(card: TarotDeck.cardForToday(), language: language, isRedraw: false)
+    }
 
-        let todayCard = TarotDeck.cardForToday()
-        self.card  = todayCard
-        isLoading  = true
+    /// Plus-only: replaces today's card with a different random one and
+    /// generates a fresh reading, overwriting today's history entry.
+    func redraw(language: AppLanguage) async {
+        let next = Self.pickRedrawCard(excluding: card.id)
+        await generate(card: next, language: language, isRedraw: true)
+    }
+
+    func loadHistory() {
+        historyEntries = store.allSorted().compactMap { key, entry in
+            guard let matchedCard = TarotDeck.cards.first(where: { $0.id == entry.cardId }) else { return nil }
+            return (dateKey: key, card: matchedCard, entry: entry)
+        }
+    }
+
+    private func generate(card: TarotCard, language: AppLanguage, isRedraw: Bool) async {
+        self.card = card
+        isLoading = true
         errorMessage = nil
 
-        let languageLine = language == .en ? "" : "\nWrite the entire reading in \(language.englishName). Every sentence must be in \(language.englishName), not English.\n"
+        let prompt = Self.buildPrompt(card: card, language: language, dateLabel: Self.fullDateLabel(language: language))
 
-        let prompt = """
-        Today is \(fullDateLabel(language: language)). The tarot card drawn for this day is "\(todayCard.name)" (\(todayCard.arcanaLabel)).
+        do {
+            let text = try await claude.send(messages: [ChatMessage(role: "user", content: prompt)])
+            self.reading = text
+            self.isRedrawnToday = isRedraw
+            store.save(TarotHistoryEntry(cardId: card.id, reading: text, lang: language.rawValue, isRedraw: isRedraw),
+                      for: Date())
+        } catch {
+            self.errorMessage = error.localizedDescription
+        }
 
-        Traditional Rider-Waite-Smith upright meaning of this card: \(todayCard.rwsMeaning)
+        isLoading = false
+    }
+
+    /// Picks a card other than `cardID`. Pure and deterministic-to-test:
+    /// the loop structurally guarantees the result never equals the exclusion.
+    static func pickRedrawCard(excluding cardID: Int) -> TarotCard {
+        var candidate = TarotDeck.cards.randomElement()!
+        while candidate.id == cardID {
+            candidate = TarotDeck.cards.randomElement()!
+        }
+        return candidate
+    }
+
+    /// Exposed for testing so prompt rules can be asserted without a network call.
+    static func buildPrompt(card: TarotCard, language: AppLanguage, dateLabel: String) -> String {
+        let languageLine = language == .en ? "" :
+            "\nWrite the entire reading in \(language.englishName). Every sentence must be in \(language.englishName), not English.\n"
+
+        return """
+        Today is \(dateLabel). The tarot card drawn for this day is "\(card.name)" (\(card.arcanaLabel)).
+
+        Traditional Rider-Waite-Smith upright meaning of this card: \(card.rwsMeaning)
         \(languageLine)
         Write a tarot reading for today, grounded specifically in that traditional meaning above, not a generic horoscope. Speak directly to the reader as "you."
 
@@ -52,28 +99,9 @@ final class TarotViewModel: ObservableObject {
         • End on one sentence that stays with the reader after they close the screen.
         • No sign-offs, no questions, no AI references.
         """
-
-        do {
-            let text = try await claude.send(messages: [ChatMessage(role: "user", content: prompt)])
-            self.reading = text
-            UserDefaults.standard.set(
-                ["date": today, "lang": language.rawValue, "cardId": todayCard.id, "reading": text],
-                forKey: cacheKey
-            )
-        } catch {
-            self.errorMessage = error.localizedDescription
-        }
-
-        isLoading = false
     }
 
-    private func todayKey() -> String {
-        let f = DateFormatter()
-        f.dateFormat = "yyyy-MM-dd"
-        return f.string(from: Date())
-    }
-
-    private func fullDateLabel(language: AppLanguage) -> String {
+    private static func fullDateLabel(language: AppLanguage) -> String {
         let f = DateFormatter()
         f.locale = language.locale
         f.dateStyle = .full

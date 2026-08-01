@@ -31,8 +31,13 @@ struct TarotCardFace: View {
 struct TarotCardView: View {
     @StateObject private var vm = TarotViewModel()
     @EnvironmentObject var loc: LocalizationManager
+    @EnvironmentObject var subs: SubscriptionManager
     @Environment(\.colorScheme) private var colorScheme
     private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
+
+    @State private var showHistory = false
+    @State private var showPaywall = false
+    @State private var isRedrawing = false
 
     var body: some View {
         ZStack {
@@ -49,13 +54,38 @@ struct TarotCardView: View {
         .navigationTitle(loc.t("tarot_today"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            if !vm.reading.isEmpty {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    ShareCardButton(previewTitle: vm.card.name) {
-                        TarotShareCard(card: vm.card, reading: vm.reading, dateLabel: todayLabel)
+            ToolbarItem(placement: .navigationBarTrailing) {
+                HStack(spacing: 18) {
+                    Button {
+                        if subs.isPlus {
+                            vm.loadHistory()
+                            showHistory = true
+                        } else {
+                            showPaywall = true
+                        }
+                    } label: {
+                        Image(systemName: subs.isPlus ? "clock.arrow.circlepath" : "lock.fill")
                     }
                     .foregroundColor(theme.primaryText)
+
+                    if !vm.reading.isEmpty {
+                        ShareCardButton(previewTitle: vm.card.name) {
+                            TarotShareCard(card: vm.card, reading: vm.reading, dateLabel: todayLabel)
+                        }
+                        .foregroundColor(theme.primaryText)
+                    }
                 }
+            }
+        }
+        .sheet(isPresented: $showHistory) {
+            TarotHistoryView(entries: vm.historyEntries)
+                .environmentObject(loc)
+        }
+        .sheet(isPresented: $showPaywall) {
+            NavigationStack {
+                PaywallView()
+                    .environmentObject(subs)
+                    .environmentObject(loc)
             }
         }
         .task { await vm.loadReading(language: loc.language) }
@@ -78,6 +108,14 @@ struct TarotCardView: View {
                     .shadow(color: .black.opacity(0.35), radius: 18, x: 0, y: 10)
                     .shadow(color: Color(red: 1.0, green: 0.85, blue: 0.55).opacity(0.30), radius: 30)
 
+                if vm.isRedrawnToday && !vm.isLoading {
+                    Text(loc.t("tarot_redrawn_badge"))
+                        .font(.caption.weight(.semibold))
+                        .padding(.horizontal, 10).padding(.vertical, 4)
+                        .background(Capsule().fill(.white.opacity(0.14)))
+                        .foregroundColor(theme.primaryText.opacity(0.8))
+                }
+
                 if vm.isLoading {
                     HStack(spacing: 12) {
                         ProgressView()
@@ -95,6 +133,27 @@ struct TarotCardView: View {
                 }
 
                 if !vm.reading.isEmpty {
+                    Button {
+                        if subs.isPlus {
+                            isRedrawing = true
+                            Task {
+                                await vm.redraw(language: loc.language)
+                                isRedrawing = false
+                            }
+                        } else {
+                            showPaywall = true
+                        }
+                    } label: {
+                        Label(loc.t("button_draw_again"),
+                              systemImage: subs.isPlus ? "arrow.clockwise" : "lock.fill")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(theme.secondaryButtonBg)
+                            .foregroundColor(theme.secondaryButtonText)
+                            .cornerRadius(12)
+                    }
+                    .disabled(isRedrawing)
+
                     Text(loc.t("tarot_tomorrow_note"))
                         .font(.caption2)
                         .tracking(0.5)
