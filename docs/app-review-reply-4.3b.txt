@@ -1,0 +1,20 @@
+Hello,
+
+Thank you for the detailed feedback. I understand the App Store's astrology and tarot category is crowded, and I'd like to point out a few specific things about SoulSign that go beyond a typical horoscope app, in case they weren't visible during the review pass:
+
+1. Partner/relationship charts: SoulSign generates a synastry reading between two people's charts, covering where they align, where they create friction, and what each person quietly asks of the other. This is a distinct feature from single-user horoscope apps and is central to the app, not a bolt-on.
+
+2. Multi-person profile management: users build a roster of people (family, partners, friends) and can generate and revisit natal charts and pairings for any of them, not just themselves. Most apps in this category are single-profile only.
+
+3. Authentic public-domain artwork: the tarot deck uses the actual 1909 Rider-Waite-Smith scans (public domain), not generic stock or AI-generated card art.
+
+4. A custom chart visualization ("Destiny Matrix") built specifically for this app, distinct from the standard zodiac wheel used across the category.
+
+5. Full-length, freshly generated readings per person (not pulled from a fixed horoscope database), exportable as real PDFs, in 9 languages.
+
+I'd be glad to walk through any of these in more detail, or to adjust the app's screenshots/description to foreground the partner-chart and multi-person functionality if that would help clarify the app's positioning. Happy to answer any questions.
+
+Thank you for your time and consideration.
+
+Best,
+Marina

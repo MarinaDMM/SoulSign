@@ -9,6 +9,10 @@ struct TarotHistoryEntry: Codable {
     var reading: String
     var lang: String
     var isRedraw: Bool
+    /// Private note the user writes for themselves about this card. Never
+    /// included in shared PDFs — this is a personal journal, not content
+    /// meant to be published outward.
+    var reflection: String? = nil
 }
 
 /// Persists one tarot reading per calendar day, keyed by "yyyy-MM-dd" in the
@@ -33,6 +37,8 @@ final class TarotHistoryStore {
     }()
 
     static func dayKey(for date: Date) -> String { dayFormatter.string(from: date) }
+
+    static func date(fromDayKey dayKey: String) -> Date? { dayFormatter.date(from: dayKey) }
 
     func entry(for date: Date) -> TarotHistoryEntry? {
         all()[Self.dayKey(for: date)]

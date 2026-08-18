@@ -103,6 +103,10 @@ enum Translations {
         "empty_all_picked_title": "Add Another Person",
         "empty_all_picked_body": "Add someone new to pair with them.",
         "button_add_another_person": "Add Another Person",
+        "reflection_title": "Your Reflection",
+        "reflection_placeholder": "What does this card bring up for you today?",
+        "button_save_reflection": "Save Reflection",
+        "reflection_saved_button": "Saved ✓",
     ]
 
     static let nl: [String: String] = [
@@ -197,6 +201,10 @@ enum Translations {
         "empty_all_picked_title": "Nog Iemand Toevoegen",
         "empty_all_picked_body": "Voeg iemand nieuws toe om mee te koppelen.",
         "button_add_another_person": "Nog Iemand Toevoegen",
+        "reflection_title": "Jouw Reflectie",
+        "reflection_placeholder": "Wat roept deze kaart vandaag in je op?",
+        "button_save_reflection": "Reflectie Opslaan",
+        "reflection_saved_button": "Opgeslagen ✓",
     ]
 
     static let fr: [String: String] = [
@@ -291,6 +299,10 @@ enum Translations {
         "empty_all_picked_title": "Ajouter une Autre Personne",
         "empty_all_picked_body": "Ajoutez une nouvelle personne à associer.",
         "button_add_another_person": "Ajouter une Autre Personne",
+        "reflection_title": "Votre Réflexion",
+        "reflection_placeholder": "Que fait naître cette carte en vous aujourd'hui ?",
+        "button_save_reflection": "Enregistrer la Réflexion",
+        "reflection_saved_button": "Enregistré ✓",
     ]
 
     static let de: [String: String] = [
@@ -385,6 +397,10 @@ enum Translations {
         "empty_all_picked_title": "Weitere Person Hinzufügen",
         "empty_all_picked_body": "Füge jemand Neuen hinzu, um sie zu verbinden.",
         "button_add_another_person": "Weitere Person Hinzufügen",
+        "reflection_title": "Deine Reflexion",
+        "reflection_placeholder": "Was löst diese Karte heute in dir aus?",
+        "button_save_reflection": "Reflexion Speichern",
+        "reflection_saved_button": "Gespeichert ✓",
     ]
 
     static let es: [String: String] = [
@@ -479,6 +495,10 @@ enum Translations {
         "empty_all_picked_title": "Añadir Otra Persona",
         "empty_all_picked_body": "Añade a alguien nuevo para emparejar.",
         "button_add_another_person": "Añadir Otra Persona",
+        "reflection_title": "Tu Reflexión",
+        "reflection_placeholder": "¿Qué te despierta esta carta hoy?",
+        "button_save_reflection": "Guardar Reflexión",
+        "reflection_saved_button": "Guardado ✓",
     ]
 
     static let it: [String: String] = [
@@ -573,6 +593,10 @@ enum Translations {
         "empty_all_picked_title": "Aggiungi un'Altra Persona",
         "empty_all_picked_body": "Aggiungi qualcuno di nuovo da abbinare.",
         "button_add_another_person": "Aggiungi un'Altra Persona",
+        "reflection_title": "La Tua Riflessione",
+        "reflection_placeholder": "Cosa suscita in te questa carta oggi?",
+        "button_save_reflection": "Salva Riflessione",
+        "reflection_saved_button": "Salvato ✓",
     ]
 
     static let ru: [String: String] = [
@@ -667,6 +691,10 @@ enum Translations {
         "empty_all_picked_title": "Добавить Ещё Человека",
         "empty_all_picked_body": "Добавь нового человека для пары.",
         "button_add_another_person": "Добавить Ещё Человека",
+        "reflection_title": "Твоё Размышление",
+        "reflection_placeholder": "Что эта карта вызывает у тебя сегодня?",
+        "button_save_reflection": "Сохранить Размышление",
+        "reflection_saved_button": "Сохранено ✓",
     ]
 
     static let uk: [String: String] = [
@@ -761,6 +789,10 @@ enum Translations {
         "empty_all_picked_title": "Додати Ще Людину",
         "empty_all_picked_body": "Додай нову людину для пари.",
         "button_add_another_person": "Додати Ще Людину",
+        "reflection_title": "Твої Роздуми",
+        "reflection_placeholder": "Що ця карта викликає у тебе сьогодні?",
+        "button_save_reflection": "Зберегти Роздуми",
+        "reflection_saved_button": "Збережено ✓",
     ]
 
     static let pl: [String: String] = [
@@ -855,5 +887,9 @@ enum Translations {
         "empty_all_picked_title": "Dodaj Kolejną Osobę",
         "empty_all_picked_body": "Dodaj nową osobę do pary.",
         "button_add_another_person": "Dodaj Kolejną Osobę",
+        "reflection_title": "Twoja Refleksja",
+        "reflection_placeholder": "Co ta karta dziś w tobie wywołuje?",
+        "button_save_reflection": "Zapisz Refleksję",
+        "reflection_saved_button": "Zapisano ✓",
     ]
 }

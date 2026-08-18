@@ -76,7 +76,7 @@ struct TarotCardView: View {
             }
         }
         .sheet(isPresented: $showHistory) {
-            TarotHistoryView(entries: vm.historyEntries)
+            TarotHistoryView(viewModel: vm)
                 .environmentObject(loc)
         }
         .sheet(isPresented: $showPaywall) {
@@ -151,6 +151,11 @@ struct TarotCardView: View {
                             .cornerRadius(12)
                     }
                     .disabled(isRedrawing)
+
+                    ReflectionEditor(text: $vm.reflectionDraft) {
+                        vm.saveReflection(vm.reflectionDraft, language: loc.language)
+                    }
+                    .padding(.top, 4)
 
                     Text(loc.t("tarot_tomorrow_note"))
                         .font(.caption2)

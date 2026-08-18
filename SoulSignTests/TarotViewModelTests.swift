@@ -8,6 +8,85 @@ import XCTest
 @MainActor
 final class TarotViewModelTests: XCTestCase {
 
+    private let suiteName = "SoulSignTests.TarotViewModel"
+    private var defaults: UserDefaults!
+
+    override func setUp() {
+        super.setUp()
+        defaults = UserDefaults(suiteName: suiteName)!
+        defaults.removePersistentDomain(forName: suiteName)
+    }
+
+    override func tearDown() {
+        defaults.removePersistentDomain(forName: suiteName)
+        defaults = nil
+        super.tearDown()
+    }
+
+    private func makeVM() -> (TarotViewModel, TarotHistoryStore) {
+        let store = TarotHistoryStore(defaults: defaults, key: "test_tarot_history")
+        return (TarotViewModel(store: store), store)
+    }
+
+    // MARK: reflections
+
+    func testSaveReflectionPersistsForToday() {
+        let (vm, store) = makeVM()
+        store.save(TarotHistoryEntry(cardId: vm.card.id, reading: "seeded", lang: "en", isRedraw: false), for: Date())
+
+        vm.saveReflection("This felt honest.", language: .en)
+
+        XCTAssertEqual(store.entry(for: Date())?.reflection, "This felt honest.")
+        XCTAssertEqual(vm.reflectionDraft, "This felt honest.")
+    }
+
+    func testSaveReflectionCreatesEntryWhenNoneExistsYet() {
+        let (vm, store) = makeVM()
+        XCTAssertNil(store.entry(for: Date()), "precondition: nothing seeded yet")
+
+        vm.saveReflection("First thought of the day.", language: .en)
+
+        let saved = store.entry(for: Date())
+        XCTAssertEqual(saved?.reflection, "First thought of the day.")
+        XCTAssertEqual(saved?.cardId, vm.card.id)
+    }
+
+    func testSaveReflectionForPastDayUpdatesThatDayOnly() {
+        let (vm, store) = makeVM()
+        var cal = DateComponents(); cal.year = 2026; cal.month = 1; cal.day = 5; cal.hour = 12
+        let pastDate = Calendar(identifier: .gregorian).date(from: cal)!
+        let pastKey = TarotHistoryStore.dayKey(for: pastDate)
+        store.save(TarotHistoryEntry(cardId: 3, reading: "old", lang: "en", isRedraw: false), for: pastDate)
+
+        vm.reflectionDraft = "unrelated draft for today"
+        vm.saveReflection("Looking back on this one.", language: .en, dateKey: pastKey)
+
+        XCTAssertEqual(store.entry(for: pastDate)?.reflection, "Looking back on this one.")
+        XCTAssertEqual(vm.reflectionDraft, "unrelated draft for today",
+                       "editing a past day must not overwrite today's in-progress draft")
+    }
+
+    func testSaveReflectionForPastDayRefreshesHistoryList() {
+        let (vm, store) = makeVM()
+        var cal = DateComponents(); cal.year = 2026; cal.month = 1; cal.day = 5; cal.hour = 12
+        let pastDate = Calendar(identifier: .gregorian).date(from: cal)!
+        let pastKey = TarotHistoryStore.dayKey(for: pastDate)
+        store.save(TarotHistoryEntry(cardId: 3, reading: "old", lang: "en", isRedraw: false), for: pastDate)
+
+        vm.saveReflection("Noted.", language: .en, dateKey: pastKey)
+
+        XCTAssertEqual(vm.historyEntries.first(where: { $0.dateKey == pastKey })?.entry.reflection, "Noted.")
+    }
+
+    func testSaveReflectionTrimsWhitespaceToNil() {
+        let (vm, store) = makeVM()
+        store.save(TarotHistoryEntry(cardId: vm.card.id, reading: "seeded", lang: "en", isRedraw: false, reflection: "old note"), for: Date())
+
+        vm.saveReflection("   \n  ", language: .en)
+
+        XCTAssertNil(store.entry(for: Date())?.reflection, "whitespace-only reflection should clear the note")
+    }
+
     // MARK: pickRedrawCard
 
     func testRedrawNeverReturnsTheExcludedCard() {

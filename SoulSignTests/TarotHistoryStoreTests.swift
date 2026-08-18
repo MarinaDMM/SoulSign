@@ -72,6 +72,31 @@ final class TarotHistoryStoreTests: XCTestCase {
         XCTAssertEqual(keys, ["2026-03-01", "2026-02-01", "2026-01-01"])
     }
 
+    func testDateFromDayKeyRoundTrips() {
+        let d = date(2026, 3, 5)
+        let key = TarotHistoryStore.dayKey(for: d)
+        let parsed = TarotHistoryStore.date(fromDayKey: key)
+        XCTAssertEqual(parsed.map(TarotHistoryStore.dayKey(for:)), key)
+    }
+
+    func testDateFromDayKeyRejectsGarbage() {
+        XCTAssertNil(TarotHistoryStore.date(fromDayKey: "not-a-date"))
+    }
+
+    func testReflectionDefaultsToNil() {
+        let store = makeStore()
+        store.save(TarotHistoryEntry(cardId: 1, reading: "a", lang: "en", isRedraw: false), for: date(2026, 1, 10))
+        XCTAssertNil(store.entry(for: date(2026, 1, 10))?.reflection)
+    }
+
+    func testReflectionRoundTrips() {
+        let store = makeStore()
+        var entry = TarotHistoryEntry(cardId: 1, reading: "a", lang: "en", isRedraw: false)
+        entry.reflection = "This felt like permission to slow down."
+        store.save(entry, for: date(2026, 1, 10))
+        XCTAssertEqual(store.entry(for: date(2026, 1, 10))?.reflection, "This felt like permission to slow down.")
+    }
+
     func testHistoryIsPrunedBeyondNinetyEntries() {
         let store = makeStore()
         let calendar = Calendar(identifier: .gregorian)

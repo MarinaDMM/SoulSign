@@ -5,7 +5,7 @@
 import SwiftUI
 
 struct TarotHistoryView: View {
-    let entries: [(dateKey: String, card: TarotCard, entry: TarotHistoryEntry)]
+    @ObservedObject var viewModel: TarotViewModel
 
     @EnvironmentObject var loc: LocalizationManager
     @Environment(\.dismiss) private var dismiss
@@ -17,17 +17,20 @@ struct TarotHistoryView: View {
             ZStack {
                 NightSkyBackground()
 
-                if entries.isEmpty {
+                if viewModel.historyEntries.isEmpty {
                     emptyState
                 } else {
                     List {
-                        ForEach(entries, id: \.dateKey) { item in
+                        ForEach(viewModel.historyEntries, id: \.dateKey) { item in
                             NavigationLink {
                                 TarotHistoryDetailView(
+                                    viewModel: viewModel,
+                                    dateKey: item.dateKey,
                                     card: item.card,
                                     reading: item.entry.reading,
                                     dateLabel: dateLabel(for: item.dateKey),
-                                    isRedraw: item.entry.isRedraw
+                                    isRedraw: item.entry.isRedraw,
+                                    initialReflection: item.entry.reflection ?? ""
                                 )
                             } label: {
                                 row(item)
@@ -74,6 +77,11 @@ struct TarotHistoryView: View {
                 }
             }
             Spacer()
+            if let reflection = item.entry.reflection, !reflection.isEmpty {
+                Image(systemName: "text.quote")
+                    .font(.caption)
+                    .foregroundColor(theme.primaryText.opacity(0.4))
+            }
         }
         .padding(.vertical, 4)
     }
@@ -94,9 +102,7 @@ struct TarotHistoryView: View {
     }
 
     private func dateLabel(for dateKey: String) -> String {
-        let parser = DateFormatter()
-        parser.dateFormat = "yyyy-MM-dd"
-        guard let date = parser.date(from: dateKey) else { return dateKey }
+        guard let date = TarotHistoryStore.date(fromDayKey: dateKey) else { return dateKey }
         let f = DateFormatter()
         f.locale = loc.language.locale
         f.setLocalizedDateFormatFromTemplate("EEEE, MMMM d")
@@ -107,14 +113,29 @@ struct TarotHistoryView: View {
 // MARK: - Detail
 
 struct TarotHistoryDetailView: View {
+    @ObservedObject var viewModel: TarotViewModel
+    let dateKey: String
     let card: TarotCard
     let reading: String
     let dateLabel: String
     let isRedraw: Bool
 
+    @State private var reflectionText: String
+
     @EnvironmentObject var loc: LocalizationManager
     @Environment(\.colorScheme) private var colorScheme
     private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
+
+    init(viewModel: TarotViewModel, dateKey: String, card: TarotCard, reading: String,
+         dateLabel: String, isRedraw: Bool, initialReflection: String) {
+        self.viewModel = viewModel
+        self.dateKey = dateKey
+        self.card = card
+        self.reading = reading
+        self.dateLabel = dateLabel
+        self.isRedraw = isRedraw
+        _reflectionText = State(initialValue: initialReflection)
+    }
 
     var body: some View {
         ZStack {
@@ -142,6 +163,10 @@ struct TarotHistoryDetailView: View {
                         .foregroundColor(theme.primaryText)
                         .font(.body)
                         .lineSpacing(5)
+
+                    ReflectionEditor(text: $reflectionText) {
+                        viewModel.saveReflection(reflectionText, language: loc.language, dateKey: dateKey)
+                    }
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 16)
