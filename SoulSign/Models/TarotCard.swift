@@ -20,13 +20,39 @@ struct TarotCard: Identifiable, Hashable {
 enum TarotDeck {
     static let cards: [TarotCard] = majorArcana + wandsArcana + cupsArcana + swordsArcana + pentaclesArcana
 
-    // Returns the same card for any given calendar day
-    static func cardForToday() -> TarotCard {
+    /// Returns the same card for any given calendar day. Deterministic per
+    /// day (same date always yields the same card) but cycles through a
+    /// full shuffled ordering of all 78 cards before any card repeats,
+    /// rather than a short cycle.
+    static func cardForToday(date: Date = Date()) -> TarotCard {
         let cal = Calendar.current
-        let day  = cal.ordinality(of: .day, in: .year, for: Date()) ?? 1
-        let year = cal.component(.year, from: Date())
-        let idx  = ((day * 13) + (year % cards.count)) % cards.count
-        return cards[idx]
+        let dayOfYear = cal.ordinality(of: .day, in: .year, for: date) ?? 1
+        let year = cal.component(.year, from: date)
+        let order = shuffledOrder(forYear: year)
+        return cards[order[(dayOfYear - 1) % cards.count]]
+    }
+
+    /// A deterministic full-cycle permutation of every card index, reshuffled
+    /// once per calendar year so the sequence also varies year to year.
+    static func shuffledOrder(forYear year: Int) -> [Int] {
+        var generator = SeededGenerator(seed: year)
+        return Array(0..<cards.count).shuffled(using: &generator)
+    }
+
+    /// SplitMix64: a small, fast, deterministic PRNG. Not cryptographic,
+    /// just needs to reshuffle the same way every time for a given seed.
+    private struct SeededGenerator: RandomNumberGenerator {
+        private var state: UInt64
+        init(seed: Int) {
+            state = UInt64(bitPattern: Int64(seed)) &+ 0x9E3779B97F4A7C15
+        }
+        mutating func next() -> UInt64 {
+            state &+= 0x9E3779B97F4A7C15
+            var z = state
+            z = (z ^ (z >> 30)) &* 0xBF58476D1CE4E5B9
+            z = (z ^ (z >> 27)) &* 0x94D049BB133111EB
+            return z ^ (z >> 31)
+        }
     }
 
     // MARK: Major Arcana

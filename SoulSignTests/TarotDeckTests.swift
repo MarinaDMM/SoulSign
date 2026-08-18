@@ -59,4 +59,45 @@ final class TarotDeckTests: XCTestCase {
         XCTAssertEqual(a.id, b.id, "same card for the same day")
         XCTAssertTrue(TarotDeck.cards.contains { $0.id == a.id })
     }
+
+    func testCardForTodayIsDeterministicForAGivenDate() {
+        let date = dateFor(year: 2026, dayOfYear: 100)
+        XCTAssertEqual(TarotDeck.cardForToday(date: date).id, TarotDeck.cardForToday(date: date).id)
+    }
+
+    func testAllSeventyEightCardsAppearBeforeAnyRepeatWithinAYear() {
+        // Regression: cardForToday used to multiply the day by 13, and since
+        // gcd(13, 78) == 13, that only ever produced 6 distinct indices, so
+        // the deck degenerated into a 6-day repeating cycle instead of 78.
+        var seenOnDay: [Int: Int] = [:]
+        for day in 1...78 {
+            let card = TarotDeck.cardForToday(date: dateFor(year: 2026, dayOfYear: day))
+            if let firstSeen = seenOnDay[card.id] {
+                XCTFail("card \(card.id) repeated on day \(day), first seen on day \(firstSeen); " +
+                       "expected all 78 cards to appear once before any repeat")
+                return
+            }
+            seenOnDay[card.id] = day
+        }
+        XCTAssertEqual(seenOnDay.count, TarotDeck.cards.count, "all 78 cards should have appeared exactly once")
+    }
+
+    func testShuffledOrderIsAPermutationOfAllCards() {
+        let order = TarotDeck.shuffledOrder(forYear: 2026)
+        XCTAssertEqual(Set(order).count, TarotDeck.cards.count, "no duplicate or missing indices")
+        XCTAssertEqual(Set(order), Set(0..<TarotDeck.cards.count))
+    }
+
+    func testShuffledOrderIsStableForTheSameYear() {
+        XCTAssertEqual(TarotDeck.shuffledOrder(forYear: 2026), TarotDeck.shuffledOrder(forYear: 2026))
+    }
+
+    func testShuffledOrderDiffersAcrossYears() {
+        XCTAssertNotEqual(TarotDeck.shuffledOrder(forYear: 2026), TarotDeck.shuffledOrder(forYear: 2027))
+    }
+
+    private func dateFor(year: Int, dayOfYear: Int) -> Date {
+        Calendar.current.date(from: DateComponents(year: year))!
+            .addingTimeInterval(TimeInterval(dayOfYear - 1) * 86400)
+    }
 }
