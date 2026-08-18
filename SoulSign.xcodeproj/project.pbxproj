@@ -34,6 +34,7 @@
 		97497DC1DBFE882ED609F943 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2DF9AA295428EF46773D0AB /* Foundation.framework */; };
 		A81794C8588134C712A9598E /* PersonPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553994CEFE4F1164C6DB57CE /* PersonPickerView.swift */; };
 		A9EC1AE8BEF32C4A1015FB43 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66FA76A7EFD07210299291A /* SubscriptionManager.swift */; };
+		B38275445525D48868A93657 /* ReflectionEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5771AF6C88CC9E1121F577 /* ReflectionEditor.swift */; };
 		B84C5532AA919BBB6B0832F2 /* SoulSign.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 8C2EE4B69A7BF7A46AD5EA4F /* SoulSign.storekit */; };
 		BB36FA73604A6767CC5868D2 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D292ED184B351DBE20D2E /* AppLanguage.swift */; };
 		BF61C20F2F12FB3CDE713BB7 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077CC8FF6DEBCBE82DA5E54C /* PaywallView.swift */; };
@@ -177,6 +178,7 @@
 		C8CDF3542DCE44C7004F9888 /* sparkles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sparkles.json; sourceTree = "<group>"; };
 		C8D42AF12DF0744A00E2ABBA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C8D42AF42DF0744A00E2ABBB /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		CA5771AF6C88CC9E1121F577 /* ReflectionEditor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ReflectionEditor.swift; sourceTree = "<group>"; };
 		CE9C86E31CA816CFEAEF4536 /* DestinyMatrixView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DestinyMatrixView.swift; sourceTree = "<group>"; };
 		D2DF9AA295428EF46773D0AB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		D2F8F4921E48A3C54F0D19EE /* UserProfileTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UserProfileTests.swift; sourceTree = "<group>"; };
@@ -395,6 +397,7 @@
 				7E8743E1170FEDAC9A95D0C8 /* PartnerChartReadingView.swift */,
 				077CC8FF6DEBCBE82DA5E54C /* PaywallView.swift */,
 				4FEBB642A67E00BF6E1DC295 /* TarotHistoryView.swift */,
+				CA5771AF6C88CC9E1121F577 /* ReflectionEditor.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -627,6 +630,7 @@
 				BF61C20F2F12FB3CDE713BB7 /* PaywallView.swift in Sources */,
 				E10B2BB93F5CF7E500C590AD /* TarotHistoryStore.swift in Sources */,
 				8EBAD5F664EB9C6DAA7947E5 /* TarotHistoryView.swift in Sources */,
+				B38275445525D48868A93657 /* ReflectionEditor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
