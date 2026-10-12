@@ -53,97 +53,194 @@ struct MoodPicker: View {
 
 // MARK: - Breathing pause
 
-/// One minute of slow breathing: four seconds in, six seconds out. Dismissable
-/// at any time, and it never asks for a result.
+/// A short guided pause in three steps: how tense you feel, one minute of
+/// breathing with a longer exhale, then how you feel now. The two tension
+/// words are shown side by side at the end and are never stored.
 struct BreathingPauseView: View {
     @EnvironmentObject var loc: LocalizationManager
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
     private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
 
+    private enum Stage { case before, breathing, after }
+
+    @State private var stage: Stage = .before
+    @State private var tensionBefore: Tension?
+    @State private var tensionAfter: Tension?
     @State private var expanded = false
     @State private var breatheIn = true
-    @State private var remaining = 60
+    @State private var inhaleLength = BreathingPattern.openingInhaleSeconds
+    @State private var remaining = BreathingPattern.sessionSeconds
 
     private let ticker = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
         ZStack {
             NightSkyBackground()
-
-            VStack(spacing: 36) {
-                Text(loc.t("breathe_intro"))
-                    .font(.subheadline)
-                    .foregroundColor(theme.primaryText.opacity(0.7))
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 32)
-
-                ZStack {
-                    Circle()
-                        .fill(RadialGradient(
-                            colors: [Color(red: 0.75, green: 0.85, blue: 1.0).opacity(0.45), .clear],
-                            center: .center, startRadius: 10, endRadius: 150))
-                        .frame(width: 300, height: 300)
-                    Circle()
-                        .strokeBorder(.white.opacity(0.35), lineWidth: 1.5)
-                        .frame(width: 150, height: 150)
-                        .scaleEffect(expanded ? 1.6 : 1.0)
+            Group {
+                switch stage {
+                case .before:
+                    tensionStep(
+                        title: loc.t("tension_before_title"),
+                        selection: $tensionBefore,
+                        summary: nil,
+                        actionKey: "button_begin"
+                    ) {
+                        remaining = BreathingPattern.sessionSeconds
+                        stage = .breathing
+                    }
+                case .breathing:
+                    breathingStep
+                case .after:
+                    tensionStep(
+                        title: loc.t("tension_after_title"),
+                        selection: $tensionAfter,
+                        summary: summary,
+                        actionKey: "button_done"
+                    ) {
+                        dismiss()
+                    }
                 }
-                .animation(.easeInOut(duration: breatheIn ? 4 : 6), value: expanded)
-
-                Text(breatheIn ? loc.t("breathe_in") : loc.t("breathe_out"))
-                    .font(.title3.weight(.medium))
-                    .foregroundColor(theme.primaryText)
-
-                Text("\(remaining)s")
-                    .font(.caption)
-                    .monospacedDigit()
-                    .foregroundColor(theme.primaryText.opacity(0.5))
-
-                Button(loc.t("button_close")) { dismiss() }
-                    .font(.subheadline.weight(.semibold))
-                    .padding(.horizontal, 28).padding(.vertical, 12)
-                    .background(theme.secondaryButtonBg)
-                    .foregroundColor(theme.secondaryButtonText)
-                    .cornerRadius(12)
             }
             .padding()
         }
-        .task { await breathe() }
         .onReceive(ticker) { _ in
-            if remaining > 0 { remaining -= 1 } else { dismiss() }
+            guard stage == .breathing else { return }
+            if remaining > 0 { remaining -= 1 } else { stage = .after }
+        }
+        .task(id: stage) {
+            if stage == .breathing { await breathe() }
         }
     }
 
-    /// Alternates four seconds in and six seconds out until the view goes away.
-    /// Taps mark the turning points, so the rhythm can be felt without looking:
-    /// a firm tap when the circle is full (breathe out now), and two light taps
-    /// when it is smallest (breathe in now). iOS respects the system haptics setting.
+    private var summary: String? {
+        guard let before = tensionBefore, let after = tensionAfter else { return nil }
+        return "\(loc.t(before.labelKey))  →  \(loc.t(after.labelKey))"
+    }
+
+    // MARK: Steps
+
+    private func tensionStep(
+        title: String,
+        selection: Binding<Tension?>,
+        summary: String?,
+        actionKey: String,
+        action: @escaping () -> Void
+    ) -> some View {
+        VStack(spacing: 28) {
+            Spacer()
+            Text(title)
+                .font(.title3.weight(.medium))
+                .foregroundColor(theme.primaryText)
+                .multilineTextAlignment(.center)
+
+            VStack(spacing: 10) {
+                ForEach(Tension.allCases, id: \.self) { tension in
+                    let isSelected = selection.wrappedValue == tension
+                    Button {
+                        selection.wrappedValue = isSelected ? nil : tension
+                    } label: {
+                        Text(loc.t(tension.labelKey))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 12)
+                            .background(RoundedRectangle(cornerRadius: 12).fill(.white.opacity(isSelected ? 0.22 : 0.07)))
+                            .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(.white.opacity(isSelected ? 0.5 : 0.14), lineWidth: 1))
+                            .foregroundColor(theme.primaryText.opacity(isSelected ? 1 : 0.75))
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+
+            if let summary {
+                Text(summary)
+                    .font(.subheadline)
+                    .foregroundColor(theme.primaryText.opacity(0.8))
+            }
+
+            Spacer()
+
+            Button(loc.t(actionKey), action: action)
+                .font(.subheadline.weight(.semibold))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 14)
+                .background(theme.secondaryButtonBg)
+                .foregroundColor(theme.secondaryButtonText)
+                .cornerRadius(12)
+        }
+        .padding(.horizontal, 8)
+    }
+
+    private var breathingStep: some View {
+        VStack(spacing: 36) {
+            Text(loc.t("breathe_intro"))
+                .font(.subheadline)
+                .foregroundColor(theme.primaryText.opacity(0.7))
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 32)
+
+            ZStack {
+                Circle()
+                    .fill(RadialGradient(
+                        colors: [Color(red: 0.75, green: 0.85, blue: 1.0).opacity(0.45), .clear],
+                        center: .center, startRadius: 10, endRadius: 150))
+                    .frame(width: 300, height: 300)
+                Circle()
+                    .strokeBorder(.white.opacity(0.35), lineWidth: 1.5)
+                    .frame(width: 150, height: 150)
+                    .scaleEffect(expanded ? 1.6 : 1.0)
+            }
+            .animation(.easeInOut(duration: breatheIn ? inhaleLength : BreathingPattern.exhaleSeconds), value: expanded)
+
+            Text(breatheIn ? loc.t("breathe_in") : loc.t("breathe_out"))
+                .font(.title3.weight(.medium))
+                .foregroundColor(theme.primaryText)
+
+            Text("\(remaining)s")
+                .font(.caption)
+                .monospacedDigit()
+                .foregroundColor(theme.primaryText.opacity(0.5))
+
+            Button(loc.t("button_skip")) {
+                stage = .after
+            }
+            .font(.subheadline)
+            .foregroundColor(theme.primaryText.opacity(0.6))
+        }
+    }
+
+    // MARK: Breathing
+
+    /// Runs the breath cycle until the step changes. The first breath is short
+    /// and tense-feeling, then every breath has a longer exhale than inhale.
+    /// Taps mark the turning points: a firm tap when the circle is full (breathe
+    /// out now), and two light taps when it is smallest (breathe in now). iOS
+    /// respects the system haptics setting.
     private func breathe() async {
         let firm = UIImpactFeedbackGenerator(style: .medium)
         let light = UIImpactFeedbackGenerator(style: .light)
         firm.prepare()
         light.prepare()
 
-        // First cue: breathe in.
-        light.impactOccurred()
+        light.impactOccurred() // first cue: breathe in
+        var cycle = 0
         while !Task.isCancelled {
+            let inhale = BreathingPattern.inhale(cycle: cycle)
+            inhaleLength = inhale
             breatheIn = true
             expanded = true
-            try? await Task.sleep(nanoseconds: 4_000_000_000)
+            try? await Task.sleep(nanoseconds: UInt64(inhale * 1_000_000_000))
 
-            // Circle is full: breathe out.
             guard !Task.isCancelled else { break }
-            firm.impactOccurred()
+            firm.impactOccurred() // full: breathe out
             breatheIn = false
             expanded = false
-            try? await Task.sleep(nanoseconds: 6_000_000_000)
+            try? await Task.sleep(nanoseconds: UInt64(BreathingPattern.exhaleSeconds * 1_000_000_000))
 
-            // Circle is smallest: breathe in.
             guard !Task.isCancelled else { break }
-            light.impactOccurred()
+            light.impactOccurred() // smallest: breathe in
             try? await Task.sleep(nanoseconds: 150_000_000)
             light.impactOccurred()
+            cycle += 1
         }
     }
 }

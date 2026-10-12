@@ -9,16 +9,24 @@
 import Foundation
 
 enum Mood: String, Codable, CaseIterable, Hashable {
-    case calm, grateful, hopeful, tired, anxious, sad
+    // Stirred up first, then settling, then the warmer states.
+    case overwhelmed, restless, onEdge, anxious, sad, tired
+    case calm, settling, atEase, peaceful, hopeful, grateful
 
     var emoji: String {
         switch self {
-        case .calm:     return "🌿"
-        case .grateful: return "🙏"
-        case .hopeful:  return "🌅"
-        case .tired:    return "😴"
-        case .anxious:  return "🌀"
-        case .sad:      return "🌧️"
+        case .overwhelmed: return "🌊"
+        case .restless:    return "🌪️"
+        case .onEdge:      return "😬"
+        case .anxious:     return "🌀"
+        case .sad:         return "🌧️"
+        case .tired:       return "😴"
+        case .calm:        return "🌿"
+        case .settling:    return "🍃"
+        case .atEase:      return "🕊️"
+        case .peaceful:    return "🌸"
+        case .hopeful:     return "🌅"
+        case .grateful:    return "🙏"
         }
     }
 
@@ -49,4 +57,26 @@ enum MoodWeek {
         let c = calendar.dateComponents([.year, .month, .day], from: date)
         return String(format: "%04d-%02d-%02d", c.year ?? 0, c.month ?? 0, c.day ?? 0)
     }
+}
+
+/// The breathing pattern, kept in one place so it can be tested. The exhale is
+/// longer than the inhale, which is what slows the body down.
+enum BreathingPattern {
+    /// The first breath is a short, tense-feeling inhale followed by a long release.
+    static let openingInhaleSeconds: Double = 2
+    static let inhaleSeconds: Double = 4
+    static let exhaleSeconds: Double = 8
+    static let sessionSeconds = 60
+
+    static func inhale(cycle: Int) -> Double {
+        cycle == 0 ? openingInhaleSeconds : inhaleSeconds
+    }
+}
+
+/// How tense or settled someone feels, as five soft words. Used before and
+/// after the breathing pause. Shown on screen only, never stored.
+enum Tension: Int, CaseIterable {
+    case veryTense = 1, tense, steady, settled, calm
+
+    var labelKey: String { "tension_\(rawValue)" }
 }

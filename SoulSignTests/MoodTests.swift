@@ -46,6 +46,35 @@ final class MoodTests: XCTestCase {
         }
     }
 
+    // MARK: Breathing pattern
+
+    func testExhaleIsLongerThanInhaleSoTheBodySlowsDown() {
+        XCTAssertGreaterThan(BreathingPattern.exhaleSeconds, BreathingPattern.inhaleSeconds)
+    }
+
+    func testOpeningBreathIsShorterThanSteadyBreaths() {
+        XCTAssertEqual(BreathingPattern.inhale(cycle: 0), BreathingPattern.openingInhaleSeconds)
+        XCTAssertEqual(BreathingPattern.inhale(cycle: 1), BreathingPattern.inhaleSeconds)
+        XCTAssertLessThan(BreathingPattern.openingInhaleSeconds, BreathingPattern.inhaleSeconds)
+    }
+
+    func testTensionScaleHasFiveWordsInOrder() {
+        XCTAssertEqual(Tension.allCases.count, 5)
+        XCTAssertEqual(Tension.allCases.map(\.rawValue), [1, 2, 3, 4, 5])
+    }
+
+    func testNewMoodAndTensionLabelsExistInEveryLanguage() {
+        let keys = ["mood_overwhelmed", "mood_restless", "mood_onEdge", "mood_settling", "mood_atEase", "mood_peaceful",
+                    "tension_before_title", "tension_after_title", "button_begin", "button_done", "button_skip"]
+            + Tension.allCases.map(\.labelKey)
+        for lang in AppLanguage.allCases {
+            let table = Translations.table[lang] ?? [:]
+            for key in keys {
+                XCTAssertFalse((table[key] ?? "").isEmpty, "\(lang) is missing \(key)")
+            }
+        }
+    }
+
     // MARK: Week strip
 
     func testWeekStartsOnMonday() {
