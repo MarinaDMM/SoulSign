@@ -150,6 +150,9 @@ enum Translations {
         "button_begin": "Begin",
         "button_done": "Done",
         "button_skip": "Skip",
+        "duration_title": "How long?",
+        "unit_sec": "sec",
+        "unit_min": "min",
     ]
 
     static let nl: [String: String] = [
@@ -291,6 +294,9 @@ enum Translations {
         "button_begin": "Begin",
         "button_done": "Klaar",
         "button_skip": "Overslaan",
+        "duration_title": "Hoe lang?",
+        "unit_sec": "sec",
+        "unit_min": "min",
     ]
 
     static let fr: [String: String] = [
@@ -432,6 +438,9 @@ enum Translations {
         "button_begin": "Commencer",
         "button_done": "Terminé",
         "button_skip": "Passer",
+        "duration_title": "Combien de temps ?",
+        "unit_sec": "s",
+        "unit_min": "min",
     ]
 
     static let de: [String: String] = [
@@ -573,6 +582,9 @@ enum Translations {
         "button_begin": "Beginnen",
         "button_done": "Fertig",
         "button_skip": "Überspringen",
+        "duration_title": "Wie lange?",
+        "unit_sec": "Sek.",
+        "unit_min": "Min.",
     ]
 
     static let es: [String: String] = [
@@ -714,6 +726,9 @@ enum Translations {
         "button_begin": "Empezar",
         "button_done": "Listo",
         "button_skip": "Omitir",
+        "duration_title": "¿Cuánto tiempo?",
+        "unit_sec": "s",
+        "unit_min": "min",
     ]
 
     static let it: [String: String] = [
@@ -855,6 +870,9 @@ enum Translations {
         "button_begin": "Inizia",
         "button_done": "Fatto",
         "button_skip": "Salta",
+        "duration_title": "Quanto tempo?",
+        "unit_sec": "sec",
+        "unit_min": "min",
     ]
 
     static let ru: [String: String] = [
@@ -996,6 +1014,9 @@ enum Translations {
         "button_begin": "Начать",
         "button_done": "Готово",
         "button_skip": "Пропустить",
+        "duration_title": "Сколько времени?",
+        "unit_sec": "сек",
+        "unit_min": "мин",
     ]
 
     static let uk: [String: String] = [
@@ -1137,6 +1158,9 @@ enum Translations {
         "button_begin": "Почати",
         "button_done": "Готово",
         "button_skip": "Пропустити",
+        "duration_title": "Скільки часу?",
+        "unit_sec": "сек",
+        "unit_min": "хв",
     ]
 
     static let pl: [String: String] = [
@@ -1278,5 +1302,8 @@ enum Translations {
         "button_begin": "Zacznij",
         "button_done": "Gotowe",
         "button_skip": "Pomiń",
+        "duration_title": "Jak długo?",
+        "unit_sec": "s",
+        "unit_min": "min",
     ]
 }

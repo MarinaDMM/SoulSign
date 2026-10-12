@@ -70,7 +70,8 @@ struct BreathingPauseView: View {
     @State private var expanded = false
     @State private var breatheIn = true
     @State private var inhaleLength = BreathingPattern.openingInhaleSeconds
-    @State private var remaining = BreathingPattern.sessionSeconds
+    @State private var sessionLength = BreathingPattern.defaultSessionSeconds
+    @State private var remaining = BreathingPattern.defaultSessionSeconds
 
     private let ticker = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
@@ -84,9 +85,10 @@ struct BreathingPauseView: View {
                         title: loc.t("tension_before_title"),
                         selection: $tensionBefore,
                         summary: nil,
+                        durations: $sessionLength,
                         actionKey: "button_begin"
                     ) {
-                        remaining = BreathingPattern.sessionSeconds
+                        remaining = sessionLength
                         stage = .breathing
                     }
                 case .breathing:
@@ -96,6 +98,7 @@ struct BreathingPauseView: View {
                         title: loc.t("tension_after_title"),
                         selection: $tensionAfter,
                         summary: summary,
+                        durations: nil,
                         actionKey: "button_done"
                     ) {
                         dismiss()
@@ -124,6 +127,7 @@ struct BreathingPauseView: View {
         title: String,
         selection: Binding<Tension?>,
         summary: String?,
+        durations: Binding<Int>?,
         actionKey: String,
         action: @escaping () -> Void
     ) -> some View {
@@ -157,6 +161,10 @@ struct BreathingPauseView: View {
                     .foregroundColor(theme.primaryText.opacity(0.8))
             }
 
+            if let durations {
+                durationPicker(durations)
+            }
+
             Spacer()
 
             Button(loc.t(actionKey), action: action)
@@ -168,6 +176,44 @@ struct BreathingPauseView: View {
                 .cornerRadius(12)
         }
         .padding(.horizontal, 8)
+    }
+
+    private func durationPicker(_ selection: Binding<Int>) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(loc.t("duration_title"))
+                .font(.subheadline)
+                .foregroundColor(theme.primaryText.opacity(0.7))
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10) {
+                    ForEach(BreathingPattern.sessionOptions, id: \.self) { seconds in
+                        let isSelected = selection.wrappedValue == seconds
+                        Button {
+                            selection.wrappedValue = seconds
+                        } label: {
+                            Text(durationLabel(seconds))
+                                .font(.subheadline)
+                                .padding(.horizontal, 14)
+                                .padding(.vertical, 8)
+                                .background(Capsule().fill(.white.opacity(isSelected ? 0.22 : 0.07)))
+                                .overlay(Capsule().strokeBorder(.white.opacity(isSelected ? 0.5 : 0.14), lineWidth: 1))
+                                .foregroundColor(theme.primaryText.opacity(isSelected ? 1 : 0.75))
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+        }
+    }
+
+    /// "30 sec", "1 min", "1.5 min". Whole minutes drop the decimal.
+    private func durationLabel(_ seconds: Int) -> String {
+        if seconds < 60 {
+            return "\(seconds) \(loc.t("unit_sec"))"
+        }
+        if seconds % 60 == 0 {
+            return "\(seconds / 60) \(loc.t("unit_min"))"
+        }
+        return String(format: "%.1f", Double(seconds) / 60) + " " + loc.t("unit_min")
     }
 
     private var breathingStep: some View {
@@ -195,7 +241,7 @@ struct BreathingPauseView: View {
                 .font(.title3.weight(.medium))
                 .foregroundColor(theme.primaryText)
 
-            Text("\(remaining)s")
+            Text("\(remaining) \(loc.t("unit_sec"))")
                 .font(.caption)
                 .monospacedDigit()
                 .foregroundColor(theme.primaryText.opacity(0.5))

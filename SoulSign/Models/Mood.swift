@@ -66,7 +66,9 @@ enum BreathingPattern {
     static let openingInhaleSeconds: Double = 2
     static let inhaleSeconds: Double = 4
     static let exhaleSeconds: Double = 8
-    static let sessionSeconds = 60
+    /// Session lengths offered to the user, in seconds.
+    static let sessionOptions = [30, 40, 45, 50, 60, 90]
+    static let defaultSessionSeconds = 60
 
     static func inhale(cycle: Int) -> Double {
         cycle == 0 ? openingInhaleSeconds : inhaleSeconds

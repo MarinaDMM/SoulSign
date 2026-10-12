@@ -48,6 +48,12 @@ final class MoodTests: XCTestCase {
 
     // MARK: Breathing pattern
 
+    func testSessionLengthsAreTheOnesRequested() {
+        XCTAssertEqual(BreathingPattern.sessionOptions, [30, 40, 45, 50, 60, 90])
+        XCTAssertTrue(BreathingPattern.sessionOptions.contains(BreathingPattern.defaultSessionSeconds))
+        XCTAssertEqual(BreathingPattern.defaultSessionSeconds, 60)
+    }
+
     func testExhaleIsLongerThanInhaleSoTheBodySlowsDown() {
         XCTAssertGreaterThan(BreathingPattern.exhaleSeconds, BreathingPattern.inhaleSeconds)
     }
