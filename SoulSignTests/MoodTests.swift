@@ -48,24 +48,32 @@ final class MoodTests: XCTestCase {
 
     // MARK: Week strip
 
-    func testWeekHasSevenDaysOldestFirstEndingToday() {
-        let today = date(2026, 8, 18)
-        let week = MoodWeek.build(moodsByDay: [:], today: today, calendar: calendar)
+    func testWeekStartsOnMonday() {
+        // 18 August 2026 is a Tuesday, so its week runs Monday 17th to Sunday 23rd.
+        let week = MoodWeek.build(moodsByDay: [:], today: date(2026, 8, 18), calendar: calendar)
 
         XCTAssertEqual(week.count, 7)
-        XCTAssertEqual(calendar.component(.day, from: week.first!.day), 12)
-        XCTAssertEqual(calendar.component(.day, from: week.last!.day), 18)
+        XCTAssertEqual(calendar.component(.weekday, from: week.first!.day), 2, "first day should be Monday")
+        XCTAssertEqual(calendar.component(.day, from: week.first!.day), 17)
+        XCTAssertEqual(calendar.component(.day, from: week.last!.day), 23)
     }
 
     func testWeekPlacesMoodsOnTheirOwnDay() {
-        let today = date(2026, 8, 18)
         let week = MoodWeek.build(
-            moodsByDay: ["2026-08-18": .calm, "2026-08-15": .tired],
-            today: today, calendar: calendar)
+            moodsByDay: ["2026-08-18": .calm, "2026-08-17": .tired],
+            today: date(2026, 8, 18), calendar: calendar)
 
-        XCTAssertEqual(week.last?.mood, .calm)
-        XCTAssertEqual(week[3].mood, .tired)          // 15th
-        XCTAssertNil(week[0].mood)                    // 12th had no mood
+        XCTAssertEqual(week[0].mood, .tired)   // Monday 17th
+        XCTAssertEqual(week[1].mood, .calm)    // Tuesday 18th, today
+        XCTAssertNil(week[2].mood)             // Wednesday 19th, not yet
+    }
+
+    func testWeekOnASundayStillEndsOnThatSunday() {
+        // 16 August 2026 is a Sunday: its Monday-first week is the 10th to 16th.
+        let week = MoodWeek.build(moodsByDay: [:], today: date(2026, 8, 16), calendar: calendar)
+
+        XCTAssertEqual(calendar.component(.day, from: week.first!.day), 10)
+        XCTAssertEqual(calendar.component(.day, from: week.last!.day), 16)
     }
 
     func testWeekIgnoresMoodsOutsideTheSevenDays() {

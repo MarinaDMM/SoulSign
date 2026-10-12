@@ -26,17 +26,21 @@ enum Mood: String, Codable, CaseIterable, Hashable {
     var labelKey: String { "mood_\(rawValue)" }
 }
 
-/// The last seven days, oldest first, with the mood recorded for each day if any.
-/// Pure so it can be tested without a store or a clock.
+/// The calendar week containing today, Monday to Sunday, with the mood
+/// recorded for each day if any. Monday is fixed as the first day so the
+/// strip doesn't depend on the device's region. Pure, so it's testable.
 enum MoodWeek {
     static func build(
         moodsByDay: [String: Mood],
         today: Date,
         calendar: Calendar = Calendar(identifier: .gregorian)
     ) -> [(day: Date, mood: Mood?)] {
-        (0..<7).reversed().map { offset in
-            let day = calendar.date(byAdding: .day, value: -offset, to: today) ?? today
-            let key = dayKey(day, calendar: calendar)
+        var cal = calendar
+        cal.firstWeekday = 2 // Monday
+        let weekStart = cal.dateInterval(of: .weekOfYear, for: today)?.start ?? today
+        return (0..<7).map { offset in
+            let day = cal.date(byAdding: .day, value: offset, to: weekStart) ?? today
+            let key = dayKey(day, calendar: cal)
             return (day: day, mood: moodsByDay[key])
         }
     }
