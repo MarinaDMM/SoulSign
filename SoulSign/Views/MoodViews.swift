@@ -116,20 +116,34 @@ struct BreathingPauseView: View {
     }
 
     /// Alternates four seconds in and six seconds out until the view goes away.
-    /// A soft tap marks the start of each breath, so the rhythm can be felt
-    /// without looking. iOS respects the user's system haptics setting.
+    /// Taps mark the turning points, so the rhythm can be felt without looking:
+    /// a firm tap when the circle is full (breathe out now), and two light taps
+    /// when it is smallest (breathe in now). iOS respects the system haptics setting.
     private func breathe() async {
-        let feedback = UIImpactFeedbackGenerator(style: .soft)
-        feedback.prepare()
+        let firm = UIImpactFeedbackGenerator(style: .medium)
+        let light = UIImpactFeedbackGenerator(style: .light)
+        firm.prepare()
+        light.prepare()
+
+        // First cue: breathe in.
+        light.impactOccurred()
         while !Task.isCancelled {
             breatheIn = true
             expanded = true
-            feedback.impactOccurred(intensity: 0.6)
             try? await Task.sleep(nanoseconds: 4_000_000_000)
+
+            // Circle is full: breathe out.
+            guard !Task.isCancelled else { break }
+            firm.impactOccurred()
             breatheIn = false
             expanded = false
-            feedback.impactOccurred(intensity: 0.35)
             try? await Task.sleep(nanoseconds: 6_000_000_000)
+
+            // Circle is smallest: breathe in.
+            guard !Task.isCancelled else { break }
+            light.impactOccurred()
+            try? await Task.sleep(nanoseconds: 150_000_000)
+            light.impactOccurred()
         }
     }
 }
