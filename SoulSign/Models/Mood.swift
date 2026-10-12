@@ -9,9 +9,9 @@
 import Foundation
 
 enum Mood: String, Codable, CaseIterable, Hashable {
-    // Stirred up first, then settling, then the warmer states.
-    case overwhelmed, restless, onEdge, anxious, sad, tired
-    case calm, settling, atEase, peaceful, hopeful, grateful
+    // Ordered from good to bad: warmest states first, most stirred-up last.
+    case grateful, hopeful, peaceful, atEase, calm, settling
+    case tired, sad, anxious, onEdge, restless, overwhelmed
 
     var emoji: String {
         switch self {
