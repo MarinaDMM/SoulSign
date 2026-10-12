@@ -10,6 +10,11 @@ import SwiftUI
 
 struct ReflectionEditor: View {
     @Binding var text: String
+    /// Overrides for reuse outside the daily card (e.g. notes about a person).
+    /// Nil means the default daily-reflection wording.
+    var titleKey: String = "reflection_title"
+    var placeholderKey: String = "reflection_placeholder"
+    var saveKey: String = "button_save_reflection"
     let onSave: () -> Void
 
     @EnvironmentObject var loc: LocalizationManager
@@ -20,7 +25,7 @@ struct ReflectionEditor: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(loc.t("reflection_title"))
+            Text(loc.t(titleKey))
                 .font(.headline)
                 .foregroundColor(theme.primaryText)
 
@@ -32,7 +37,7 @@ struct ReflectionEditor: View {
                     .foregroundColor(theme.primaryText)
 
                 if text.isEmpty {
-                    Text(loc.t("reflection_placeholder"))
+                    Text(loc.t(placeholderKey))
                         .foregroundColor(theme.primaryText.opacity(0.35))
                         .padding(.horizontal, 11)
                         .padding(.vertical, 14)
@@ -47,7 +52,7 @@ struct ReflectionEditor: View {
                 justSaved = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.6) { justSaved = false }
             } label: {
-                Text(justSaved ? loc.t("reflection_saved_button") : loc.t("button_save_reflection"))
+                Text(justSaved ? loc.t("reflection_saved_button") : loc.t(saveKey))
                     .font(.subheadline.weight(.semibold))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 10)

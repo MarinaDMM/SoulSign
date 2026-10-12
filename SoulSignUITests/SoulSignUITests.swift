@@ -20,13 +20,17 @@ final class SoulSignUITests: XCTestCase {
         return app
     }
 
-    func testHomeShowsAllFeatureTiles() {
+    func testHomeShowsTodayAndPeopleSections() {
         let app = launchApp()
         XCTAssertTrue(app.staticTexts["SoulSign"].waitForExistence(timeout: 10))
-        XCTAssertTrue(app.staticTexts["Natal Chart"].exists)
+        // Today leads with the card as a writing prompt, then Affirmations.
+        XCTAssertTrue(app.staticTexts["Today"].exists)
         XCTAssertTrue(app.staticTexts["Tarot Today"].exists)
-        XCTAssertTrue(app.staticTexts["Partner Chart"].exists)
         XCTAssertTrue(app.staticTexts["Affirmations"].exists)
+        // People comes second. Natal and Partner charts now live on each person's page.
+        XCTAssertTrue(app.staticTexts["Your People"].exists)
+        XCTAssertFalse(app.staticTexts["Natal Chart"].exists)
+        XCTAssertFalse(app.staticTexts["Partner Chart"].exists)
     }
 
     func testNavigateToTarot() {
@@ -55,15 +59,14 @@ final class SoulSignUITests: XCTestCase {
                       || app.staticTexts["Français"].waitForExistence(timeout: 5))
     }
 
-    func testNatalChartNavigatesToPeople() {
+    func testAddPersonChipOpensFormOrPaywall() {
         let app = launchApp()
-        app.staticTexts["Natal Chart"].firstMatch.tap()
-        // Tapping Natal Chart opens the People screen. With -uitest-reset the
-        // list is empty and shows the CTA; either way the People nav bar must
-        // appear, proving navigation and rendering succeeded.
-        let peopleNav = app.navigationBars["People"].waitForExistence(timeout: 10)
-        let emptyCTA = app.staticTexts["Add Your First Person"].exists
-                    || app.buttons["Add Your First Person"].exists
-        XCTAssertTrue(peopleNav || emptyCTA, "expected the People screen to appear")
+        // The Add chip either opens the new-person form (under the free cap) or
+        // the Plus paywall (at the cap). Which one depends on how many people the
+        // simulator already has, so accept either correct outcome.
+        app.staticTexts["Add"].firstMatch.tap()
+        let form = app.navigationBars["New Person"].waitForExistence(timeout: 10)
+        let paywall = app.navigationBars["SoulSign Plus"].waitForExistence(timeout: 2)
+        XCTAssertTrue(form || paywall, "Add should open the new-person form or the paywall")
     }
 }

@@ -11,8 +11,11 @@ enum AppDestination: Hashable {
     case natalChart(UserProfile)
     case newProfile
     case tarot
-    case partnerChart
+    /// Partner chart, optionally opened with the first person already chosen.
+    case partnerChart(UUID?)
     case affirmations
+    /// A person's page: their notes first, then their charts.
+    case person(UUID)
 }
 
 struct HomeView: View {
@@ -47,60 +50,46 @@ struct HomeView: View {
                                 .padding(.top, 6)
                         }
 
-                        // Saved profiles row
-                        if !profileStore.profiles.isEmpty {
-                            VStack(alignment: .leading, spacing: 12) {
-                                SectionHeader(loc.t("section_your_people"))
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 14) {
-                                        ForEach(profileStore.profiles) { profile in
-                                            Button {
-                                                path.append(AppDestination.natalChart(profile))
-                                            } label: {
-                                                ProfileChip(profile: profile)
-                                            }
-                                            .buttonStyle(.plain)
-                                        }
-                                        Button {
-                                            if subs.isPlus || profileStore.profiles.count < FreeTier.maxSavedPeople {
-                                                path.append(AppDestination.newProfile)
-                                            } else {
-                                                showPaywall = true
-                                            }
-                                        } label: {
-                                            AddChip(locked: !subs.isPlus && profileStore.profiles.count >= FreeTier.maxSavedPeople)
-                                        }
-                                        .buttonStyle(.plain)
-                                    }
-                                    .padding(.horizontal, 2)
-                                }
+                        // Today: the card as a writing prompt, then Affirmations
+                        VStack(alignment: .leading, spacing: 12) {
+                            SectionHeader(loc.t("section_today"))
+                            TodayRow(card: TarotDeck.cardForToday(),
+                                     title: loc.t("tarot_today"),
+                                     subtitle: loc.t("today_prompt")) {
+                                path.append(AppDestination.tarot)
+                            }
+                            HomeRow(emoji: "🌞",
+                                    title: loc.t("affirmations"),
+                                    subtitle: loc.t("subtitle_affirmations")) {
+                                path.append(AppDestination.affirmations)
                             }
                         }
 
-                        // Feature tiles
+                        // People: each person opens their own page
                         VStack(alignment: .leading, spacing: 12) {
-                            SectionHeader(loc.t("section_explore"))
-                            LazyVGrid(
-                                columns: [GridItem(.flexible()), GridItem(.flexible())],
-                                spacing: 14
-                            ) {
-                                FeatureTile(.emoji("🌟"), loc.t("natal_chart"), loc.t("subtitle_natal"), hue: 0.12) {
-                                    path.append(AppDestination.profileList)
-                                }
-                                FeatureTile(.image("tarot_major_fool"), loc.t("tarot_today"), loc.t("subtitle_tarot"), hue: 0.78) {
-                                    path.append(AppDestination.tarot)
-                                }
-                                FeatureTile(.emoji("💑"), loc.t("partner_chart"), loc.t("subtitle_partner"),
-                                            hue: 0.95, locked: !subs.isPlus) {
-                                    if subs.isPlus {
-                                        path.append(AppDestination.partnerChart)
-                                    } else {
-                                        showPaywall = true
+                            SectionHeader(loc.t("section_your_people"))
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 14) {
+                                    ForEach(profileStore.profiles) { profile in
+                                        Button {
+                                            path.append(AppDestination.person(profile.id))
+                                        } label: {
+                                            ProfileChip(profile: profile)
+                                        }
+                                        .buttonStyle(.plain)
                                     }
+                                    Button {
+                                        if subs.isPlus || profileStore.profiles.count < FreeTier.maxSavedPeople {
+                                            path.append(AppDestination.newProfile)
+                                        } else {
+                                            showPaywall = true
+                                        }
+                                    } label: {
+                                        AddChip(locked: !subs.isPlus && profileStore.profiles.count >= FreeTier.maxSavedPeople)
+                                    }
+                                    .buttonStyle(.plain)
                                 }
-                                FeatureTile(.emoji("🌞"), loc.t("affirmations"), loc.t("subtitle_affirmations"), hue: 0.55) {
-                                    path.append(AppDestination.affirmations)
-                                }
+                                .padding(.horizontal, 2)
                             }
                         }
 
@@ -126,19 +115,22 @@ struct HomeView: View {
                             latitude: coords?.latitude, longitude: coords?.longitude
                         )
                         profileStore.add(p)
-                        // Replace the newProfile entry in the stack with the reading
+                        // Replace the newProfile entry in the stack with the new person's page
                         path.removeLast()
-                        path.append(AppDestination.natalChart(p))
+                        path.append(AppDestination.person(p.id))
                     }
 
                 case .tarot:
                     TarotCardView()
 
-                case .partnerChart:
-                    PartnerChartView()
+                case .partnerChart(let personID):
+                    PartnerChartView(initialPersonAID: personID)
 
                 case .affirmations:
                     DailyAffirmationView()
+
+                case .person(let id):
+                    PersonDetailView(profileID: id)
                 }
             }
             .sheet(isPresented: $showPaywall) {
@@ -202,6 +194,85 @@ private struct SectionHeader: View {
         Text(title)
             .font(.headline)
             .foregroundColor(.white.opacity(0.75))
+    }
+}
+
+/// Today's card, shown as a writing prompt. Tapping opens the reading and the journal.
+private struct TodayRow: View {
+    let card: TarotCard
+    let title: String
+    let subtitle: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 16) {
+                TarotCardFace(card: card)
+                    .frame(width: 46)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(title)
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(.white)
+                    Text(subtitle)
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.62))
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundColor(.white.opacity(0.4))
+            }
+            .padding(16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(
+                RoundedRectangle(cornerRadius: 18)
+                    .fill(Color(hue: 0.78, saturation: 0.55, brightness: 0.35).opacity(0.70))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 18)
+                    .strokeBorder(.white.opacity(0.14), lineWidth: 1)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+/// A single full-width row for secondary features like Affirmations.
+private struct HomeRow: View {
+    let emoji: String
+    let title: String
+    let subtitle: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 16) {
+                Text(emoji).font(.system(size: 26))
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(title)
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(.white)
+                    Text(subtitle)
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.62))
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundColor(.white.opacity(0.4))
+            }
+            .padding(16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(
+                RoundedRectangle(cornerRadius: 18)
+                    .fill(Color(hue: 0.55, saturation: 0.55, brightness: 0.35).opacity(0.70))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 18)
+                    .strokeBorder(.white.opacity(0.14), lineWidth: 1)
+            )
+        }
+        .buttonStyle(.plain)
     }
 }
 
@@ -289,80 +360,6 @@ struct LanguagePickerButton: View {
             .overlay(
                 Capsule().strokeBorder(.white.opacity(0.20), lineWidth: 1)
             )
-        }
-    }
-}
-
-private enum FeatureIcon {
-    case emoji(String)
-    case image(String)
-}
-
-private struct FeatureTile: View {
-    let icon: FeatureIcon
-    let title: String
-    let subtitle: String
-    let hue: Double
-    let locked: Bool
-    let action: () -> Void
-
-    init(_ icon: FeatureIcon, _ title: String, _ subtitle: String,
-         hue: Double, locked: Bool = false, action: @escaping () -> Void) {
-        self.icon = icon; self.title = title; self.subtitle = subtitle
-        self.hue = hue; self.locked = locked; self.action = action
-    }
-
-    var body: some View {
-        Button(action: action) {
-            VStack(alignment: .leading, spacing: 0) {
-                HStack(alignment: .top) {
-                    iconView
-                    Spacer()
-                    if locked {
-                        Image(systemName: "lock.fill")
-                            .font(.system(size: 13, weight: .semibold))
-                            .foregroundColor(.white.opacity(0.55))
-                    }
-                }
-                Spacer()
-                Text(title)
-                    .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(.white)
-                Text(subtitle)
-                    .font(.caption)
-                    .foregroundColor(.white.opacity(0.58))
-                    .padding(.top, 2)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(16)
-            .frame(height: 128)
-            .background(
-                RoundedRectangle(cornerRadius: 18)
-                    .fill(Color(hue: hue, saturation: 0.55, brightness: 0.35).opacity(0.70))
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 18)
-                    .strokeBorder(.white.opacity(0.14), lineWidth: 1)
-            )
-        }
-        .buttonStyle(.plain)
-    }
-
-    @ViewBuilder
-    private var iconView: some View {
-        switch icon {
-        case .emoji(let e):
-            Text(e).font(.system(size: 30))
-        case .image(let name):
-            Image(name)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 30, height: 30 / (750.0 / 1298.0))
-                .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 4, style: .continuous)
-                        .strokeBorder(.white.opacity(0.35), lineWidth: 0.6)
-                )
         }
     }
 }

@@ -1,0 +1,22 @@
+Hello App Review,
+
+I'm writing to appeal the Guideline 4.3(b) rejection of SoulSign (version 1.0, build 8, submission ID 014b1820-a1eb-467e-83da-80b84240355d), and to explain the changes I'm making in response.
+
+I understand the concern about a crowded category. Rather than argue that the category is empty, I want to be specific about what the app is and is changing:
+
+1. Partner charts: a synastry reading between two people's charts, covering where they align, where they create friction, and what each person asks of the other. This is a two-person feature that single-user horoscope apps don't offer.
+
+2. Multi-person profiles: users save a roster of people (family, partners, friends) and keep notes and charts for each of them.
+
+3. A private reflection journal: users write a personal note next to their daily card and revisit it later. Notes stay on the device and are never shared.
+
+4. Authentic public-domain tarot artwork: the 1909 Rider-Waite-Smith scans, not generic stock or AI-generated art.
+
+Because the reviewer's feedback is that the app still reads primarily as astrology and tarot, I am restructuring the app around the people-centric journal. The home screen will open on a daily writing prompt and the user's own notes. People become the main section. Charts become insights attached to each person rather than headline features. The App Store listing will be rewritten to match, with screenshots of the journal and people first. I'll submit this as a new build, and I'm glad to share screenshots of the revised home screen before it goes in.
+
+If there is a specific change that would bring SoulSign within the guideline, I would welcome that feedback in writing. I'd rather make the right change than argue the rejection.
+
+Thank you for your time and consideration.
+
+Best regards,
+Marina Dedikova

@@ -29,6 +29,7 @@
 		74CE39813A56F6D6D4EDC089 /* ProfileStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F0A90C5D0634FD2D8E4F81 /* ProfileStoreTests.swift */; };
 		7C935EF714ECA6128D47AB38 /* PartnerChartViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F05E21CB9C73D31105C9C6 /* PartnerChartViewModelTests.swift */; };
 		87BC90CF24440EC70F30DF07 /* ShareCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C7875291825CA5D81A658 /* ShareCard.swift */; };
+		89A76697CF3871E0776CCF11 /* PersonDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A0B03076E1BCC81DE32B8A /* PersonDetailView.swift */; };
 		8EBAD5F664EB9C6DAA7947E5 /* TarotHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEBB642A67E00BF6E1DC295 /* TarotHistoryView.swift */; };
 		94F24D17B86D64A1619A5B74 /* PartnerChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C2E1C6B01A78AAFEBAD6AA /* PartnerChartViewModel.swift */; };
 		97497DC1DBFE882ED609F943 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2DF9AA295428EF46773D0AB /* Foundation.framework */; };
@@ -66,6 +67,7 @@
 		C8CDF3552DCE44C7004F9888 /* sparkles.json in Resources */ = {isa = PBXBuildFile; fileRef = C8CDF3542DCE44C7004F9888 /* sparkles.json */; };
 		C8D42AF22DF0744A00E2ABBA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D42AF12DF0744A00E2ABBA /* AppDelegate.swift */; };
 		C8D42AF32DF0744A00E2ABBB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D42AF42DF0744A00E2ABBB /* Theme.swift */; };
+		CBA9CAC5803EC692D903E31D /* PersonNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1377B5BE1C18E592A6496F /* PersonNotesTests.swift */; };
 		CDA8A7668538216741921561 /* TarotDeckTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B275833BF3E998E75D37D1 /* TarotDeckTests.swift */; };
 		CE26133AE78156ED7B15161D /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F9E707CEA3CB86982DA0A /* LocalizationManager.swift */; };
 		D9FE201B4C83E5519B6A3251 /* SoulSignViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2A52E4CDD4AADB21BE9B2C /* SoulSignViewModelTests.swift */; };
@@ -111,6 +113,7 @@
 
 /* Begin PBXFileReference section */
 		077CC8FF6DEBCBE82DA5E54C /* PaywallView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		0B1377B5BE1C18E592A6496F /* PersonNotesTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PersonNotesTests.swift; sourceTree = "<group>"; };
 		1627993FD11B13523768910E /* MockURLProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MockURLProtocol.swift; path = Support/MockURLProtocol.swift; sourceTree = "<group>"; };
 		1849E5BCE5767C1B8F2285E9 /* NatalChartReadingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NatalChartReadingView.swift; sourceTree = "<group>"; };
 		1ABCBA812F5F9FD53B61CDC7 /* Translations.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Translations.swift; sourceTree = "<group>"; };
@@ -122,6 +125,7 @@
 		4FEBB642A67E00BF6E1DC295 /* TarotHistoryView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TarotHistoryView.swift; sourceTree = "<group>"; };
 		51EC769C271B9F25C45B5457 /* PartnerChartView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PartnerChartView.swift; sourceTree = "<group>"; };
 		553994CEFE4F1164C6DB57CE /* PersonPickerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PersonPickerView.swift; sourceTree = "<group>"; };
+		56A0B03076E1BCC81DE32B8A /* PersonDetailView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PersonDetailView.swift; sourceTree = "<group>"; };
 		56C70E7B1C44DD9BE034A897 /* ProfileStoreTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileStoreTests.swift; sourceTree = "<group>"; };
 		576C688FE23B6F0F62B7AE02 /* SoulSignTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoulSignTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A2EC1D5BC9A01236D559A52 /* DestinyMatrixTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DestinyMatrixTests.swift; sourceTree = "<group>"; };
@@ -245,6 +249,7 @@
 				A4BBE75204E7C9F075729E5E /* TarotHistoryStoreTests.swift */,
 				46E3D9AC047B2AF96C05E1B9 /* TarotViewModelTests.swift */,
 				FB2A52E4CDD4AADB21BE9B2C /* SoulSignViewModelTests.swift */,
+				0B1377B5BE1C18E592A6496F /* PersonNotesTests.swift */,
 			);
 			name = SoulSignTests;
 			path = SoulSignTests;
@@ -398,6 +403,7 @@
 				077CC8FF6DEBCBE82DA5E54C /* PaywallView.swift */,
 				4FEBB642A67E00BF6E1DC295 /* TarotHistoryView.swift */,
 				CA5771AF6C88CC9E1121F577 /* ReflectionEditor.swift */,
+				56A0B03076E1BCC81DE32B8A /* PersonDetailView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -631,6 +637,7 @@
 				E10B2BB93F5CF7E500C590AD /* TarotHistoryStore.swift in Sources */,
 				8EBAD5F664EB9C6DAA7947E5 /* TarotHistoryView.swift in Sources */,
 				B38275445525D48868A93657 /* ReflectionEditor.swift in Sources */,
+				89A76697CF3871E0776CCF11 /* PersonDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -651,6 +658,7 @@
 				EE6250DBB6902032F4E450B0 /* TarotHistoryStoreTests.swift in Sources */,
 				476AA599D9678773B46CF480 /* TarotViewModelTests.swift in Sources */,
 				D9FE201B4C83E5519B6A3251 /* SoulSignViewModelTests.swift in Sources */,
+				CBA9CAC5803EC692D903E31D /* PersonNotesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

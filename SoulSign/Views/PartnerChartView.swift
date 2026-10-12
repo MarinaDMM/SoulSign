@@ -7,13 +7,22 @@ import SwiftUI
 struct PartnerChartView: View {
     @EnvironmentObject var profileStore: ProfileStore
     @EnvironmentObject var loc: LocalizationManager
+    @EnvironmentObject var subs: SubscriptionManager
     @Environment(\.colorScheme) private var colorScheme
     private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
+
+    /// Set when opened from a person's page, so that person fills the first slot.
+    let initialPersonAID: UUID?
 
     @State private var personA: UserProfile?
     @State private var personB: UserProfile?
     @State private var pickingSlot: Slot?
     @State private var showReading = false
+    @State private var showPaywall = false
+
+    init(initialPersonAID: UUID? = nil) {
+        self.initialPersonAID = initialPersonAID
+    }
 
     private enum Slot: Identifiable {
         case a, b
@@ -50,7 +59,11 @@ struct PartnerChartView: View {
                     .padding(.horizontal, 20)
 
                     Button {
-                        showReading = true
+                        if subs.isPlus {
+                            showReading = true
+                        } else {
+                            showPaywall = true
+                        }
                     } label: {
                         Text(loc.t("button_read_together"))
                             .font(.headline)
@@ -94,6 +107,18 @@ struct PartnerChartView: View {
         .navigationDestination(isPresented: $showReading) {
             if let a = personA, let b = personB {
                 PartnerChartReadingView(personA: a, personB: b)
+            }
+        }
+        .sheet(isPresented: $showPaywall) {
+            NavigationStack {
+                PaywallView()
+                    .environmentObject(subs)
+                    .environmentObject(loc)
+            }
+        }
+        .onAppear {
+            if personA == nil, let id = initialPersonAID {
+                personA = profileStore.profiles.first { $0.id == id }
             }
         }
     }

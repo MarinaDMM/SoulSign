@@ -5,6 +5,14 @@
 import Foundation
 import CoreLocation
 
+/// A private note the user writes about a specific person. Stays on-device,
+/// never included in shared PDFs or share cards.
+struct PersonNote: Identifiable, Codable, Hashable {
+    var id = UUID()
+    var date: Date
+    var text: String
+}
+
 struct UserProfile: Identifiable, Codable, Hashable {
     var id = UUID()
     var name: String
@@ -19,6 +27,8 @@ struct UserProfile: Identifiable, Codable, Hashable {
     var cachedDeepReading: String?
     var deepReadingDate: Date?
     var cachedDeepReadingLanguage: String?
+    /// Optional so profiles saved before notes existed still decode.
+    var notes: [PersonNote]? = nil
 
     static func == (lhs: UserProfile, rhs: UserProfile) -> Bool { lhs.id == rhs.id }
     func hash(into hasher: inout Hasher) { hasher.combine(id) }
