@@ -19,10 +19,14 @@ final class TarotViewModel: ObservableObject {
 
     private let claude: ClaudeService
     private let store: TarotHistoryStore
+    private let profiles: ProfileStore
 
-    init(claude: ClaudeService = ClaudeService(), store: TarotHistoryStore = TarotHistoryStore()) {
+    init(claude: ClaudeService = ClaudeService(),
+         store: TarotHistoryStore = TarotHistoryStore(),
+         profiles: ProfileStore = ProfileStore()) {
         self.claude = claude
         self.store = store
+        self.profiles = profiles
     }
 
     func loadReading(language: AppLanguage) async {
@@ -59,7 +63,9 @@ final class TarotViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
 
-        let prompt = Self.buildPrompt(card: card, language: language, dateLabel: Self.fullDateLabel(language: language))
+        let prompt = Self.buildPrompt(card: card, language: language,
+                                      dateLabel: Self.fullDateLabel(language: language),
+                                      forYou: profiles.me != nil)
 
         do {
             let text = try await claude.send(messages: [ChatMessage(role: "user", content: prompt)])
@@ -123,7 +129,14 @@ final class TarotViewModel: ObservableObject {
     }
 
     /// Exposed for testing so prompt rules can be asserted without a network call.
-    static func buildPrompt(card: TarotCard, language: AppLanguage, dateLabel: String) -> String {
+    static func buildPrompt(card: TarotCard, language: AppLanguage, dateLabel: String,
+                            forYou: Bool = false) -> String {
+        let voiceRule = forYou
+            ? "• Speak directly to the reader as \"you\", warmly and personally. The card's name can still appear, but it should support the reader, not replace \"you\"."
+            : "• Make the card itself the subject of most sentences, by name, for example \"\(card.name) leaps without looking\" or \"\(card.name) rules through logic,\" rather than making \"you\" the subject. Refer to the card by name at least two or three times across the reading, not only in the opening."
+        let openRule = forYou
+            ? "• Open by grounding the reading in what this specific card traditionally represents, then carry that meaning into how it might show up in the reader's day."
+            : "• Open by grounding the reading in what this specific card traditionally represents, then carry that meaning into how it might show up today. It is fine to address the reader occasionally, but the card's name should carry the sentence, not a generic \"you.\""
         let languageLine = language == .en ? "" :
             "\nWrite the entire reading in \(language.englishName). Every sentence must be in \(language.englishName), not English.\n"
 
@@ -137,8 +150,8 @@ final class TarotViewModel: ObservableObject {
         Rules, follow every one:
         • Flowing prose, 3 paragraphs maximum. No markdown, no headers, no bullet points, no numbered lists.
         • Never use the em dash character. Use commas and periods instead.
-        • Make the card itself the subject of most sentences, by name, for example "\(card.name) leaps without looking" or "\(card.name) rules through logic," rather than making "you" the subject. Refer to the card by name at least two or three times across the reading, not only in the opening.
-        • Open by grounding the reading in what this specific card traditionally represents, then carry that meaning into how it might show up today. It is fine to address the reader occasionally, but the card's name should carry the sentence, not a generic "you."
+        \(voiceRule)
+        \(openRule)
         • Place an emoji or glyph right after a word occasionally to accent it (🌙 🔥 ✨ 🌊 💫 🕯️ ⭐). Two or three total across the whole reading, only where it adds something real.
         • Mystic and intimate, like quiet insight from someone who sees clearly.
         • End on one sentence that stays with the reader after they close the screen.

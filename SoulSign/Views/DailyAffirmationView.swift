@@ -12,6 +12,7 @@ struct DailyAffirmationView: View {
     @State private var errorMessage: String?
     @State private var forceRefresh = false
     @EnvironmentObject var loc: LocalizationManager
+    @EnvironmentObject var profileStore: ProfileStore
     @Environment(\.colorScheme) private var colorScheme
     private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
 
@@ -63,11 +64,12 @@ struct DailyAffirmationView: View {
         isLoading = true
         errorMessage = nil
 
-        if !forceRefresh, let cached = AffirmationService.loadStoredAffirmations(language: loc.language) {
+        let forYou = profileStore.me != nil
+        if !forceRefresh, let cached = AffirmationService.loadStoredAffirmations(language: loc.language, forYou: forYou) {
             self.affirmations = cached
             self.isLoading = false
         } else {
-            AffirmationService.fetchAndStoreAffirmations(language: loc.language) { result in
+            AffirmationService.fetchAndStoreAffirmations(language: loc.language, forYou: forYou) { result in
                 self.isLoading = false
                 self.affirmations = result
                 if result == nil {

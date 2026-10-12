@@ -34,7 +34,8 @@ final class SoulSignViewModel: ObservableObject {
             birthPlace: profile.birthPlace,
             coordinates: profile.coordinates,
             language: language,
-            depth: depth
+            depth: depth,
+            forYou: profile.isMe == true
         )
     }
 
@@ -45,7 +46,8 @@ final class SoulSignViewModel: ObservableObject {
         birthPlace: String,
         coordinates: CLLocationCoordinate2D?,
         language: AppLanguage,
-        depth: ReadingDepth = .standard
+        depth: ReadingDepth = .standard,
+        forYou: Bool = false
     ) async {
         self.birthDate = birthDate
         isLoading = true
@@ -53,7 +55,8 @@ final class SoulSignViewModel: ObservableObject {
 
         let prompt = Self.buildPrompt(
             fullName: fullName, birthDate: birthDate, birthTime: birthTime,
-            birthPlace: birthPlace, coordinates: coordinates, language: language, depth: depth
+            birthPlace: birthPlace, coordinates: coordinates, language: language, depth: depth,
+            forYou: forYou
         )
 
         do {
@@ -69,7 +72,8 @@ final class SoulSignViewModel: ObservableObject {
     /// Exposed for testing so prompt rules can be asserted without a network call.
     static func buildPrompt(
         fullName: String, birthDate: Date, birthTime: Date, birthPlace: String,
-        coordinates: CLLocationCoordinate2D?, language: AppLanguage, depth: ReadingDepth
+        coordinates: CLLocationCoordinate2D?, language: AppLanguage, depth: ReadingDepth,
+        forYou: Bool = false
     ) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -86,6 +90,15 @@ final class SoulSignViewModel: ObservableObject {
 
         let languageLine = language == .en ? "" : "\n• Write the entire reading in \(language.englishName). Every sentence must be in \(language.englishName), not English."
         let firstName = fullName.components(separatedBy: " ").first ?? fullName
+        // "you" mode speaks to the reader directly; otherwise the chart is read by name.
+        let chartOwner = forYou ? "your" : "\(fullName)'s"
+        let glyphExample = forYou ? "your Sun ☉ in Scorpio ♏ burns quietly" : "\(firstName)'s Sun ☉ in Scorpio ♏ burns quietly"
+        let secretLine = forYou
+            ? "• Make it feel like a secret left for you specifically. Intriguing details you'll want to sit with, not a summary you'll skim."
+            : "• Make it feel like a secret someone left for \(fullName) specifically. Intriguing details they'll want to sit with, not a summary they'll skim."
+        let addressLine = forYou
+            ? "• Address the reader directly as \"you\" throughout, in the second person, never by name. Write \"your Moon sits in...\", the way an astrologer would speak to someone across the table. Intimate, a little mysterious, warm but never sentimental."
+            : "• Address \(firstName) by name throughout, not by \"you\" or \"your.\" Write \"\(firstName)'s Moon sits in...\" rather than \"your Moon sits in...\", the way an astrologer would speak about someone specifically, not to a generic reader. Intimate, a little mysterious, warm but never sentimental."
 
         let depthInstruction: String
         switch depth {
@@ -93,7 +106,7 @@ final class SoulSignViewModel: ObservableObject {
             depthInstruction = "• Keep it tight, 4 paragraphs maximum. Each paragraph should feel alive, not exhaustive."
         case .deep:
             depthInstruction = """
-            • This is the deep reading: write 8 to 9 unhurried paragraphs. Move through distinct facets of \(fullName)'s chart in turn: core identity and Sun sign, the emotional interior and Moon, how they love and connect with others, work and the shape of their ambition, the friction points and what tests them, a gift they may not fully see in themselves yet, and where this chart is quietly heading. Let each paragraph breathe as its own thought before moving to the next. Do not label, number, or title the sections; let the prose itself carry the shift from one facet to the next.
+            • This is the deep reading: write 8 to 9 unhurried paragraphs. Move through distinct facets of \(chartOwner) chart in turn: core identity and Sun sign, the emotional interior and Moon, how they love and connect with others, work and the shape of their ambition, the friction points and what tests them, a gift they may not fully see in themselves yet, and where this chart is quietly heading. Let each paragraph breathe as its own thought before moving to the next. Do not label, number, or title the sections; let the prose itself carry the shift from one facet to the next.
             """
         }
 
@@ -103,9 +116,9 @@ final class SoulSignViewModel: ObservableObject {
         Rules, follow every one:\(languageLine)
         • Plain prose only. No markdown, no headers, no bullet points, no asterisks, no hashtags. Just flowing paragraphs. Never use the em dash character, it reads as machine written. Use commas, periods, or line breaks instead.
         \(depthInstruction)
-        • Keep all words as words. Occasionally place a glyph or emoji right after a word to accent it visually, not to replace it. For example: "\(firstName)'s Sun ☉ in Scorpio ♏ burns quietly" or "the Moon 🌙 here asks for stillness." Use this sparingly, only where it adds something. Planet glyphs: ☉ ☽ ☿ ♀ ♂ ♃ ♄. Sign glyphs: ♈♉♊♋♌♍♎♏♐♑♒♓. Occasional emoji: 🌙 🔥 ✨ 🌊 💫 🕯️, one or two per paragraph at most.
-        • Make it feel like a secret someone left for \(fullName) specifically. Intriguing details they'll want to sit with, not a summary they'll skim.
-        • Address \(firstName) by name throughout, not by "you" or "your." Write "\(firstName)'s Moon sits in..." rather than "your Moon sits in...", the way an astrologer would speak about someone specifically, not to a generic reader. Intimate, a little mysterious, warm but never sentimental.
+        • Keep all words as words. Occasionally place a glyph or emoji right after a word to accent it visually, not to replace it. For example: "\(glyphExample)" or "the Moon 🌙 here asks for stillness." Use this sparingly, only where it adds something. Planet glyphs: ☉ ☽ ☿ ♀ ♂ ♃ ♄. Sign glyphs: ♈♉♊♋♌♍♎♏♐♑♒♓. Occasional emoji: 🌙 🔥 ✨ 🌊 💫 🕯️, one or two per paragraph at most.
+        \(secretLine)
+        \(addressLine)
         • No closing offers, no questions, no AI references. End on one quiet sentence that lingers.
         """
     }

@@ -32,6 +32,7 @@ struct PersonDetailView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 28) {
                         header(profile)
+                        youSection(profile)
                         notesSection(profile)
                         chartsSection(profile)
                     }
@@ -74,6 +75,29 @@ struct PersonDetailView: View {
             }
             Spacer()
         }
+    }
+
+    // MARK: - You
+
+    /// Marks this person as "you". Only one person can be, so turning this on
+    /// for one turns it off for everyone else.
+    private func youSection(_ profile: UserProfile) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Toggle(isOn: Binding(
+                get: { profile.isMe == true },
+                set: { on in profileStore.setMe(on ? profile.id : nil) }
+            )) {
+                Text(loc.t("me_title"))
+                    .foregroundColor(theme.primaryText)
+            }
+            .tint(.white.opacity(0.6))
+
+            Text(loc.t("me_note"))
+                .font(.caption)
+                .foregroundColor(theme.primaryText.opacity(0.55))
+        }
+        .padding(16)
+        .background(RoundedRectangle(cornerRadius: 14).fill(.white.opacity(0.07)))
     }
 
     // MARK: - Notes

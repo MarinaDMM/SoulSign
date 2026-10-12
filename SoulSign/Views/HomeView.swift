@@ -184,7 +184,7 @@ struct HomeView: View {
     }
 
     private func scheduleDailyAffirmationNotification() {
-        AffirmationService.fetchAffirmations(language: loc.language) { affirmations in
+        AffirmationService.fetchAffirmations(language: loc.language, forYou: profileStore.me != nil) { affirmations in
             guard let a = affirmations else { return }
             let body = [a.Finance, a.Love, a.MindSpirit, a.Career, a.Friendship, a.Health]
                 .randomElement() ?? "You are amazing."
@@ -296,6 +296,7 @@ private struct HomeRow: View {
 
 struct ProfileChip: View {
     let profile: UserProfile
+    @EnvironmentObject var loc: LocalizationManager
 
     var body: some View {
         VStack(spacing: 6) {
@@ -312,9 +313,9 @@ struct ProfileChip: View {
                         .foregroundColor(.white)
                 )
                 .shadow(color: .purple.opacity(0.35), radius: 4, y: 2)
-            Text(profile.firstName)
+            Text(profile.isMe == true ? loc.t("me_badge") : profile.firstName)
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.80))
+                .foregroundColor(.white.opacity(profile.isMe == true ? 0.95 : 0.80))
                 .lineLimit(1)
         }
         .frame(width: 64)

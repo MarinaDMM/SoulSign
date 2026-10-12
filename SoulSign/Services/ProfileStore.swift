@@ -33,6 +33,23 @@ final class ProfileStore: ObservableObject {
         save()
     }
 
+    /// The person marked as "you", if any.
+    var me: UserProfile? { profiles.first { $0.isMe == true } }
+
+    /// Marks one person as "you" and clears everyone else. Pass nil to clear.
+    /// Readings cached for the old wording are dropped, so they regenerate
+    /// in the new voice the next time they're opened.
+    func setMe(_ profileID: UUID?) {
+        for i in profiles.indices {
+            profiles[i].isMe = (profiles[i].id == profileID) ? true : nil
+            profiles[i].cachedReading = nil
+            profiles[i].cachedReadingLanguage = nil
+            profiles[i].cachedDeepReading = nil
+            profiles[i].cachedDeepReadingLanguage = nil
+        }
+        save()
+    }
+
     /// Adds a note for a person, newest first. Blank text is ignored.
     func addNote(_ text: String, to profileID: UUID, mood: Mood? = nil, now: Date = Date()) {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)

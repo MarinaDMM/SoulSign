@@ -131,6 +131,9 @@ enum Translations {
         "button_breathe": "Pause and breathe",
         "week_title": "This week",
         "safety_footer": "If you're going through something hard, reach out to someone you trust. In an emergency, call your local emergency number.",
+        "me_title": "This is you",
+        "me_note": "Readings and affirmations will speak to you directly, using your own chart and notes. Only one person can be you.",
+        "me_badge": "You",
     ]
 
     static let nl: [String: String] = [
@@ -253,6 +256,9 @@ enum Translations {
         "button_breathe": "Pauzeer en adem",
         "week_title": "Deze week",
         "safety_footer": "Heb je het moeilijk? Praat met iemand die je vertrouwt. In een noodgeval bel je het lokale alarmnummer.",
+        "me_title": "Dit ben ik",
+        "me_note": "Lezingen en affirmaties spreken je direct aan, met je eigen horoscoop en notities. Slechts één persoon kan jij zijn.",
+        "me_badge": "Jij",
     ]
 
     static let fr: [String: String] = [
@@ -375,6 +381,9 @@ enum Translations {
         "button_breathe": "Pause et respiration",
         "week_title": "Cette semaine",
         "safety_footer": "Si vous traversez un moment difficile, parlez-en à une personne de confiance. En cas d'urgence, appelez le numéro d'urgence local.",
+        "me_title": "C'est vous",
+        "me_note": "Les lectures et affirmations vous parleront directement, avec votre propre thème et vos notes. Une seule personne peut être vous.",
+        "me_badge": "Vous",
     ]
 
     static let de: [String: String] = [
@@ -497,6 +506,9 @@ enum Translations {
         "button_breathe": "Pause und atmen",
         "week_title": "Diese Woche",
         "safety_footer": "Wenn du gerade etwas Schweres durchmachst, sprich mit einer Person, der du vertraust. In einem Notfall wähle die lokale Notrufnummer.",
+        "me_title": "Das bin ich",
+        "me_note": "Lesungen und Affirmationen sprechen dich direkt an, mit deinem eigenen Horoskop und deinen Notizen. Nur eine Person kann das Du sein.",
+        "me_badge": "Ich",
     ]
 
     static let es: [String: String] = [
@@ -619,6 +631,9 @@ enum Translations {
         "button_breathe": "Pausa y respira",
         "week_title": "Esta semana",
         "safety_footer": "Si estás pasando por algo difícil, habla con alguien de confianza. En una emergencia, llama al número de emergencias de tu zona.",
+        "me_title": "Esto soy yo",
+        "me_note": "Las lecturas y afirmaciones te hablarán directamente, con tu propia carta y tus notas. Solo una persona puede ser tú.",
+        "me_badge": "Tú",
     ]
 
     static let it: [String: String] = [
@@ -741,6 +756,9 @@ enum Translations {
         "button_breathe": "Pausa e respira",
         "week_title": "Questa settimana",
         "safety_footer": "Se stai attraversando un momento difficile, parlane con qualcuno di cui ti fidi. In caso di emergenza, chiama il numero di emergenza locale.",
+        "me_title": "Sono io",
+        "me_note": "Letture e affermazioni ti parleranno direttamente, con il tuo tema e le tue note. Solo una persona può essere tu.",
+        "me_badge": "Tu",
     ]
 
     static let ru: [String: String] = [
@@ -863,6 +881,9 @@ enum Translations {
         "button_breathe": "Пауза и дыхание",
         "week_title": "Эта неделя",
         "safety_footer": "Если тебе сейчас тяжело, поговори с тем, кому доверяешь. В экстренной ситуации звони в местную службу экстренной помощи.",
+        "me_title": "Это я",
+        "me_note": "Разборы и аффирмации будут обращаться к тебе напрямую, по твоей карте и заметкам. Только один человек может быть тобой.",
+        "me_badge": "Ты",
     ]
 
     static let uk: [String: String] = [
@@ -985,6 +1006,9 @@ enum Translations {
         "button_breathe": "Пауза і дихання",
         "week_title": "Цього тижня",
         "safety_footer": "Якщо тобі зараз важко, поговори з тим, кому довіряєш. У надзвичайній ситуації телефонуй на місцеву службу екстреної допомоги.",
+        "me_title": "Це я",
+        "me_note": "Розбори й афірмації звертатимуться до тебе напряму, за твоєю картою та нотатками. Лише одна людина може бути тобою.",
+        "me_badge": "Ти",
     ]
 
     static let pl: [String: String] = [
@@ -1107,5 +1131,8 @@ enum Translations {
         "button_breathe": "Pauza i oddech",
         "week_title": "Ten tydzień",
         "safety_footer": "Jeśli przeżywasz coś trudnego, porozmawiaj z kimś, komu ufasz. W nagłym wypadku zadzwoń na lokalny numer alarmowy.",
+        "me_title": "To ja",
+        "me_note": "Odczyty i afirmacje będą zwracać się do ciebie bezpośrednio, na podstawie twojego horoskopu i notatek. Tylko jedna osoba może być tobą.",
+        "me_badge": "Ty",
     ]
 }

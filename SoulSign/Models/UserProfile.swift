@@ -31,6 +31,9 @@ struct UserProfile: Identifiable, Codable, Hashable {
     var cachedDeepReadingLanguage: String?
     /// Optional so profiles saved before notes existed still decode.
     var notes: [PersonNote]? = nil
+    /// True for the one person who is "you". Readings and affirmations then
+    /// speak to them directly. Only one profile can carry this flag.
+    var isMe: Bool? = nil
 
     static func == (lhs: UserProfile, rhs: UserProfile) -> Bool { lhs.id == rhs.id }
     func hash(into hasher: inout Hasher) { hasher.combine(id) }

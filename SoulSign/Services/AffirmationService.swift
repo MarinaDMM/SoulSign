@@ -18,27 +18,34 @@ class AffirmationService {
     private static let cacheKey = "todaysAffirmation"
     private static let cacheDateKey = "todaysAffirmationDate"
     private static let cacheLangKey = "todaysAffirmationLang"
+    private static let cacheKindKey = "todaysAffirmationKind"
 
     /// Overridable so tests can inject a mocked URLSession.
     static var session: URLSession = .shared
 
-    static func fetchAndStoreAffirmations(language: AppLanguage, completion: @escaping (AffirmationResponse?) -> Void) {
-        fetchAffirmations(language: language) { result in
+    /// Cache kind: general affirmations, or ones written to "you".
+    private static func kind(forYou: Bool) -> String { forYou ? "you" : "general" }
+
+    static func fetchAndStoreAffirmations(language: AppLanguage, forYou: Bool = false,
+                                          completion: @escaping (AffirmationResponse?) -> Void) {
+        fetchAffirmations(language: language, forYou: forYou) { result in
             if let result = result {
                 if let data = try? JSONEncoder().encode(result) {
                     UserDefaults.standard.set(data, forKey: cacheKey)
                     UserDefaults.standard.set(currentDateString(), forKey: cacheDateKey)
                     UserDefaults.standard.set(language.rawValue, forKey: cacheLangKey)
+                    UserDefaults.standard.set(kind(forYou: forYou), forKey: cacheKindKey)
                 }
             }
             completion(result)
         }
     }
 
-    static func loadStoredAffirmations(language: AppLanguage) -> AffirmationResponse? {
+    static func loadStoredAffirmations(language: AppLanguage, forYou: Bool = false) -> AffirmationResponse? {
         guard let cachedDate = UserDefaults.standard.string(forKey: cacheDateKey),
               cachedDate == currentDateString(),
               UserDefaults.standard.string(forKey: cacheLangKey) == language.rawValue,
+              UserDefaults.standard.string(forKey: cacheKindKey) == kind(forYou: forYou),
               let data = UserDefaults.standard.data(forKey: cacheKey),
               let decoded = try? JSONDecoder().decode(AffirmationResponse.self, from: data) else {
             return nil
@@ -46,27 +53,15 @@ class AffirmationService {
         return decoded
     }
 
-    static func fetchAffirmations(language: AppLanguage, completion: @escaping (AffirmationResponse?) -> Void) {
-        let apiKey = Constants.anthropicAPIKey
-        if apiKey.isEmpty {
-            print("❌ ANTHROPIC_API_KEY is missing or empty")
-            completion(nil)
-            return
-        }
-
-        let url = URL(string: "https://api.anthropic.com/v1/messages")!
-
+    /// The prompt sent to Claude. Contains only an instruction and the language:
+    /// never a name, a chart, or any note the user has written.
+    static func buildPrompt(language: AppLanguage, forYou: Bool) -> String {
         let languageLine = language == .en ? "" : " Write every affirmation in \(language.englishName)."
-
-        let body: [String: Any] = [
-            "model": "claude-opus-4-8",
-            "max_tokens": 512,
-            "system": "You are an encouraging and creative life coach.",
-            "messages": [
-                [
-                    "role": "user",
-                    "content": """
-Generate daily affirmations in JSON format with exactly these keys: Finance, Love, MindSpirit, Career, Friendship, and Health.\(languageLine)
+        let voiceLine = forYou
+            ? " Write each affirmation directly to the reader as \"you\", in the second person, warm and personal."
+            : ""
+        return """
+Generate daily affirmations in JSON format with exactly these keys: Finance, Love, MindSpirit, Career, Friendship, and Health.\(languageLine)\(voiceLine)
 Return ONLY raw JSON without any explanation, markdown, or formatting. Example:
 
 {
@@ -78,6 +73,27 @@ Return ONLY raw JSON without any explanation, markdown, or formatting. Example:
   "Health": "..."
 }
 """
+    }
+
+    static func fetchAffirmations(language: AppLanguage, forYou: Bool = false,
+                                  completion: @escaping (AffirmationResponse?) -> Void) {
+        let apiKey = Constants.anthropicAPIKey
+        if apiKey.isEmpty {
+            print("❌ ANTHROPIC_API_KEY is missing or empty")
+            completion(nil)
+            return
+        }
+
+        let url = URL(string: "https://api.anthropic.com/v1/messages")!
+
+        let body: [String: Any] = [
+            "model": "claude-opus-4-8",
+            "max_tokens": 512,
+            "system": "You are an encouraging and creative life coach.",
+            "messages": [
+                [
+                    "role": "user",
+                    "content": buildPrompt(language: language, forYou: forYou)
                 ]
             ]
         ]

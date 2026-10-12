@@ -24,6 +24,7 @@
 		476AA599D9678773B46CF480 /* TarotViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E3D9AC047B2AF96C05E1B9 /* TarotViewModelTests.swift */; };
 		49A6FF315C7ED9EC767C6580 /* DestinyMatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9C86E31CA816CFEAEF4536 /* DestinyMatrixView.swift */; };
 		538A5C4DDF54AD9AFC15B810 /* SoulSignUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24163E6560202DCEC622E82D /* SoulSignUITests.swift */; };
+		54EDC735FD372FB929069673 /* YouTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05499F9FE2A48E54189A626 /* YouTests.swift */; };
 		588FB1D47C5A8CEE2FD4F44B /* SubscriptionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3C574D42632EF6919B41A6 /* SubscriptionManagerTests.swift */; };
 		6117F335154E84417E0C647E /* DestinyMatrixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BFDDCD4B85054CD3CC4AA3 /* DestinyMatrixTests.swift */; };
 		705161AF48F7D0E92734A9E6 /* ClaudeServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00A75063027FD0A9F6E74B5 /* ClaudeServiceTests.swift */; };
@@ -156,6 +157,7 @@
 		AAEF0250B17D6AF5CC072735 /* ClaudeService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ClaudeService.swift; sourceTree = "<group>"; };
 		AE7F9E707CEA3CB86982DA0A /* LocalizationManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
 		AFF69B9E99D78EB585D39CC0 /* UserProfile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		B05499F9FE2A48E54189A626 /* YouTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = YouTests.swift; sourceTree = "<group>"; };
 		B878AA216655066122DBCA18 /* LocalizationTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalizationTests.swift; sourceTree = "<group>"; };
 		C66AD1BD2A005C3E11E97554 /* LocalizationTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalizationTests.swift; sourceTree = "<group>"; };
 		C8161BC32E2AAA4700247BAC /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 				FB2A52E4CDD4AADB21BE9B2C /* SoulSignViewModelTests.swift */,
 				0B1377B5BE1C18E592A6496F /* PersonNotesTests.swift */,
 				EEB7ED3E2FC5A459E9BC8710 /* MoodTests.swift */,
+				B05499F9FE2A48E54189A626 /* YouTests.swift */,
 			);
 			name = SoulSignTests;
 			path = SoulSignTests;
@@ -671,6 +674,7 @@
 				D9FE201B4C83E5519B6A3251 /* SoulSignViewModelTests.swift in Sources */,
 				CBA9CAC5803EC692D903E31D /* PersonNotesTests.swift in Sources */,
 				F02E014EC5D593E4143AE48D /* MoodTests.swift in Sources */,
+				54EDC735FD372FB929069673 /* YouTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
