@@ -39,6 +39,8 @@ struct TarotCardView: View {
     @State private var showPaywall = false
     @State private var isRedrawing = false
     @State private var showBreathing = false
+    /// New identity per opening, so every pause starts on a clean first step.
+    @State private var breathingSession = UUID()
 
     var body: some View {
         ZStack {
@@ -89,6 +91,7 @@ struct TarotCardView: View {
         }
         .sheet(isPresented: $showBreathing) {
             BreathingPauseView()
+                .id(breathingSession)
                 .environmentObject(loc)
         }
         .task { await vm.loadReading(language: loc.language) }
@@ -161,6 +164,7 @@ struct TarotCardView: View {
                         MoodPicker(selection: $vm.moodDraft)
 
                         Button {
+                            breathingSession = UUID()
                             showBreathing = true
                         } label: {
                             Label(loc.t("button_breathe"), systemImage: "wind")

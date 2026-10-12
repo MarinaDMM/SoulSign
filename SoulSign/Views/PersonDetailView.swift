@@ -19,6 +19,8 @@ struct PersonDetailView: View {
     @State private var draft = ""
     @State private var moodDraft: Mood?
     @State private var showBreathing = false
+    /// New identity per opening, so every pause starts on a clean first step.
+    @State private var breathingSession = UUID()
 
     private var profile: UserProfile? {
         profileStore.profiles.first { $0.id == profileID }
@@ -48,6 +50,7 @@ struct PersonDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showBreathing) {
             BreathingPauseView()
+                .id(breathingSession)
                 .environmentObject(loc)
         }
     }
@@ -113,6 +116,7 @@ struct PersonDetailView: View {
             }
 
             Button {
+                breathingSession = UUID()
                 showBreathing = true
             } label: {
                 Label(loc.t("button_breathe"), systemImage: "wind")
