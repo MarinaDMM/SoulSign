@@ -34,12 +34,12 @@ final class ProfileStore: ObservableObject {
     }
 
     /// Adds a note for a person, newest first. Blank text is ignored.
-    func addNote(_ text: String, to profileID: UUID, now: Date = Date()) {
+    func addNote(_ text: String, to profileID: UUID, mood: Mood? = nil, now: Date = Date()) {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty,
               let i = profiles.firstIndex(where: { $0.id == profileID }) else { return }
         var notes = profiles[i].notes ?? []
-        notes.insert(PersonNote(date: now, text: trimmed), at: 0)
+        notes.insert(PersonNote(date: now, text: trimmed, mood: mood), at: 0)
         profiles[i].notes = notes
         save()
     }

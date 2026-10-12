@@ -38,6 +38,7 @@ struct TarotCardView: View {
     @State private var showHistory = false
     @State private var showPaywall = false
     @State private var isRedrawing = false
+    @State private var showBreathing = false
 
     var body: some View {
         ZStack {
@@ -85,6 +86,10 @@ struct TarotCardView: View {
                     .environmentObject(subs)
                     .environmentObject(loc)
             }
+        }
+        .sheet(isPresented: $showBreathing) {
+            BreathingPauseView()
+                .environmentObject(loc)
         }
         .task { await vm.loadReading(language: loc.language) }
     }
@@ -152,8 +157,25 @@ struct TarotCardView: View {
                     }
                     .disabled(isRedrawing)
 
-                    ReflectionEditor(text: $vm.reflectionDraft) {
-                        vm.saveReflection(vm.reflectionDraft, language: loc.language)
+                    VStack(alignment: .leading, spacing: 16) {
+                        MoodPicker(selection: $vm.moodDraft)
+
+                        Button {
+                            showBreathing = true
+                        } label: {
+                            Label(loc.t("button_breathe"), systemImage: "wind")
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 10)
+                                .background(RoundedRectangle(cornerRadius: 10).fill(.white.opacity(0.07)))
+                                .foregroundColor(theme.primaryText.opacity(0.85))
+                        }
+                        .buttonStyle(.plain)
+
+                        ReflectionEditor(text: $vm.reflectionDraft) {
+                            vm.saveReflection(vm.reflectionDraft, language: loc.language, mood: vm.moodDraft)
+                        }
+
+                        SafetyNote()
                     }
                     .padding(.top, 4)
 

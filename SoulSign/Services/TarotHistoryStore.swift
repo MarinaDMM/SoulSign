@@ -13,6 +13,8 @@ struct TarotHistoryEntry: Codable {
     /// included in shared PDFs — this is a personal journal, not content
     /// meant to be published outward.
     var reflection: String? = nil
+    /// Optional gentle check-in for the day. Nil for entries saved before moods existed.
+    var mood: Mood? = nil
 }
 
 /// Persists one tarot reading per calendar day, keyed by "yyyy-MM-dd" in the

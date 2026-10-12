@@ -14,6 +14,8 @@ final class TarotViewModel: ObservableObject {
     @Published var historyEntries: [(dateKey: String, card: TarotCard, entry: TarotHistoryEntry)] = []
     /// Today's private reflection draft, bound directly to the on-screen editor.
     @Published var reflectionDraft: String = ""
+    /// Today's optional mood check-in, shown above the reflection editor.
+    @Published var moodDraft: Mood?
 
     private let claude: ClaudeService
     private let store: TarotHistoryStore
@@ -32,6 +34,7 @@ final class TarotViewModel: ObservableObject {
             self.reading = existing.reading
             self.isRedrawnToday = existing.isRedraw
             self.reflectionDraft = existing.reflection ?? ""
+            self.moodDraft = existing.mood
             return
         }
         await generate(card: TarotDeck.cardForToday(), language: language, isRedraw: false)
@@ -65,11 +68,15 @@ final class TarotViewModel: ObservableObject {
             // A redraw replaces the card and reading, but a reflection the
             // user already wrote for today belongs to the day, not the draw,
             // so it must survive.
-            let existingReflection = store.entry(for: Date())?.reflection
+            let today = store.entry(for: Date())
+            let existingReflection = today?.reflection
+            let existingMood = today?.mood
             store.save(TarotHistoryEntry(cardId: card.id, reading: text, lang: language.rawValue,
-                                         isRedraw: isRedraw, reflection: existingReflection),
+                                         isRedraw: isRedraw, reflection: existingReflection,
+                                         mood: existingMood),
                       for: Date())
             self.reflectionDraft = existingReflection ?? ""
+            self.moodDraft = existingMood
         } catch {
             self.errorMessage = error.localizedDescription
         }
@@ -78,28 +85,30 @@ final class TarotViewModel: ObservableObject {
     }
 
     /// Saves a private reflection for today. Not shared, not exported.
-    func saveReflection(_ text: String, language: AppLanguage) {
-        saveReflection(text, language: language, for: Date())
+    func saveReflection(_ text: String, language: AppLanguage, mood: Mood? = nil) {
+        saveReflection(text, language: language, mood: mood, for: Date())
     }
 
     /// Saves a private reflection for an arbitrary past day (used when
     /// editing from History) and refreshes the history list so the change
     /// is visible immediately.
-    func saveReflection(_ text: String, language: AppLanguage, dateKey: String) {
+    func saveReflection(_ text: String, language: AppLanguage, dateKey: String, mood: Mood? = nil) {
         guard let date = TarotHistoryStore.date(fromDayKey: dateKey) else { return }
-        saveReflection(text, language: language, for: date)
+        saveReflection(text, language: language, mood: mood, for: date)
         loadHistory()
     }
 
-    private func saveReflection(_ text: String, language: AppLanguage, for date: Date) {
+    private func saveReflection(_ text: String, language: AppLanguage, mood: Mood?, for date: Date) {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         var entry = store.entry(for: date) ?? TarotHistoryEntry(
             cardId: card.id, reading: reading, lang: language.rawValue, isRedraw: isRedrawnToday, reflection: nil
         )
         entry.reflection = trimmed.isEmpty ? nil : trimmed
+        entry.mood = mood
         store.save(entry, for: date)
         if TarotHistoryStore.dayKey(for: date) == TarotHistoryStore.dayKey(for: Date()) {
             reflectionDraft = text
+            moodDraft = mood
         }
     }
 

@@ -11,6 +11,8 @@ struct PersonNote: Identifiable, Codable, Hashable {
     var id = UUID()
     var date: Date
     var text: String
+    /// Optional check-in; nil for notes written without one.
+    var mood: Mood? = nil
 }
 
 struct UserProfile: Identifiable, Codable, Hashable {

@@ -14,6 +14,7 @@
 		2DE698A02D45DE2CBF6CA26F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA10265D825CEB5851C12CB6 /* HomeView.swift */; };
 		304F9BBD33A92843A3801448 /* Translations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABCBA812F5F9FD53B61CDC7 /* Translations.swift */; };
 		372AF2361A679A0876B3531B /* DestinyMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF0F93C03F548B77002AE07 /* DestinyMatrix.swift */; };
+		37BF345E21F6D4C2CADB65C5 /* Mood.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203F404447FD774211ACEF56 /* Mood.swift */; };
 		3BC4FAC498FF39471DB99DC8 /* ProfileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04069C45FF369233F254D81 /* ProfileListView.swift */; };
 		3CD26649CF4B3AF510BE5EC3 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793B03D78E404B17A954BE64 /* MockURLProtocol.swift */; };
 		3CEFBA7DDEE94E576B56E337 /* ClaudeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEF0250B17D6AF5CC072735 /* ClaudeService.swift */; };
@@ -40,6 +41,7 @@
 		BB36FA73604A6767CC5868D2 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7D292ED184B351DBE20D2E /* AppLanguage.swift */; };
 		BF61C20F2F12FB3CDE713BB7 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077CC8FF6DEBCBE82DA5E54C /* PaywallView.swift */; };
 		C534CCBEF25A1CCFB4E2BABC /* TarotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED01E0C41F7A5401F48CC629 /* TarotViewModel.swift */; };
+		C7C008D1F827625E3FA0B553 /* MoodViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3C9D6D5AC4CCEAE03AA5DB /* MoodViews.swift */; };
 		C8161BC42E2AAA4C00247BAC /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8161BC32E2AAA4700247BAC /* Notification+Name.swift */; };
 		C82233842DF2251300454554 /* Lottie.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C82233822DF224AE00454554 /* Lottie.xcframework */; };
 		C82233852DF2251300454554 /* Lottie.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C82233822DF224AE00454554 /* Lottie.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -75,6 +77,7 @@
 		EE6250DBB6902032F4E450B0 /* TarotHistoryStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4BBE75204E7C9F075729E5E /* TarotHistoryStoreTests.swift */; };
 		EF15DBEDFB076AEEB60ACEF3 /* UserProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFE8A933580AF220A8BBC95 /* UserProfileTests.swift */; };
 		F029CC34CDC93CCB8ED1FBD6 /* AffirmationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47EAEBA2B54679511158060 /* AffirmationServiceTests.swift */; };
+		F02E014EC5D593E4143AE48D /* MoodTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB7ED3E2FC5A459E9BC8710 /* MoodTests.swift */; };
 		F84CC68E6BE20186C5114DBE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2DF9AA295428EF46773D0AB /* Foundation.framework */; };
 		FA0EF39F4E056301CCC5745B /* LocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66AD1BD2A005C3E11E97554 /* LocalizationTests.swift */; };
 		FA627D35EC5E1E783957CAD9 /* NatalChartReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1849E5BCE5767C1B8F2285E9 /* NatalChartReadingView.swift */; };
@@ -118,6 +121,7 @@
 		1849E5BCE5767C1B8F2285E9 /* NatalChartReadingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NatalChartReadingView.swift; sourceTree = "<group>"; };
 		1ABCBA812F5F9FD53B61CDC7 /* Translations.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Translations.swift; sourceTree = "<group>"; };
 		1AFE8A933580AF220A8BBC95 /* UserProfileTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UserProfileTests.swift; sourceTree = "<group>"; };
+		203F404447FD774211ACEF56 /* Mood.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Mood.swift; sourceTree = "<group>"; };
 		24163E6560202DCEC622E82D /* SoulSignUITests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SoulSignUITests.swift; sourceTree = "<group>"; };
 		29EA0E96DE62F6F3445A2FF8 /* TarotCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TarotCard.swift; sourceTree = "<group>"; };
 		393BACDB5CAB7E85D7591382 /* ClaudeServiceTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ClaudeServiceTests.swift; sourceTree = "<group>"; };
@@ -135,6 +139,7 @@
 		75F05E21CB9C73D31105C9C6 /* PartnerChartViewModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PartnerChartViewModelTests.swift; sourceTree = "<group>"; };
 		78B275833BF3E998E75D37D1 /* TarotDeckTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TarotDeckTests.swift; sourceTree = "<group>"; };
 		793B03D78E404B17A954BE64 /* MockURLProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MockURLProtocol.swift; path = Support/MockURLProtocol.swift; sourceTree = "<group>"; };
+		7E3C9D6D5AC4CCEAE03AA5DB /* MoodViews.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MoodViews.swift; sourceTree = "<group>"; };
 		7E8743E1170FEDAC9A95D0C8 /* PartnerChartReadingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PartnerChartReadingView.swift; sourceTree = "<group>"; };
 		8AF0F93C03F548B77002AE07 /* DestinyMatrix.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DestinyMatrix.swift; sourceTree = "<group>"; };
 		8C2EE4B69A7BF7A46AD5EA4F /* SoulSign.storekit */ = {isa = PBXFileReference; includeInIndex = 1; path = SoulSign.storekit; sourceTree = "<group>"; };
@@ -191,6 +196,7 @@
 		E32B363E8932E295F8CADF9C /* SoulSignUITests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SoulSignUITests.swift; sourceTree = "<group>"; };
 		ED01E0C41F7A5401F48CC629 /* TarotViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TarotViewModel.swift; sourceTree = "<group>"; };
 		ED3C574D42632EF6919B41A6 /* SubscriptionManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SubscriptionManagerTests.swift; sourceTree = "<group>"; };
+		EEB7ED3E2FC5A459E9BC8710 /* MoodTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MoodTests.swift; sourceTree = "<group>"; };
 		EEE544377FE187471EE5DE79 /* SoulSignUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoulSignUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F76C7875291825CA5D81A658 /* ShareCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ShareCard.swift; sourceTree = "<group>"; };
 		F900F13D8B0E00362312EF3D /* TarotDeckTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TarotDeckTests.swift; sourceTree = "<group>"; };
@@ -250,6 +256,7 @@
 				46E3D9AC047B2AF96C05E1B9 /* TarotViewModelTests.swift */,
 				FB2A52E4CDD4AADB21BE9B2C /* SoulSignViewModelTests.swift */,
 				0B1377B5BE1C18E592A6496F /* PersonNotesTests.swift */,
+				EEB7ED3E2FC5A459E9BC8710 /* MoodTests.swift */,
 			);
 			name = SoulSignTests;
 			path = SoulSignTests;
@@ -378,6 +385,7 @@
 				8AF0F93C03F548B77002AE07 /* DestinyMatrix.swift */,
 				AFF69B9E99D78EB585D39CC0 /* UserProfile.swift */,
 				29EA0E96DE62F6F3445A2FF8 /* TarotCard.swift */,
+				203F404447FD774211ACEF56 /* Mood.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -404,6 +412,7 @@
 				4FEBB642A67E00BF6E1DC295 /* TarotHistoryView.swift */,
 				CA5771AF6C88CC9E1121F577 /* ReflectionEditor.swift */,
 				56A0B03076E1BCC81DE32B8A /* PersonDetailView.swift */,
+				7E3C9D6D5AC4CCEAE03AA5DB /* MoodViews.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -638,6 +647,8 @@
 				8EBAD5F664EB9C6DAA7947E5 /* TarotHistoryView.swift in Sources */,
 				B38275445525D48868A93657 /* ReflectionEditor.swift in Sources */,
 				89A76697CF3871E0776CCF11 /* PersonDetailView.swift in Sources */,
+				37BF345E21F6D4C2CADB65C5 /* Mood.swift in Sources */,
+				C7C008D1F827625E3FA0B553 /* MoodViews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -659,6 +670,7 @@
 				476AA599D9678773B46CF480 /* TarotViewModelTests.swift in Sources */,
 				D9FE201B4C83E5519B6A3251 /* SoulSignViewModelTests.swift in Sources */,
 				CBA9CAC5803EC692D903E31D /* PersonNotesTests.swift in Sources */,
+				F02E014EC5D593E4143AE48D /* MoodTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

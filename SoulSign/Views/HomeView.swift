@@ -29,6 +29,23 @@ struct HomeView: View {
     @State private var path = NavigationPath()
     @State private var showPaywall = false
 
+    /// The last seven days' moods, from daily check-ins and from notes about
+    /// people. A day with both shows the daily check-in.
+    private var weekDays: [(day: Date, mood: Mood?)] {
+        var moods: [String: Mood] = [:]
+        for (key, entry) in TarotHistoryStore().allSorted() {
+            if let mood = entry.mood { moods[key] = mood }
+        }
+        for profile in profileStore.profiles {
+            for note in profile.notes ?? [] {
+                guard let mood = note.mood else { continue }
+                let key = TarotHistoryStore.dayKey(for: note.date)
+                if moods[key] == nil { moods[key] = mood }
+            }
+        }
+        return MoodWeek.build(moodsByDay: moods, today: Date())
+    }
+
     var body: some View {
         NavigationStack(path: $path) {
             ZStack {
@@ -63,6 +80,7 @@ struct HomeView: View {
                                     subtitle: loc.t("subtitle_affirmations")) {
                                 path.append(AppDestination.affirmations)
                             }
+                            MoodWeekStrip(days: weekDays)
                         }
 
                         // People: each person opens their own page

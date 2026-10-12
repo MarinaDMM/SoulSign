@@ -118,6 +118,19 @@ enum Translations {
         "person_note_title": "Your Note",
         "person_note_placeholder": "What's on your mind about them?",
         "button_save_note": "Save Note",
+        "mood_title": "How does it feel?",
+        "mood_calm": "Calm",
+        "mood_grateful": "Grateful",
+        "mood_hopeful": "Hopeful",
+        "mood_tired": "Tired",
+        "mood_anxious": "Uneasy",
+        "mood_sad": "Heavy",
+        "breathe_intro": "Take a minute. Nothing to get right, just breathe with the circle.",
+        "breathe_in": "Breathe in",
+        "breathe_out": "Breathe out",
+        "button_breathe": "Pause and breathe",
+        "week_title": "This week",
+        "safety_footer": "If you're going through something hard, reach out to someone you trust. In an emergency, call your local emergency number.",
     ]
 
     static let nl: [String: String] = [
@@ -227,6 +240,19 @@ enum Translations {
         "person_note_title": "Jouw Notitie",
         "person_note_placeholder": "Wat speelt er bij je over hen?",
         "button_save_note": "Notitie Opslaan",
+        "mood_title": "Hoe voelt het?",
+        "mood_calm": "Rustig",
+        "mood_grateful": "Dankbaar",
+        "mood_hopeful": "Hoopvol",
+        "mood_tired": "Moe",
+        "mood_anxious": "Onrustig",
+        "mood_sad": "Zwaar",
+        "breathe_intro": "Neem even de tijd. Niets hoeft, adem gewoon mee met de cirkel.",
+        "breathe_in": "Adem in",
+        "breathe_out": "Adem uit",
+        "button_breathe": "Pauzeer en adem",
+        "week_title": "Deze week",
+        "safety_footer": "Heb je het moeilijk? Praat met iemand die je vertrouwt. In een noodgeval bel je het lokale alarmnummer.",
     ]
 
     static let fr: [String: String] = [
@@ -336,6 +362,19 @@ enum Translations {
         "person_note_title": "Votre Note",
         "person_note_placeholder": "Qu'avez-vous en tête à leur sujet ?",
         "button_save_note": "Enregistrer la Note",
+        "mood_title": "Comment vous sentez-vous ?",
+        "mood_calm": "Calme",
+        "mood_grateful": "Reconnaissant",
+        "mood_hopeful": "Plein d'espoir",
+        "mood_tired": "Fatigué",
+        "mood_anxious": "Inquiet",
+        "mood_sad": "Lourd",
+        "breathe_intro": "Prenez une minute. Rien à réussir, respirez simplement avec le cercle.",
+        "breathe_in": "Inspirez",
+        "breathe_out": "Expirez",
+        "button_breathe": "Pause et respiration",
+        "week_title": "Cette semaine",
+        "safety_footer": "Si vous traversez un moment difficile, parlez-en à une personne de confiance. En cas d'urgence, appelez le numéro d'urgence local.",
     ]
 
     static let de: [String: String] = [
@@ -445,6 +484,19 @@ enum Translations {
         "person_note_title": "Deine Notiz",
         "person_note_placeholder": "Was beschäftigt dich bei dieser Person?",
         "button_save_note": "Notiz Speichern",
+        "mood_title": "Wie fühlt es sich an?",
+        "mood_calm": "Ruhig",
+        "mood_grateful": "Dankbar",
+        "mood_hopeful": "Hoffnungsvoll",
+        "mood_tired": "Müde",
+        "mood_anxious": "Unruhig",
+        "mood_sad": "Schwer",
+        "breathe_intro": "Nimm dir einen Moment. Es gibt nichts richtig zu machen, atme einfach mit dem Kreis.",
+        "breathe_in": "Einatmen",
+        "breathe_out": "Ausatmen",
+        "button_breathe": "Pause und atmen",
+        "week_title": "Diese Woche",
+        "safety_footer": "Wenn du gerade etwas Schweres durchmachst, sprich mit einer Person, der du vertraust. In einem Notfall wähle die lokale Notrufnummer.",
     ]
 
     static let es: [String: String] = [
@@ -554,6 +606,19 @@ enum Translations {
         "person_note_title": "Tu Nota",
         "person_note_placeholder": "¿Qué tienes en mente sobre esta persona?",
         "button_save_note": "Guardar Nota",
+        "mood_title": "¿Cómo te sientes?",
+        "mood_calm": "Tranquilo",
+        "mood_grateful": "Agradecido",
+        "mood_hopeful": "Esperanzado",
+        "mood_tired": "Cansado",
+        "mood_anxious": "Inquieto",
+        "mood_sad": "Pesado",
+        "breathe_intro": "Tómate un minuto. No hay nada que hacer bien, solo respira con el círculo.",
+        "breathe_in": "Inspira",
+        "breathe_out": "Espira",
+        "button_breathe": "Pausa y respira",
+        "week_title": "Esta semana",
+        "safety_footer": "Si estás pasando por algo difícil, habla con alguien de confianza. En una emergencia, llama al número de emergencias de tu zona.",
     ]
 
     static let it: [String: String] = [
@@ -663,6 +728,19 @@ enum Translations {
         "person_note_title": "La Tua Nota",
         "person_note_placeholder": "Cosa ti passa per la mente su di loro?",
         "button_save_note": "Salva Nota",
+        "mood_title": "Come ti senti?",
+        "mood_calm": "Calmo",
+        "mood_grateful": "Grato",
+        "mood_hopeful": "Speranzoso",
+        "mood_tired": "Stanco",
+        "mood_anxious": "Inquieto",
+        "mood_sad": "Pesante",
+        "breathe_intro": "Prenditi un minuto. Non c'è nulla da fare bene, respira seguendo il cerchio.",
+        "breathe_in": "Inspira",
+        "breathe_out": "Espira",
+        "button_breathe": "Pausa e respira",
+        "week_title": "Questa settimana",
+        "safety_footer": "Se stai attraversando un momento difficile, parlane con qualcuno di cui ti fidi. In caso di emergenza, chiama il numero di emergenza locale.",
     ]
 
     static let ru: [String: String] = [
@@ -772,6 +850,19 @@ enum Translations {
         "person_note_title": "Твоя Заметка",
         "person_note_placeholder": "Что у тебя на уме об этом человеке?",
         "button_save_note": "Сохранить Заметку",
+        "mood_title": "Как ты себя чувствуешь?",
+        "mood_calm": "Спокойно",
+        "mood_grateful": "Благодарен",
+        "mood_hopeful": "С надеждой",
+        "mood_tired": "Устал",
+        "mood_anxious": "Тревожно",
+        "mood_sad": "Тяжело",
+        "breathe_intro": "Побудь минуту. Ничего не нужно делать правильно, просто дыши вместе с кругом.",
+        "breathe_in": "Вдох",
+        "breathe_out": "Выдох",
+        "button_breathe": "Пауза и дыхание",
+        "week_title": "Эта неделя",
+        "safety_footer": "Если тебе сейчас тяжело, поговори с тем, кому доверяешь. В экстренной ситуации звони в местную службу экстренной помощи.",
     ]
 
     static let uk: [String: String] = [
@@ -881,6 +972,19 @@ enum Translations {
         "person_note_title": "Твоя Нотатка",
         "person_note_placeholder": "Що в тебе на думці про цю людину?",
         "button_save_note": "Зберегти Нотатку",
+        "mood_title": "Як ти себе почуваєш?",
+        "mood_calm": "Спокійно",
+        "mood_grateful": "Вдячний",
+        "mood_hopeful": "З надією",
+        "mood_tired": "Втомлений",
+        "mood_anxious": "Тривожно",
+        "mood_sad": "Важко",
+        "breathe_intro": "Побудь хвилину. Нічого не треба робити правильно, просто дихай разом із колом.",
+        "breathe_in": "Вдих",
+        "breathe_out": "Видих",
+        "button_breathe": "Пауза і дихання",
+        "week_title": "Цього тижня",
+        "safety_footer": "Якщо тобі зараз важко, поговори з тим, кому довіряєш. У надзвичайній ситуації телефонуй на місцеву службу екстреної допомоги.",
     ]
 
     static let pl: [String: String] = [
@@ -990,5 +1094,18 @@ enum Translations {
         "person_note_title": "Twoja Notatka",
         "person_note_placeholder": "Co masz na myśli o tej osobie?",
         "button_save_note": "Zapisz Notatkę",
+        "mood_title": "Jak się czujesz?",
+        "mood_calm": "Spokojnie",
+        "mood_grateful": "Wdzięczny",
+        "mood_hopeful": "Z nadzieją",
+        "mood_tired": "Zmęczony",
+        "mood_anxious": "Niespokojnie",
+        "mood_sad": "Ciężko",
+        "breathe_intro": "Weź chwilę. Nic nie trzeba robić dobrze, po prostu oddychaj z kręgiem.",
+        "breathe_in": "Wdech",
+        "breathe_out": "Wydech",
+        "button_breathe": "Pauza i oddech",
+        "week_title": "Ten tydzień",
+        "safety_footer": "Jeśli przeżywasz coś trudnego, porozmawiaj z kimś, komu ufasz. W nagłym wypadku zadzwoń na lokalny numer alarmowy.",
     ]
 }

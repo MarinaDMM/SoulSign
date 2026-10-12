@@ -17,6 +17,8 @@ struct PersonDetailView: View {
     private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
 
     @State private var draft = ""
+    @State private var moodDraft: Mood?
+    @State private var showBreathing = false
 
     private var profile: UserProfile? {
         profileStore.profiles.first { $0.id == profileID }
@@ -39,6 +41,10 @@ struct PersonDetailView: View {
         }
         .navigationTitle(profile?.firstName ?? "")
         .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $showBreathing) {
+            BreathingPauseView()
+                .environmentObject(loc)
+        }
     }
 
     // MARK: - Header
@@ -74,14 +80,28 @@ struct PersonDetailView: View {
 
     private func notesSection(_ profile: UserProfile) -> some View {
         VStack(alignment: .leading, spacing: 14) {
+            MoodPicker(selection: $moodDraft)
+
+            Button {
+                showBreathing = true
+            } label: {
+                Label(loc.t("button_breathe"), systemImage: "wind")
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+                    .background(RoundedRectangle(cornerRadius: 10).fill(.white.opacity(0.07)))
+                    .foregroundColor(theme.primaryText.opacity(0.85))
+            }
+            .buttonStyle(.plain)
+
             ReflectionEditor(
                 text: $draft,
                 titleKey: "person_note_title",
                 placeholderKey: "person_note_placeholder",
                 saveKey: "button_save_note"
             ) {
-                profileStore.addNote(draft, to: profile.id)
+                profileStore.addNote(draft, to: profile.id, mood: moodDraft)
                 draft = ""
+                moodDraft = nil
             }
 
             Text(loc.t("person_notes_title"))
@@ -98,14 +118,21 @@ struct PersonDetailView: View {
                     noteRow(note, profileID: profile.id)
                 }
             }
+
+            SafetyNote()
         }
     }
 
     private func noteRow(_ note: PersonNote, profileID: UUID) -> some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(dateLabel(note.date))
-                .font(.caption)
-                .foregroundColor(theme.primaryText.opacity(0.5))
+            HStack(spacing: 6) {
+                Text(dateLabel(note.date))
+                if let mood = note.mood {
+                    Text("\(mood.emoji) \(loc.t(mood.labelKey))")
+                }
+            }
+            .font(.caption)
+            .foregroundColor(theme.primaryText.opacity(0.5))
             Text(note.text)
                 .font(.body)
                 .foregroundColor(theme.primaryText)
