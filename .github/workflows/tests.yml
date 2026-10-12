@@ -51,17 +51,23 @@ jobs:
       - name: Run tests
         run: |
           set -o pipefail
-          xcodebuild test \
-            -project SoulSign.xcodeproj \
-            -scheme SoulSign \
-            -destination "id=${{ steps.sim.outputs.udid }}" \
-            -resultBundlePath TestResults.xcresult \
-            CODE_SIGNING_ALLOWED=NO \
-            | xcbeautify || xcodebuild test \
-              -project SoulSign.xcodeproj \
-              -scheme SoulSign \
-              -destination "id=${{ steps.sim.outputs.udid }}" \
-              CODE_SIGNING_ALLOWED=NO
+          # Per-test timeouts: a hung test fails in minutes and its name appears
+          # in the log, instead of the whole job running into the 40-minute limit.
+          ARGS=(
+            -project SoulSign.xcodeproj
+            -scheme SoulSign
+            -destination "id=${{ steps.sim.outputs.udid }}"
+            -resultBundlePath TestResults.xcresult
+            -test-timeouts-enabled YES
+            -default-test-execution-time-allowance 120
+            -maximum-test-execution-time-allowance 180
+            CODE_SIGNING_ALLOWED=NO
+          )
+          if command -v xcbeautify >/dev/null 2>&1; then
+            xcodebuild test "${ARGS[@]}" | xcbeautify
+          else
+            xcodebuild test "${ARGS[@]}"
+          fi
 
       - name: Upload test results
         if: always()
