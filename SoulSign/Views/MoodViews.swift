@@ -7,6 +7,7 @@
 //  Nothing here scores, streaks, or pushes the user to do more.
 //
 import SwiftUI
+import UIKit
 
 // MARK: - Mood picker
 
@@ -115,13 +116,19 @@ struct BreathingPauseView: View {
     }
 
     /// Alternates four seconds in and six seconds out until the view goes away.
+    /// A soft tap marks the start of each breath, so the rhythm can be felt
+    /// without looking. iOS respects the user's system haptics setting.
     private func breathe() async {
+        let feedback = UIImpactFeedbackGenerator(style: .soft)
+        feedback.prepare()
         while !Task.isCancelled {
             breatheIn = true
             expanded = true
+            feedback.impactOccurred(intensity: 0.6)
             try? await Task.sleep(nanoseconds: 4_000_000_000)
             breatheIn = false
             expanded = false
+            feedback.impactOccurred(intensity: 0.35)
             try? await Task.sleep(nanoseconds: 6_000_000_000)
         }
     }
