@@ -106,7 +106,9 @@ struct PersonDetailView: View {
 
     private func notesSection(_ profile: UserProfile) -> some View {
         VStack(alignment: .leading, spacing: 14) {
-            MoodPicker(selection: $moodDraft)
+            if profileStore.canRecordMood(for: profile) {
+                MoodPicker(selection: $moodDraft)
+            }
 
             Button {
                 showBreathing = true
@@ -125,7 +127,8 @@ struct PersonDetailView: View {
                 placeholderKey: "person_note_placeholder",
                 saveKey: "button_save_note"
             ) {
-                profileStore.addNote(draft, to: profile.id, mood: moodDraft)
+                profileStore.addNote(draft, to: profile.id,
+                                     mood: profileStore.canRecordMood(for: profile) ? moodDraft : nil)
                 draft = ""
                 moodDraft = nil
             }
@@ -153,7 +156,7 @@ struct PersonDetailView: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 6) {
                 Text(dateLabel(note.date))
-                if let mood = note.mood {
+                if let mood = note.mood, showsMood(profileID) {
                     Text("\(mood.emoji) \(loc.t(mood.labelKey))")
                 }
             }
@@ -174,6 +177,10 @@ struct PersonDetailView: View {
                 Label(loc.t("button_delete_note"), systemImage: "trash")
             }
         }
+    }
+
+    private func showsMood(_ profileID: UUID) -> Bool {
+        profileStore.profiles.first { $0.id == profileID }.map(profileStore.canRecordMood(for:)) ?? false
     }
 
     private func dateLabel(_ date: Date) -> String {

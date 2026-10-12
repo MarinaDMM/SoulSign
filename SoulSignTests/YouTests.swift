@@ -105,6 +105,17 @@ final class YouTests: XCTestCase {
         XCTAssertFalse(store.showsYouSection(for: teoUpdated), "everyone else hides the switch and its note")
     }
 
+    // MARK: Mood only for "you"
+
+    func testMoodOnlyRecordableForYou() {
+        let store = makeStore()
+        var luna = person("Luna"), teo = person("Teo")
+        luna.isMe = true
+        store.add(luna); store.add(teo)
+        XCTAssertTrue(store.canRecordMood(for: store.profiles.first { $0.id == luna.id }!))
+        XCTAssertFalse(store.canRecordMood(for: store.profiles.first { $0.id == teo.id }!))
+    }
+
     // MARK: Prompt voice
 
     func testNatalPromptSpeaksAsYouWhenYou() {

@@ -36,6 +36,12 @@ final class ProfileStore: ObservableObject {
     /// The person marked as "you", if any.
     var me: UserProfile? { profiles.first { $0.isMe == true } }
 
+    /// Mood check-ins are for the user's own notes only. Notes about other
+    /// people stay text-only, so feelings about someone else aren't tagged.
+    func canRecordMood(for profile: UserProfile) -> Bool {
+        profile.isMe == true
+    }
+
     /// Whether the "This is you" switch should be offered on this person's page.
     /// Offered while nobody is "you" (to choose one), and on the person who is
     /// (so it can be turned off). Hidden on everyone else once someone is chosen.

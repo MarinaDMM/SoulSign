@@ -36,12 +36,11 @@ struct HomeView: View {
         for (key, entry) in TarotHistoryStore().allSorted() {
             if let mood = entry.mood { moods[key] = mood }
         }
-        for profile in profileStore.profiles {
-            for note in profile.notes ?? [] {
-                guard let mood = note.mood else { continue }
-                let key = TarotHistoryStore.dayKey(for: note.date)
-                if moods[key] == nil { moods[key] = mood }
-            }
+        // Only the user's own notes count toward their week.
+        for note in profileStore.me?.notes ?? [] {
+            guard let mood = note.mood else { continue }
+            let key = TarotHistoryStore.dayKey(for: note.date)
+            if moods[key] == nil { moods[key] = mood }
         }
         return MoodWeek.build(moodsByDay: moods, today: Date())
     }
