@@ -105,6 +105,17 @@ final class YouTests: XCTestCase {
         XCTAssertFalse(store.showsYouSection(for: teoUpdated), "everyone else hides the switch and its note")
     }
 
+    // MARK: Notes only for "you"
+
+    func testNotesOnlyWritableForYou() {
+        let store = makeStore()
+        var luna = person("Luna"), teo = person("Teo")
+        luna.isMe = true
+        store.add(luna); store.add(teo)
+        XCTAssertTrue(store.canWriteNotes(for: store.profiles.first { $0.id == luna.id }!))
+        XCTAssertFalse(store.canWriteNotes(for: store.profiles.first { $0.id == teo.id }!))
+    }
+
     // MARK: Mood only for "you"
 
     func testMoodOnlyRecordableForYou() {

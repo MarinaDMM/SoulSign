@@ -36,6 +36,12 @@ final class ProfileStore: ObservableObject {
     /// The person marked as "you", if any.
     var me: UserProfile? { profiles.first { $0.isMe == true } }
 
+    /// Notes are the user's own journal, so only the person marked as "you"
+    /// has a notes section. Other people keep their charts, not their notes.
+    func canWriteNotes(for profile: UserProfile) -> Bool {
+        profile.isMe == true
+    }
+
     /// Mood check-ins are for the user's own notes only. Notes about other
     /// people stay text-only, so feelings about someone else aren't tagged.
     func canRecordMood(for profile: UserProfile) -> Bool {

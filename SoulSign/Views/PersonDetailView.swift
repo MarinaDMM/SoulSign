@@ -35,7 +35,9 @@ struct PersonDetailView: View {
                         if profileStore.showsYouSection(for: profile) {
                             youSection(profile)
                         }
-                        notesSection(profile)
+                        if profileStore.canWriteNotes(for: profile) {
+                            notesSection(profile)
+                        }
                         chartsSection(profile)
                     }
                     .padding()
