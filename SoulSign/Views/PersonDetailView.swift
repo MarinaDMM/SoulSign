@@ -44,6 +44,7 @@ struct PersonDetailView: View {
                     }
                     .padding()
                 }
+                .scrollDismissesKeyboard(.interactively)
             }
         }
         .navigationTitle(profile?.firstName ?? "")

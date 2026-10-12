@@ -23,6 +23,11 @@ struct ReflectionEditor: View {
 
     @State private var justSaved = false
 
+    private func dismissKeyboard() {
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(loc.t(titleKey))
@@ -35,6 +40,14 @@ struct ReflectionEditor: View {
                     .padding(6)
                     .scrollContentBackground(.hidden)
                     .foregroundColor(theme.primaryText)
+                    .toolbar {
+                        // A Done key above the keyboard, so the user can always close it.
+                        ToolbarItemGroup(placement: .keyboard) {
+                            Spacer()
+                            Button(loc.t("button_done")) { dismissKeyboard() }
+                                .fontWeight(.semibold)
+                        }
+                    }
 
                 if text.isEmpty {
                     Text(loc.t(placeholderKey))
