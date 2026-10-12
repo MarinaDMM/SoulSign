@@ -82,6 +82,29 @@ final class YouTests: XCTestCase {
         XCTAssertEqual(makeStore().me?.id, luna.id)
     }
 
+    // MARK: "This is you" visibility
+
+    func testYouSectionShownOnEveryoneWhileNobodyIsYou() {
+        let store = makeStore()
+        let luna = person("Luna"), teo = person("Teo")
+        store.add(luna); store.add(teo)
+
+        XCTAssertTrue(store.showsYouSection(for: luna))
+        XCTAssertTrue(store.showsYouSection(for: teo))
+    }
+
+    func testYouSectionHiddenOnOthersOnceSomeoneIsYou() {
+        let store = makeStore()
+        let luna = person("Luna"), teo = person("Teo")
+        store.add(luna); store.add(teo)
+        store.setMe(luna.id)
+
+        let lunaUpdated = store.profiles.first { $0.id == luna.id }!
+        let teoUpdated = store.profiles.first { $0.id == teo.id }!
+        XCTAssertTrue(store.showsYouSection(for: lunaUpdated), "the chosen person keeps the switch to turn it off")
+        XCTAssertFalse(store.showsYouSection(for: teoUpdated), "everyone else hides the switch and its note")
+    }
+
     // MARK: Prompt voice
 
     func testNatalPromptSpeaksAsYouWhenYou() {

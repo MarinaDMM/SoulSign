@@ -36,6 +36,13 @@ final class ProfileStore: ObservableObject {
     /// The person marked as "you", if any.
     var me: UserProfile? { profiles.first { $0.isMe == true } }
 
+    /// Whether the "This is you" switch should be offered on this person's page.
+    /// Offered while nobody is "you" (to choose one), and on the person who is
+    /// (so it can be turned off). Hidden on everyone else once someone is chosen.
+    func showsYouSection(for profile: UserProfile) -> Bool {
+        me == nil || profile.isMe == true
+    }
+
     /// Marks one person as "you" and clears everyone else. Pass nil to clear.
     /// Readings cached for the old wording are dropped, so they regenerate
     /// in the new voice the next time they're opened.

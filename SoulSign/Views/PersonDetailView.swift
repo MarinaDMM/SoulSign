@@ -32,7 +32,9 @@ struct PersonDetailView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 28) {
                         header(profile)
-                        youSection(profile)
+                        if profileStore.showsYouSection(for: profile) {
+                            youSection(profile)
+                        }
                         notesSection(profile)
                         chartsSection(profile)
                     }
