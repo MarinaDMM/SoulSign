@@ -114,6 +114,19 @@ struct BreathingPauseView: View {
         .task(id: stage) {
             if stage == .breathing { await breathe() }
         }
+        .onAppear { resetSession() }
+        .onDisappear { resetSession() }
+    }
+
+    /// Clears every answer and returns to the first step, so the next session
+    /// never inherits the previous session's tension choices or timer.
+    private func resetSession() {
+        stage = .before
+        tensionBefore = nil
+        tensionAfter = nil
+        remaining = sessionLength
+        expanded = false
+        breatheIn = true
     }
 
     private var summary: String? {
