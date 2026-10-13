@@ -15,7 +15,9 @@ final class PlaceSearchViewModel: NSObject, ObservableObject, MKLocalSearchCompl
 
     private let completer = MKLocalSearchCompleter()
     private var cancellables = Set<AnyCancellable>()
-    private var suppressNextSearch = false
+    /// Text the view model set itself. Matched by value, so a fast typed change
+    /// can't be mistaken for it when the debounce merges events.
+    private var programmaticText: String?
 
     override init() {
         super.init()
@@ -30,10 +32,14 @@ final class PlaceSearchViewModel: NSObject, ObservableObject, MKLocalSearchCompl
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
             .sink { [weak self] query in
                 guard let self else { return }
-                if self.suppressNextSearch {
-                    self.suppressNextSearch = false
+                if query == self.programmaticText {
+                    self.programmaticText = nil
                     return
                 }
+                self.programmaticText = nil
+                // The user is typing a new place, so the old selection no longer applies.
+                self.selectedPlaceName = ""
+                self.selectedCoordinates = nil
                 if query.isEmpty {
                     self.suggestions = []
                     self.completer.cancel()
@@ -44,11 +50,20 @@ final class PlaceSearchViewModel: NSObject, ObservableObject, MKLocalSearchCompl
             .store(in: &cancellables)
     }
 
+    /// Starts from an existing place, such as a saved person's birth place,
+    /// without running a search for it.
+    func prefill(placeName: String, coordinates: CLLocationCoordinate2D?) {
+        programmaticText = placeName
+        searchText = placeName
+        selectedPlaceName = placeName
+        selectedCoordinates = coordinates
+    }
+
     func selectSuggestion(_ suggestion: MKLocalSearchCompletion) {
-        suppressNextSearch = true
         let display = suggestion.subtitle.isEmpty
             ? suggestion.title
             : "\(suggestion.title), \(suggestion.subtitle)"
+        programmaticText = display
         searchText = display
         selectedPlaceName = display
         suggestions = []

@@ -7,6 +7,7 @@
 //  app, so the notes lead.
 //
 import SwiftUI
+import CoreLocation
 
 struct PersonDetailView: View {
     let profileID: UUID
@@ -58,8 +59,9 @@ struct PersonDetailView: View {
         }
         .sheet(isPresented: $showingBirthEdit) {
             if let profile {
-                BirthDateEditor(initial: profile.birthDate) { newDate in
-                    profileStore.updateBirthDate(newDate, for: profile.id)
+                BirthDetailsEditor(profile: profile) { date, time, place, coordinates in
+                    profileStore.updateBirthDetails(for: profile.id, date: date, time: time,
+                                                    place: place, coordinates: coordinates)
                 }
                 .environmentObject(loc)
             }
@@ -80,6 +82,10 @@ struct PersonDetailView: View {
                         .foregroundColor(theme.primaryText.opacity(0.55))
                     Text(dateLabel(profile.birthDate))
                         .foregroundColor(theme.primaryText)
+                    Text("\(timeLabel(profile.birthTime)) · \(profile.birthPlace)")
+                        .font(.caption)
+                        .foregroundColor(theme.primaryText.opacity(0.55))
+                        .lineLimit(1)
                 }
                 Spacer()
                 Text(loc.t("button_edit"))
@@ -226,6 +232,14 @@ struct PersonDetailView: View {
         profileStore.profiles.first { $0.id == profileID }.map(profileStore.canRecordMood(for:)) ?? false
     }
 
+    private func timeLabel(_ time: Date) -> String {
+        let f = DateFormatter()
+        f.locale = loc.language.locale
+        f.timeStyle = .short
+        f.dateStyle = .none
+        return f.string(from: time)
+    }
+
     private func dateLabel(_ date: Date) -> String {
         let f = DateFormatter()
         f.locale = loc.language.locale
@@ -270,29 +284,62 @@ struct PersonDetailView: View {
     }
 }
 
-/// Edits a person's date of birth. Future dates are not allowed.
-private struct BirthDateEditor: View {
-    let onSave: (Date) -> Void
+/// Edits a person's birth date, time and place. Future dates are not allowed.
+private struct BirthDetailsEditor: View {
+    let profile: UserProfile
+    let onSave: (Date, Date, String, CLLocationCoordinate2D?) -> Void
 
     @State private var date: Date
+    @State private var time: Date
+    @StateObject private var placeVM = PlaceSearchViewModel()
     @EnvironmentObject var loc: LocalizationManager
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var colorScheme
+    private var theme: AppTheme { AppTheme(colorScheme: colorScheme) }
 
-    init(initial: Date, onSave: @escaping (Date) -> Void) {
+    init(profile: UserProfile, onSave: @escaping (Date, Date, String, CLLocationCoordinate2D?) -> Void) {
+        self.profile = profile
         self.onSave = onSave
-        _date = State(initialValue: initial)
+        _date = State(initialValue: profile.birthDate)
+        _time = State(initialValue: profile.birthTime)
     }
 
     var body: some View {
         NavigationStack {
             Form {
-                DatePicker(loc.t("section_birth_date"),
-                           selection: $date,
-                           in: ...Date(),
-                           displayedComponents: .date)
-                    .environment(\.locale, loc.language.locale)
+                Section(header: Text(loc.t("section_birth_date"))) {
+                    DatePicker(loc.t("field_select_date"), selection: $date,
+                               in: ...Date(), displayedComponents: .date)
+                }
+
+                Section(header: Text(loc.t("section_birth_time"))) {
+                    DatePicker(loc.t("field_select_time"), selection: $time,
+                               displayedComponents: .hourAndMinute)
+                }
+
+                Section(header: Text(loc.t("section_birth_place"))) {
+                    BirthPlaceTextField(placeVM: placeVM)
+                    ForEach(placeVM.suggestions, id: \.self) { suggestion in
+                        Button {
+                            placeVM.selectSuggestion(suggestion)
+                        } label: {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(suggestion.title)
+                                if !suggestion.subtitle.isEmpty {
+                                    Text(suggestion.subtitle).font(.caption).opacity(0.6)
+                                }
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
             }
-            .navigationTitle(loc.t("birth_edit_title"))
+            .environment(\.locale, loc.language.locale)
+            .onAppear {
+                placeVM.prefill(placeName: profile.birthPlace, coordinates: profile.coordinates)
+            }
+            .navigationTitle(loc.t("birth_details_title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -300,10 +347,11 @@ private struct BirthDateEditor: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(loc.t("button_save_birth")) {
-                        onSave(date)
+                        onSave(date, time, placeVM.selectedPlaceName, placeVM.selectedCoordinates)
                         dismiss()
                     }
                     .fontWeight(.semibold)
+                    .disabled(placeVM.selectedPlaceName.isEmpty)
                 }
             }
         }

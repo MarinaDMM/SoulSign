@@ -153,7 +153,7 @@ enum Translations {
         "duration_title": "How long?",
         "unit_sec": "sec",
         "unit_min": "min",
-        "birth_edit_title": "Date of Birth",
+        "birth_details_title": "Birth Details",
         "button_edit": "Edit",
         "button_save_birth": "Save",
     ]
@@ -300,7 +300,7 @@ enum Translations {
         "duration_title": "Hoe lang?",
         "unit_sec": "sec",
         "unit_min": "min",
-        "birth_edit_title": "Geboortedatum",
+        "birth_details_title": "Geboortegegevens",
         "button_edit": "Bewerken",
         "button_save_birth": "Opslaan",
     ]
@@ -447,7 +447,7 @@ enum Translations {
         "duration_title": "Combien de temps ?",
         "unit_sec": "s",
         "unit_min": "min",
-        "birth_edit_title": "Date de naissance",
+        "birth_details_title": "Détails de naissance",
         "button_edit": "Modifier",
         "button_save_birth": "Enregistrer",
     ]
@@ -594,7 +594,7 @@ enum Translations {
         "duration_title": "Wie lange?",
         "unit_sec": "Sek.",
         "unit_min": "Min.",
-        "birth_edit_title": "Geburtsdatum",
+        "birth_details_title": "Geburtsdaten",
         "button_edit": "Bearbeiten",
         "button_save_birth": "Speichern",
     ]
@@ -741,7 +741,7 @@ enum Translations {
         "duration_title": "¿Cuánto tiempo?",
         "unit_sec": "s",
         "unit_min": "min",
-        "birth_edit_title": "Fecha de nacimiento",
+        "birth_details_title": "Datos de nacimiento",
         "button_edit": "Editar",
         "button_save_birth": "Guardar",
     ]
@@ -888,7 +888,7 @@ enum Translations {
         "duration_title": "Quanto tempo?",
         "unit_sec": "sec",
         "unit_min": "min",
-        "birth_edit_title": "Data di nascita",
+        "birth_details_title": "Dati di nascita",
         "button_edit": "Modifica",
         "button_save_birth": "Salva",
     ]
@@ -1035,7 +1035,7 @@ enum Translations {
         "duration_title": "Сколько времени?",
         "unit_sec": "сек",
         "unit_min": "мин",
-        "birth_edit_title": "Дата рождения",
+        "birth_details_title": "Данные рождения",
         "button_edit": "Изменить",
         "button_save_birth": "Сохранить",
     ]
@@ -1182,7 +1182,7 @@ enum Translations {
         "duration_title": "Скільки часу?",
         "unit_sec": "сек",
         "unit_min": "хв",
-        "birth_edit_title": "Дата народження",
+        "birth_details_title": "Дані народження",
         "button_edit": "Змінити",
         "button_save_birth": "Зберегти",
     ]
@@ -1329,7 +1329,7 @@ enum Translations {
         "duration_title": "Jak długo?",
         "unit_sec": "s",
         "unit_min": "min",
-        "birth_edit_title": "Data urodzenia",
+        "birth_details_title": "Dane urodzenia",
         "button_edit": "Edytuj",
         "button_save_birth": "Zapisz",
     ]

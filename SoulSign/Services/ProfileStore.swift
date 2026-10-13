@@ -3,6 +3,7 @@
 //  SoulSign
 //
 import Foundation
+import CoreLocation
 
 final class ProfileStore: ObservableObject {
     @Published var profiles: [UserProfile] = []
@@ -28,13 +29,18 @@ final class ProfileStore: ObservableObject {
         save()
     }
 
-    /// Changes a person's date of birth. Their natal and deep readings were
-    /// written from the old date, so the cached text is cleared and regenerates
-    /// the next time they're opened. Partner readings refresh through their
-    /// birth fingerprint.
-    func updateBirthDate(_ date: Date, for profileID: UUID) {
+    /// Changes a person's birth date, time, place and coordinates. Their natal
+    /// and deep readings were written from the old details, so the cached text
+    /// is cleared and regenerates the next time they're opened. Partner readings
+    /// refresh through their birth fingerprint.
+    func updateBirthDetails(for profileID: UUID, date: Date, time: Date,
+                            place: String, coordinates: CLLocationCoordinate2D?) {
         guard let i = profiles.firstIndex(where: { $0.id == profileID }) else { return }
         profiles[i].birthDate = date
+        profiles[i].birthTime = time
+        profiles[i].birthPlace = place
+        profiles[i].latitude = coordinates?.latitude
+        profiles[i].longitude = coordinates?.longitude
         profiles[i].cachedReading = nil
         profiles[i].cachedReadingLanguage = nil
         profiles[i].readingDate = nil

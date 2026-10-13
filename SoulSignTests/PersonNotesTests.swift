@@ -3,6 +3,7 @@
 //  SoulSignTests
 //
 import XCTest
+import CoreLocation
 @testable import SoulSign
 
 final class PersonNotesTests: XCTestCase {
@@ -127,24 +128,31 @@ final class PersonNotesTests: XCTestCase {
                        "written before relaunch")
     }
 
-    // MARK: Birth date
+    // MARK: Birth details
 
-    func testUpdatingBirthDateClearsReadingsButKeepsNotesAndYou() {
+    func testUpdatingBirthDetailsSavesAllFieldsAndClearsReadings() {
         let store = makeStore()
         var person = makeProfile()
-        person.cachedReading = "written from the old date"
+        person.cachedReading = "written from the old details"
         person.cachedReadingLanguage = "en"
-        person.cachedDeepReading = "deep, old date"
+        person.cachedDeepReading = "deep, old details"
         person.cachedDeepReadingLanguage = "en"
         person.isMe = true
         store.add(person)
         store.addNote("still here", to: person.id)
 
         let newDate = Date(timeIntervalSince1970: 500_000_000)
-        store.updateBirthDate(newDate, for: person.id)
+        let newTime = Date(timeIntervalSince1970: 600_000_000)
+        store.updateBirthDetails(for: person.id, date: newDate, time: newTime,
+                                 place: "Berlin, Germany",
+                                 coordinates: CLLocationCoordinate2D(latitude: 52.52, longitude: 13.405))
 
         let updated = store.profiles.first { $0.id == person.id }!
         XCTAssertEqual(updated.birthDate, newDate)
+        XCTAssertEqual(updated.birthTime, newTime)
+        XCTAssertEqual(updated.birthPlace, "Berlin, Germany")
+        XCTAssertEqual(updated.latitude ?? 0, 52.52, accuracy: 0.0001)
+        XCTAssertEqual(updated.longitude ?? 0, 13.405, accuracy: 0.0001)
         XCTAssertNil(updated.cachedReading)
         XCTAssertNil(updated.cachedReadingLanguage)
         XCTAssertNil(updated.cachedDeepReading)
@@ -153,14 +161,34 @@ final class PersonNotesTests: XCTestCase {
         XCTAssertEqual(updated.isMe, true)
     }
 
-    func testUpdatingBirthDateForUnknownPersonDoesNothing() {
+    func testUpdatingBirthDetailsForUnknownPersonDoesNothing() {
         let store = makeStore()
         let person = makeProfile()
         store.add(person)
         let before = store.profiles
 
-        store.updateBirthDate(Date(), for: UUID())
+        store.updateBirthDetails(for: UUID(), date: Date(), time: Date(), place: "Nowhere", coordinates: nil)
 
         XCTAssertEqual(store.profiles, before)
+    }
+
+    func testPlacePrefillKeepsExistingPlaceWithoutSearching() {
+        let vm = PlaceSearchViewModel()
+        vm.prefill(placeName: "Paris, France", coordinates: CLLocationCoordinate2D(latitude: 48.85, longitude: 2.35))
+
+        XCTAssertEqual(vm.searchText, "Paris, France")
+        XCTAssertEqual(vm.selectedPlaceName, "Paris, France")
+        XCTAssertEqual(vm.selectedCoordinates?.latitude ?? 0, 48.85, accuracy: 0.0001)
+    }
+
+    func testTypingANewPlaceClearsTheOldSelection() async {
+        let vm = PlaceSearchViewModel()
+        vm.prefill(placeName: "Paris, France", coordinates: CLLocationCoordinate2D(latitude: 48.85, longitude: 2.35))
+
+        vm.searchText = "Ber"
+        try? await Task.sleep(nanoseconds: 700_000_000)
+
+        XCTAssertEqual(vm.selectedPlaceName, "")
+        XCTAssertNil(vm.selectedCoordinates)
     }
 }
