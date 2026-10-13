@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Select latest stable Xcode
         uses: maxim-lobanov/setup-xcode@v1
@@ -54,6 +54,10 @@ jobs:
 
       - name: Run unit and integration tests
         timeout-minutes: 20
+        env:
+          # xcodebuild forwards TEST_RUNNER_* variables to the test process
+          # (without the prefix). Skips the StoreKit session tests, which hang here.
+          TEST_RUNNER_SKIP_STOREKIT_TESTS: "1"
         run: |
           set -o pipefail
           xcodebuild test \
@@ -106,7 +110,7 @@ jobs:
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: test-results
           path: TestResults-*.xcresult

@@ -16,8 +16,16 @@ final class SubscriptionManagerTests: XCTestCase {
 
     private var session: SKTestSession!
 
-    override func setUpWithError() throws {
-        try super.setUpWithError()
+    /// The StoreKit test session hangs on CI runners (its configuration service
+    /// never answers), so the workflow sets SKIP_STOREKIT_TESTS to skip them. They still run
+    /// on a developer machine and in sandbox testing. The pure entitlement-rule
+    /// tests below run everywhere.
+    private var runsStoreKitTests: Bool {
+        ProcessInfo.processInfo.environment["SKIP_STOREKIT_TESTS"] == nil
+    }
+
+    private func startStoreKitSession() throws {
+        try XCTSkipUnless(runsStoreKitTests, "StoreKit test session is skipped on CI runners")
         session = try SKTestSession(configurationFileNamed: "SoulSign")
         session.resetToDefaultState()
         session.clearTransactions()
@@ -25,14 +33,15 @@ final class SubscriptionManagerTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        session.clearTransactions()
+        session?.clearTransactions()
         session = nil
         try super.tearDownWithError()
     }
 
     // MARK: Products
 
-    func testLoadsBothPlans() async {
+    func testLoadsBothPlans() async throws {
+        try startStoreKitSession()
         let subs = SubscriptionManager()
         await subs.loadProducts()
 
@@ -41,14 +50,16 @@ final class SubscriptionManagerTests: XCTestCase {
         XCTAssertNotNil(subs.yearly, "yearly product id must match the .storekit config")
     }
 
-    func testProductIdentifiersMatchConstants() async {
+    func testProductIdentifiersMatchConstants() async throws {
+        try startStoreKitSession()
         let subs = SubscriptionManager()
         await subs.loadProducts()
         XCTAssertEqual(subs.monthly?.id, PlusProduct.monthly.rawValue)
         XCTAssertEqual(subs.yearly?.id, PlusProduct.yearly.rawValue)
     }
 
-    func testYearlyIsCheaperThanTwelveMonths() async {
+    func testYearlyIsCheaperThanTwelveMonths() async throws {
+        try startStoreKitSession()
         let subs = SubscriptionManager()
         await subs.loadProducts()
         guard let m = subs.monthly, let y = subs.yearly else {
@@ -58,7 +69,8 @@ final class SubscriptionManagerTests: XCTestCase {
                           "the annual plan must actually save money")
     }
 
-    func testYearlySavingsIsAMeaningfulDiscount() async {
+    func testYearlySavingsIsAMeaningfulDiscount() async throws {
+        try startStoreKitSession()
         let subs = SubscriptionManager()
         await subs.loadProducts()
         guard let percent = subs.yearlySavingsPercent else {
@@ -72,13 +84,15 @@ final class SubscriptionManagerTests: XCTestCase {
 
     // MARK: Entitlement
 
-    func testStartsWithoutEntitlement() async {
+    func testStartsWithoutEntitlement() async throws {
+        try startStoreKitSession()
         let subs = SubscriptionManager()
         await subs.refreshEntitlement()
         XCTAssertFalse(subs.isPlus, "a fresh session must not be entitled")
     }
 
     func testPurchaseGrantsPlus() async throws {
+        try startStoreKitSession()
         let subs = SubscriptionManager()
         await subs.loadProducts()
         guard let yearly = subs.yearly else { return XCTFail("no yearly product") }
@@ -89,6 +103,7 @@ final class SubscriptionManagerTests: XCTestCase {
     }
 
     func testEntitlementSurvivesAFreshManager() async throws {
+        try startStoreKitSession()
         let first = SubscriptionManager()
         await first.loadProducts()
         guard let monthly = first.monthly else { return XCTFail("no monthly product") }
