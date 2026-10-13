@@ -61,6 +61,75 @@ final class PartnerChartViewModelTests: XCTestCase {
                           vm.cacheKey(a, c, language: .en))
     }
 
+    // MARK: Birth details
+
+    private func date(_ y: Int, _ m: Int, _ d: Int, hour: Int = 0, minute: Int = 0) -> Date {
+        Calendar.current.date(from: DateComponents(year: y, month: m, day: d, hour: hour, minute: minute))!
+    }
+
+    private func personWithBirth(_ name: String, date birthDate: Date, time birthTime: Date, place: String) -> UserProfile {
+        UserProfile(name: name, birthDate: birthDate, birthTime: birthTime,
+                    birthPlace: place, latitude: nil, longitude: nil)
+    }
+
+    func testPromptUsesEachPersonsStoredBirthDateTimeAndPlace() {
+        let luna = personWithBirth("Luna", date: date(1990, 5, 14), time: date(2000, 1, 1, hour: 8, minute: 30), place: "Paris, France")
+        let teo = personWithBirth("Teo", date: date(1988, 11, 2), time: date(2000, 1, 1, hour: 21, minute: 5), place: "Rome, Italy")
+
+        let prompt = PartnerChartViewModel.buildPrompt(a: luna, b: teo, language: .en)
+
+        XCTAssertTrue(prompt.contains("Luna, born 1990-05-14 at 08:30 in Paris, France"))
+        XCTAssertTrue(prompt.contains("Teo, born 1988-11-02 at 21:05 in Rome, Italy"))
+    }
+
+    func testCacheKeyChangesWhenBirthDateChanges() {
+        let suite = "SoulSignTests.PartnerBirth"
+        let defaults = UserDefaults(suiteName: suite)!
+        defaults.removePersistentDomain(forName: suite)
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let vm = PartnerChartViewModel(claude: ClaudeService(session: MockURLProtocol.makeSession()), defaults: defaults)
+
+        var luna = person("Luna")
+        let teo = person("Teo")
+        let before = vm.cacheKey(luna, teo, language: .en)
+        luna.birthDate = date(1991, 6, 15)
+
+        XCTAssertNotEqual(before, vm.cacheKey(luna, teo, language: .en),
+                          "changing a birth date must not reuse the old reading")
+    }
+
+    func testCacheKeyChangesWhenBirthTimeOrPlaceChanges() {
+        let suite = "SoulSignTests.PartnerBirthTP"
+        let defaults = UserDefaults(suiteName: suite)!
+        defaults.removePersistentDomain(forName: suite)
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let vm = PartnerChartViewModel(claude: ClaudeService(session: MockURLProtocol.makeSession()), defaults: defaults)
+
+        var luna = person("Luna")
+        let teo = person("Teo")
+        let before = vm.cacheKey(luna, teo, language: .en)
+        luna.birthTime = date(2000, 1, 1, hour: 7, minute: 0)
+        let afterTime = vm.cacheKey(luna, teo, language: .en)
+        luna.birthPlace = "Berlin, Germany"
+        let afterPlace = vm.cacheKey(luna, teo, language: .en)
+
+        XCTAssertNotEqual(before, afterTime)
+        XCTAssertNotEqual(afterTime, afterPlace)
+    }
+
+    func testCacheKeyStillSharedForSamePairAndDetails() {
+        let suite = "SoulSignTests.PartnerSame"
+        let defaults = UserDefaults(suiteName: suite)!
+        defaults.removePersistentDomain(forName: suite)
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let vm = PartnerChartViewModel(claude: ClaudeService(session: MockURLProtocol.makeSession()), defaults: defaults)
+
+        let luna = person("Luna")
+        let teo = person("Teo")
+
+        XCTAssertEqual(vm.cacheKey(luna, teo, language: .en), vm.cacheKey(teo, luna, language: .en))
+    }
+
     // MARK: Prompt
 
     func testPromptNamesBothPeople() {

@@ -21,9 +21,37 @@ final class PartnerChartViewModel: ObservableObject {
     }
 
     /// Cache key is order-independent, so (A,B) and (B,A) share one reading.
+    /// It also includes a fingerprint of both people's birth details, so a
+    /// reading is written again if either person's date, time or place changes.
     func cacheKey(_ a: UserProfile, _ b: UserProfile, language: AppLanguage) -> String {
         let ids = [a.id.uuidString, b.id.uuidString].sorted()
-        return "\(cachePrefix).\(ids[0])_\(ids[1]).\(language.rawValue)"
+        let fingerprint = Self.birthFingerprint(a, b)
+        return "\(cachePrefix).\(ids[0])_\(ids[1]).\(language.rawValue).\(fingerprint)"
+    }
+
+    /// The birth details exactly as they appear in the prompt. Shared by the
+    /// prompt and the cache fingerprint, so they always agree.
+    static func birthSummary(_ p: UserProfile) -> String {
+        let df = DateFormatter(); df.dateFormat = "yyyy-MM-dd"
+        let tf = DateFormatter(); tf.dateFormat = "HH:mm"
+        var s = "\(p.name), born \(df.string(from: p.birthDate)) at \(tf.string(from: p.birthTime)) in \(p.birthPlace)"
+        if let c = p.coordinates {
+            s += " (\(c.latitude), \(c.longitude))"
+        }
+        return s
+    }
+
+    /// Stable 64-bit FNV-1a hash of both birth summaries, in id order.
+    /// Stable across launches, unlike Swift's hashValue.
+    static func birthFingerprint(_ a: UserProfile, _ b: UserProfile) -> String {
+        let ordered = [a, b].sorted { $0.id.uuidString < $1.id.uuidString }
+        let text = ordered.map(birthSummary).joined(separator: "|")
+        var hash: UInt64 = 0xcbf29ce484222325
+        for byte in text.utf8 {
+            hash ^= UInt64(byte)
+            hash = hash &* 0x100000001b3
+        }
+        return String(hash, radix: 16)
     }
 
     func loadReading(for a: UserProfile, and b: UserProfile, language: AppLanguage) async {
@@ -57,16 +85,7 @@ final class PartnerChartViewModel: ObservableObject {
 
     /// Exposed for testing so prompt rules can be asserted without a network call.
     static func buildPrompt(a: UserProfile, b: UserProfile, language: AppLanguage) -> String {
-        let df = DateFormatter(); df.dateFormat = "yyyy-MM-dd"
-        let tf = DateFormatter(); tf.dateFormat = "HH:mm"
-
-        func line(_ p: UserProfile) -> String {
-            var s = "\(p.name), born \(df.string(from: p.birthDate)) at \(tf.string(from: p.birthTime)) in \(p.birthPlace)"
-            if let c = p.coordinates {
-                s += " (\(c.latitude), \(c.longitude))"
-            }
-            return s
-        }
+        func line(_ p: UserProfile) -> String { birthSummary(p) }
 
         let languageLine = language == .en ? "" :
             "\n• Write the entire reading in \(language.englishName). Every sentence must be in \(language.englishName), not English."
