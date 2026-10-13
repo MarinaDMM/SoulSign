@@ -2,10 +2,10 @@
 //  SubscriptionManager.swift
 //  SoulSign
 //
-//  StoreKit 2 subscription handling for "SoulSign Plus".
+//  Subscription state for "SoulSign Plus". All App Store access goes through
+//  a PurchaseStore, so this logic is tested with a fake store.
 //
 import Foundation
-import StoreKit
 
 enum PlusProduct: String, CaseIterable {
     // ".v2" because the original IDs (without suffix) were claimed by an
@@ -25,24 +25,21 @@ enum FreeTier {
 final class SubscriptionManager: ObservableObject {
     static let shared = SubscriptionManager()
 
-    @Published private(set) var products: [Product] = []
+    @Published private(set) var products: [StoreProduct] = []
     @Published private(set) var isPlus = false
     @Published private(set) var isLoadingProducts = false
     @Published var purchaseError: String?
 
+    private let store: PurchaseStore
     private var updatesTask: Task<Void, Never>?
 
-    /// Not private so tests can create isolated instances against an
-    /// SKTestSession instead of mutating the shared singleton.
-    init() {
-        // Keep entitlement in sync with transactions that arrive outside a
-        // purchase flow (renewals, refunds, Ask to Buy, another device).
+    init(store: PurchaseStore = StoreKitPurchaseStore()) {
+        self.store = store
+        // Keep entitlement in sync with changes that arrive outside a purchase
+        // flow (renewals, refunds, Ask to Buy, another device).
         updatesTask = Task { [weak self] in
-            for await update in Transaction.updates {
+            for await _ in store.entitlementUpdates() {
                 guard let self else { return }
-                if case .verified(let transaction) = update {
-                    await transaction.finish()
-                }
                 await self.refreshEntitlement()
             }
         }
@@ -50,8 +47,8 @@ final class SubscriptionManager: ObservableObject {
 
     deinit { updatesTask?.cancel() }
 
-    var monthly: Product? { products.first { $0.id == PlusProduct.monthly.rawValue } }
-    var yearly:  Product? { products.first { $0.id == PlusProduct.yearly.rawValue } }
+    var monthly: StoreProduct? { products.first { $0.id == PlusProduct.monthly.rawValue } }
+    var yearly:  StoreProduct? { products.first { $0.id == PlusProduct.yearly.rawValue } }
 
     // MARK: - Loading
 
@@ -61,8 +58,7 @@ final class SubscriptionManager: ObservableObject {
         defer { isLoadingProducts = false }
         do {
             let ids = PlusProduct.allCases.map(\.rawValue)
-            products = try await Product.products(for: ids)
-                .sorted { $0.price < $1.price }
+            products = try await store.products(for: ids).sorted { $0.price < $1.price }
         } catch {
             purchaseError = error.localizedDescription
         }
@@ -71,24 +67,16 @@ final class SubscriptionManager: ObservableObject {
     // MARK: - Entitlement
 
     func refreshEntitlement() async {
-        for await entitlement in Transaction.currentEntitlements {
-            guard case .verified(let transaction) = entitlement else { continue }
-            if Self.grantsPlus(productID: transaction.productID,
-                               expirationDate: transaction.expirationDate,
-                               revocationDate: transaction.revocationDate) {
-                isPlus = true
-                return
-            }
+        let entitlements = await store.currentEntitlements()
+        isPlus = entitlements.contains { entitlement in
+            Self.grantsPlus(productID: entitlement.productID,
+                            expirationDate: entitlement.expirationDate,
+                            revocationDate: entitlement.revocationDate)
         }
-        isPlus = false
     }
 
-    /// Pure entitlement rule, extracted so it can be unit tested directly
-    /// without constructing StoreKit transactions.
-    ///
-    /// `Transaction.currentEntitlements` already filters expired and revoked
-    /// entitlements in production; these checks are a belt-and-braces guard
-    /// and also reject product IDs that aren't ours.
+    /// Pure entitlement rule. Rejects revoked entitlements, expired ones, and
+    /// product IDs that aren't ours. A nil expiry is not treated as expired.
     static func grantsPlus(productID: String,
                            expirationDate: Date?,
                            revocationDate: Date?,
@@ -102,25 +90,15 @@ final class SubscriptionManager: ObservableObject {
     // MARK: - Purchase / restore
 
     @discardableResult
-    func purchase(_ product: Product) async -> Bool {
+    func purchase(_ product: StoreProduct) async -> Bool {
         purchaseError = nil
         do {
-            let result = try await product.purchase()
-            switch result {
-            case .success(let verification):
-                if case .verified(let transaction) = verification {
-                    await transaction.finish()
-                    await refreshEntitlement()
-                    return isPlus
-                }
-                purchaseError = NSLocalizedString("Purchase could not be verified.", comment: "")
-                return false
-            case .userCancelled:
-                return false
-            case .pending:
-                // e.g. Ask to Buy; entitlement arrives later via Transaction.updates
-                return false
-            @unknown default:
+            switch try await store.purchase(productID: product.id) {
+            case .purchased:
+                await refreshEntitlement()
+                return isPlus
+            case .cancelled, .pending:
+                // Pending (e.g. Ask to Buy) arrives later through entitlementUpdates().
                 return false
             }
         } catch {
@@ -133,7 +111,7 @@ final class SubscriptionManager: ObservableObject {
     func restore() async {
         purchaseError = nil
         do {
-            try await AppStore.sync()
+            try await store.syncPurchases()
             await refreshEntitlement()
         } catch {
             purchaseError = error.localizedDescription
@@ -141,9 +119,6 @@ final class SubscriptionManager: ObservableObject {
     }
 
     // MARK: - Display helpers
-
-    /// Localised price, e.g. "€6.99".
-    func displayPrice(_ product: Product) -> String { product.displayPrice }
 
     /// Percentage saved by the yearly plan versus paying monthly for a year.
     var yearlySavingsPercent: Int? {

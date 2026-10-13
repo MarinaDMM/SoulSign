@@ -7,7 +7,6 @@
 //  the Privacy Policy. All of that lives here.
 //
 import SwiftUI
-import StoreKit
 
 struct PaywallView: View {
     @EnvironmentObject var subs: SubscriptionManager
@@ -133,7 +132,7 @@ struct PaywallView: View {
         }
     }
 
-    private func planCard(product: Product, plan: PlusProduct, periodLabel: String, badge: String?) -> some View {
+    private func planCard(product: StoreProduct, plan: PlusProduct, periodLabel: String, badge: String?) -> some View {
         let isSelected = selected == plan
         return Button {
             selected = plan

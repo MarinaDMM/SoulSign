@@ -58,7 +58,7 @@ xcodebuild test -project SoulSign.xcodeproj -scheme SoulSign \
   instruction, deep prompt covers Sun/Moon/love/ambition facets, both depths
   forbid em dash and headers and name the subject, language handling.
 
-### Integration (mocked `URLSession` / StoreKit test session)
+### Integration (mocked `URLSession` / fake purchase store)
 
 - **ClaudeService** — builds the correct request (URL, method, headers, model,
   messages), parses `content[0].text`, throws on non-200, throws on malformed
@@ -67,21 +67,23 @@ xcodebuild test -project SoulSign.xcodeproj -scheme SoulSign \
   `AffirmationResponse`, returns nil on malformed data, and appends the
   language instruction for non-English requests.
 
-- **SubscriptionManager + StoreKit** — via `SKTestSession` against the
-  bundled `SoulSign.storekit` config: both plans load, product IDs match the
-  constants, yearly genuinely undercuts 12x monthly, the annual discount stays
-  at or above 30%, purchase grants Plus, and entitlement is recovered by a
-  freshly constructed manager (i.e. survives an app relaunch).
+- **SubscriptionManager + fake store** — the store is behind a `PurchaseStore`
+  protocol, so `FakePurchaseStore` can script it on any machine. Covered: both
+  plans load, the annual discount is 52%, purchase grants Plus, cancelled and
+  pending purchases don't, failed purchases show an error, entitlement survives
+  a fresh manager, a refund removes Plus, a store-side change refreshes Plus,
+  and restore works.
+
+The real StoreKit code is `StoreKitPurchaseStore`. It's a thin wrapper, and
+it's checked by the sandbox test on a device, not in CI.
 
 Network isolation is provided by `MockURLProtocol`, plus small testability
 seams: `ClaudeService(session:)`, `AffirmationService.session`,
 `ProfileStore(defaults:key:)`, and a non-private `SubscriptionManager.init`
 are injectable, defaulting to production behaviour.
 
-Note: `SKTestSession.expireSubscription()` does not rewrite a transaction's
-`expirationDate`, so lapsed-subscription behaviour cannot be simulated
-end-to-end. That is why the entitlement rule is extracted as
-`SubscriptionManager.grantsPlus(...)` and tested directly.
+Entitlement rules are pure functions (`SubscriptionManager.grantsPlus(...)`)
+and are tested directly, so expiry and revocation don't need a real store.
 
 ### UI / E2E (drives the real app on a simulator)
 

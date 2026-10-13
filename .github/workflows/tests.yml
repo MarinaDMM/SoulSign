@@ -54,10 +54,6 @@ jobs:
 
       - name: Run unit and integration tests
         timeout-minutes: 20
-        env:
-          # xcodebuild forwards TEST_RUNNER_* variables to the test process
-          # (without the prefix). Skips the StoreKit session tests, which hang here.
-          TEST_RUNNER_SKIP_STOREKIT_TESTS: "1"
         run: |
           set -o pipefail
           xcodebuild test \
