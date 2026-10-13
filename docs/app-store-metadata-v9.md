@@ -29,13 +29,13 @@ YOUR PEOPLE
 Save family, friends and partners with their birth details. Each person can have a natal chart and a partner reading, written for them.
 
 THIS IS YOU
-Mark yourself as "This is you", and your readings and affirmations speak to you directly, using your own chart and notes.
+Mark yourself as "This is you", and your readings and affirmations speak to you directly, using your own birth chart.
 
 DAILY AFFIRMATIONS
 Six areas of life, each with an affirmation for the day.
 
 PRIVATE BY DESIGN
-Your notes and moods stay on your device. Nothing you write is shared, published or used to train anything. Readings are generated when you ask for them.
+Your notes and moods stay on your device. Nothing you write is shared, published or used to train anything. Readings are written by an AI service when you open them, using the birth details you enter.
 
 YOUR LANGUAGE
 English, Dutch, French, German, Spanish, Italian, Russian, Ukrainian and Polish.
@@ -52,7 +52,7 @@ journal,notes,reflection,mood,breathing,gratitude,tarot,astrology,birth chart,da
 ```
 SoulSign is a private journal. Start on the Today screen: the daily tarot card is a writing prompt, with a note box and an optional mood check-in. The People row below holds the people in the user's life, with their birth details and optional charts.
 
-To test: tap "Add" in People and enter any name, date, time and place. Open that person's page and tap "This is you". The page then shows a note box, where you can write and check in with a mood, and a one-minute breathing pause. Charts and readings are optional and are generated only when requested. The paywall (SoulSign Plus) appears only for partner readings and for saving more than three people, and it includes Restore Purchases.
+To test: tap "Add" in People and enter any name, date, time and place. Open that person's page and tap "This is you". The page then shows a note box, where you can write and check in with a mood, and a one-minute breathing pause. Charts and partner readings are optional and are generated only when the user opens them. The paywall (SoulSign Plus) appears only for partner readings and for saving more than three people, and it includes Restore Purchases.
 
 This build responds to the Guideline 4.3(b) feedback on build 8 (see our appeal to the App Review Board). The home screen and store page now lead with the journal; astrology and tarot are the tools for writing.
 ```
