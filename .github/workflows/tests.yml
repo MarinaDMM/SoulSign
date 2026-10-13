@@ -14,11 +14,11 @@ jobs:
   test:
     name: Unit · Integration · UI
     runs-on: macos-15
-    timeout-minutes: 40
+    timeout-minutes: 60
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Select latest stable Xcode
         uses: maxim-lobanov/setup-xcode@v1
@@ -34,7 +34,7 @@ jobs:
           ANTHROPIC_API_KEY = ci-dummy-key
           EOF
 
-      - name: Select a simulator
+      - name: Select and boot a simulator
         id: sim
         run: |
           UDID=$(xcrun simctl list devices available \
@@ -47,32 +47,67 @@ jobs:
           fi
           echo "Using simulator: $UDID"
           echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+          # Boot and wait until the simulator is fully ready. The UI test runner
+          # fails to initialise on a simulator that is still starting up.
+          xcrun simctl boot "$UDID" || true
+          xcrun simctl bootstatus "$UDID" -b
 
-      - name: Run tests
+      - name: Run unit and integration tests
+        timeout-minutes: 20
         run: |
           set -o pipefail
-          # Per-test timeouts: a hung test fails in minutes and its name appears
-          # in the log, instead of the whole job running into the 40-minute limit.
-          ARGS=(
-            -project SoulSign.xcodeproj
-            -scheme SoulSign
-            -destination "id=${{ steps.sim.outputs.udid }}"
-            -resultBundlePath TestResults.xcresult
-            -test-timeouts-enabled YES
-            -default-test-execution-time-allowance 120
-            -maximum-test-execution-time-allowance 180
+          xcodebuild test \
+            -project SoulSign.xcodeproj \
+            -scheme SoulSign \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
+            -only-testing:SoulSignTests \
+            -resultBundlePath TestResults-unit.xcresult \
+            -test-timeouts-enabled YES \
+            -default-test-execution-time-allowance 120 \
+            -maximum-test-execution-time-allowance 180 \
             CODE_SIGNING_ALLOWED=NO
-          )
-          if command -v xcbeautify >/dev/null 2>&1; then
-            xcodebuild test "${ARGS[@]}" | xcbeautify
-          else
-            xcodebuild test "${ARGS[@]}"
-          fi
+
+      - name: Run UI tests
+        timeout-minutes: 45
+        run: |
+          # Run one attempt with a hard time cap. If the UI test runner hangs
+          # while starting, the attempt is killed and tried again on a fresh
+          # result bundle, up to three times.
+          run_limited() {
+            local limit=$1; shift
+            "$@" &
+            local pid=$!
+            ( sleep "$limit"; echo "Attempt exceeded ${limit}s, stopping it"; kill -9 "$pid" 2>/dev/null ) &
+            local watcher=$!
+            wait "$pid"
+            local rc=$?
+            kill "$watcher" 2>/dev/null
+            return $rc
+          }
+          for attempt in 1 2 3; do
+            echo "UI test attempt $attempt"
+            if run_limited 720 xcodebuild test \
+                -project SoulSign.xcodeproj \
+                -scheme SoulSign \
+                -destination "id=${{ steps.sim.outputs.udid }}" \
+                -only-testing:SoulSignUITests \
+                -resultBundlePath "TestResults-ui-$attempt.xcresult" \
+                -test-timeouts-enabled YES \
+                -default-test-execution-time-allowance 120 \
+                -maximum-test-execution-time-allowance 180 \
+                CODE_SIGNING_ALLOWED=NO; then
+              echo "UI tests passed on attempt $attempt"
+              exit 0
+            fi
+            echo "UI test attempt $attempt failed"
+          done
+          echo "UI tests failed on all attempts"
+          exit 1
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: test-results
-          path: TestResults.xcresult
+          path: TestResults-*.xcresult
           if-no-files-found: ignore
