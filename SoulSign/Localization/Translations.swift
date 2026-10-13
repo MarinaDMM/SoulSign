@@ -153,6 +153,9 @@ enum Translations {
         "duration_title": "How long?",
         "unit_sec": "sec",
         "unit_min": "min",
+        "birth_edit_title": "Date of Birth",
+        "button_edit": "Edit",
+        "button_save_birth": "Save",
     ]
 
     static let nl: [String: String] = [
@@ -297,6 +300,9 @@ enum Translations {
         "duration_title": "Hoe lang?",
         "unit_sec": "sec",
         "unit_min": "min",
+        "birth_edit_title": "Geboortedatum",
+        "button_edit": "Bewerken",
+        "button_save_birth": "Opslaan",
     ]
 
     static let fr: [String: String] = [
@@ -441,6 +447,9 @@ enum Translations {
         "duration_title": "Combien de temps ?",
         "unit_sec": "s",
         "unit_min": "min",
+        "birth_edit_title": "Date de naissance",
+        "button_edit": "Modifier",
+        "button_save_birth": "Enregistrer",
     ]
 
     static let de: [String: String] = [
@@ -585,6 +594,9 @@ enum Translations {
         "duration_title": "Wie lange?",
         "unit_sec": "Sek.",
         "unit_min": "Min.",
+        "birth_edit_title": "Geburtsdatum",
+        "button_edit": "Bearbeiten",
+        "button_save_birth": "Speichern",
     ]
 
     static let es: [String: String] = [
@@ -729,6 +741,9 @@ enum Translations {
         "duration_title": "¿Cuánto tiempo?",
         "unit_sec": "s",
         "unit_min": "min",
+        "birth_edit_title": "Fecha de nacimiento",
+        "button_edit": "Editar",
+        "button_save_birth": "Guardar",
     ]
 
     static let it: [String: String] = [
@@ -873,6 +888,9 @@ enum Translations {
         "duration_title": "Quanto tempo?",
         "unit_sec": "sec",
         "unit_min": "min",
+        "birth_edit_title": "Data di nascita",
+        "button_edit": "Modifica",
+        "button_save_birth": "Salva",
     ]
 
     static let ru: [String: String] = [
@@ -1017,6 +1035,9 @@ enum Translations {
         "duration_title": "Сколько времени?",
         "unit_sec": "сек",
         "unit_min": "мин",
+        "birth_edit_title": "Дата рождения",
+        "button_edit": "Изменить",
+        "button_save_birth": "Сохранить",
     ]
 
     static let uk: [String: String] = [
@@ -1161,6 +1182,9 @@ enum Translations {
         "duration_title": "Скільки часу?",
         "unit_sec": "сек",
         "unit_min": "хв",
+        "birth_edit_title": "Дата народження",
+        "button_edit": "Змінити",
+        "button_save_birth": "Зберегти",
     ]
 
     static let pl: [String: String] = [
@@ -1305,5 +1329,8 @@ enum Translations {
         "duration_title": "Jak długo?",
         "unit_sec": "s",
         "unit_min": "min",
+        "birth_edit_title": "Data urodzenia",
+        "button_edit": "Edytuj",
+        "button_save_birth": "Zapisz",
     ]
 }

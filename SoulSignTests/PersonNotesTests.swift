@@ -126,4 +126,41 @@ final class PersonNotesTests: XCTestCase {
         XCTAssertEqual(relaunched.profiles.first { $0.id == person.id }?.notes?.first?.text,
                        "written before relaunch")
     }
+
+    // MARK: Birth date
+
+    func testUpdatingBirthDateClearsReadingsButKeepsNotesAndYou() {
+        let store = makeStore()
+        var person = makeProfile()
+        person.cachedReading = "written from the old date"
+        person.cachedReadingLanguage = "en"
+        person.cachedDeepReading = "deep, old date"
+        person.cachedDeepReadingLanguage = "en"
+        person.isMe = true
+        store.add(person)
+        store.addNote("still here", to: person.id)
+
+        let newDate = Date(timeIntervalSince1970: 500_000_000)
+        store.updateBirthDate(newDate, for: person.id)
+
+        let updated = store.profiles.first { $0.id == person.id }!
+        XCTAssertEqual(updated.birthDate, newDate)
+        XCTAssertNil(updated.cachedReading)
+        XCTAssertNil(updated.cachedReadingLanguage)
+        XCTAssertNil(updated.cachedDeepReading)
+        XCTAssertNil(updated.cachedDeepReadingLanguage)
+        XCTAssertEqual(updated.notes?.first?.text, "still here")
+        XCTAssertEqual(updated.isMe, true)
+    }
+
+    func testUpdatingBirthDateForUnknownPersonDoesNothing() {
+        let store = makeStore()
+        let person = makeProfile()
+        store.add(person)
+        let before = store.profiles
+
+        store.updateBirthDate(Date(), for: UUID())
+
+        XCTAssertEqual(store.profiles, before)
+    }
 }

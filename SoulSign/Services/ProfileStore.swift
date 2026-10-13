@@ -28,6 +28,22 @@ final class ProfileStore: ObservableObject {
         save()
     }
 
+    /// Changes a person's date of birth. Their natal and deep readings were
+    /// written from the old date, so the cached text is cleared and regenerates
+    /// the next time they're opened. Partner readings refresh through their
+    /// birth fingerprint.
+    func updateBirthDate(_ date: Date, for profileID: UUID) {
+        guard let i = profiles.firstIndex(where: { $0.id == profileID }) else { return }
+        profiles[i].birthDate = date
+        profiles[i].cachedReading = nil
+        profiles[i].cachedReadingLanguage = nil
+        profiles[i].readingDate = nil
+        profiles[i].cachedDeepReading = nil
+        profiles[i].cachedDeepReadingLanguage = nil
+        profiles[i].deepReadingDate = nil
+        save()
+    }
+
     func remove(at offsets: IndexSet) {
         profiles.remove(atOffsets: offsets)
         save()

@@ -19,6 +19,7 @@ struct PersonDetailView: View {
     @State private var draft = ""
     @State private var moodDraft: Mood?
     @State private var showBreathing = false
+    @State private var showingBirthEdit = false
     /// New identity per opening, so every pause starts on a clean first step.
     @State private var breathingSession = UUID()
 
@@ -34,6 +35,7 @@ struct PersonDetailView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 28) {
                         header(profile)
+                        birthDateRow(profile)
                         if profileStore.showsYouSection(for: profile) {
                             youSection(profile)
                         }
@@ -54,6 +56,40 @@ struct PersonDetailView: View {
                 .id(breathingSession)
                 .environmentObject(loc)
         }
+        .sheet(isPresented: $showingBirthEdit) {
+            if let profile {
+                BirthDateEditor(initial: profile.birthDate) { newDate in
+                    profileStore.updateBirthDate(newDate, for: profile.id)
+                }
+                .environmentObject(loc)
+            }
+        }
+    }
+
+    private func birthDateRow(_ profile: UserProfile) -> some View {
+        Button {
+            showingBirthEdit = true
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "calendar")
+                    .foregroundColor(.white.opacity(0.8))
+                    .frame(width: 24)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(loc.t("section_birth_date"))
+                        .font(.caption)
+                        .foregroundColor(theme.primaryText.opacity(0.55))
+                    Text(dateLabel(profile.birthDate))
+                        .foregroundColor(theme.primaryText)
+                }
+                Spacer()
+                Text(loc.t("button_edit"))
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(theme.primaryText.opacity(0.75))
+            }
+            .padding(16)
+            .background(RoundedRectangle(cornerRadius: 14).fill(.white.opacity(0.07)))
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: - Header
@@ -231,5 +267,45 @@ struct PersonDetailView: View {
         }
         .padding(16)
         .background(RoundedRectangle(cornerRadius: 14).fill(.white.opacity(0.07)))
+    }
+}
+
+/// Edits a person's date of birth. Future dates are not allowed.
+private struct BirthDateEditor: View {
+    let onSave: (Date) -> Void
+
+    @State private var date: Date
+    @EnvironmentObject var loc: LocalizationManager
+    @Environment(\.dismiss) private var dismiss
+
+    init(initial: Date, onSave: @escaping (Date) -> Void) {
+        self.onSave = onSave
+        _date = State(initialValue: initial)
+    }
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                DatePicker(loc.t("section_birth_date"),
+                           selection: $date,
+                           in: ...Date(),
+                           displayedComponents: .date)
+                    .environment(\.locale, loc.language.locale)
+            }
+            .navigationTitle(loc.t("birth_edit_title"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(loc.t("button_cancel")) { dismiss() }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(loc.t("button_save_birth")) {
+                        onSave(date)
+                        dismiss()
+                    }
+                    .fontWeight(.semibold)
+                }
+            }
+        }
     }
 }
